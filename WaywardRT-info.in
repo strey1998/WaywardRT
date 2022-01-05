@@ -1,0 +1,4 @@
+set(WaywardRT_PROJECT_NAME WaywardRT)
+set(WaywardRT_VERSION 0.1.0)
+set(WaywardRT_DESCRIPTION "A raytracer")
+set(WaywardRT_LANGUAGES CXX)
