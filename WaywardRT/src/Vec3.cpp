@@ -30,7 +30,7 @@ double Vec3::z() const { return m_Data[2]; }
 Vec3 Vec3::e() const noexcept { return *this / len(); }
 Vec3& Vec3::normalize() noexcept { return (*this /= len()); }
 
-double& Vec3::operator[](int index) { return m_Data[i]; }
+double& Vec3::operator[](int index) { return m_Data[index]; }
 
 Vec3 Vec3::operator-() const { return Vec3(-x(), -y(), -z()); }
 

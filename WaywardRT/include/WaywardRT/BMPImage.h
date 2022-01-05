@@ -55,7 +55,8 @@ class BMPImage {
   //////////////////////////////////////////////////////////////////////////////
   /// Sets a pixel of the image to a particular color
   /// @param[in] x The horizontal coordinate of the pixel to change
-  /// @param[in] y The vertical coordinate of the pixel to change (top-to-bottom)
+  /// @param[in] y The vertical coordinate of the pixel to change
+  ///   (top-to-bottom)
   /// @param[in] c The new color for the pixel
   //////////////////////////////////////////////////////////////////////////////
   void setPixel(uint16_t x, uint16_t y, Color c) noexcept;
@@ -63,7 +64,8 @@ class BMPImage {
   //////////////////////////////////////////////////////////////////////////////
   /// Sets a pixel of the image to a particular color
   /// @param[in] x The horizontal coordinate of the pixel to change
-  /// @param[in] y The vertical coordinate of the pixel to change (top-to-bottom)
+  /// @param[in] y The vertical coordinate of the pixel to change
+  ///   (top-to-bottom)
   /// @param[in] r The new red channel for the pixel (0-255)
   /// @param[in] g The new green channel for the pixel (0-255)
   /// @param[in] b The new blue channel for the pixel (0-255)

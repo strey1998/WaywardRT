@@ -59,7 +59,8 @@ class Vec3 {
 
 
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Creates a new vector of unit magnitude in the direction of this vector
+  /// @brief Creates a new vector of unit magnitude in the direction of this
+  ///   vector
   /// @return The new unit vector
   //////////////////////////////////////////////////////////////////////////////
   Vec3 e() const noexcept;
@@ -79,7 +80,8 @@ class Vec3 {
   double& operator[](int index);
 
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Creates a new vector of the same magnitude in the opposite direction
+  /// @brief Creates a new vector of the same magnitude in the opposite
+  ///   direction
   /// @return The new vector
   //////////////////////////////////////////////////////////////////////////////
   Vec3 operator-() const;
