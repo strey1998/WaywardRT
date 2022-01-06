@@ -6,6 +6,7 @@
 #define WAYWARDRT_INCLUDE_WAYWARDRT_BMPIMAGE_H_
 
 #include <cstdint>
+#include <ostream>
 
 namespace WaywardRT {
 
@@ -18,7 +19,9 @@ namespace WaywardRT {
 struct Color {
   uint8_t r, g, b;
 
-  Color(uint8_t r, uint8_t g, uint8_t b): r(r), g(g), b(b) { }
+  Color(uint8_t r, uint8_t g, uint8_t b);
+
+  friend std::ostream& operator<<(std::ostream& os, const Color& v);
 };
 
 

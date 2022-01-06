@@ -7,11 +7,18 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstdint>
+#include <ostream>
 #include <utility>
 
 #include "stb/stb_image_write.h"
 
 namespace WaywardRT {
+
+Color::Color(uint8_t r, uint8_t g, uint8_t b) : r(r), g(g), b(b) { }
+
+std::ostream& operator<<(std::ostream& os, const Color& v) {
+  return os << "Color(" << v.r << ", " << v.g << ", " << v.b << ")";
+}
 
 BMPImage::BMPImage(uint16_t width, uint16_t height)
     : m_Width(width), m_Height(height) {
