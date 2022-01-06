@@ -14,6 +14,7 @@
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/Timer.h"
 #include "WaywardRT/util.h"
 #include "WaywardRT/Vec3.h"
 
@@ -37,8 +38,8 @@ static WaywardRT::Color ray_color(
 
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   1280;
-  constexpr int IMAGE_HEIGHT =  540;
+  constexpr int IMAGE_WIDTH =   2560;
+  constexpr int IMAGE_HEIGHT =  1080;
   constexpr int SAMPLES = 100;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
@@ -56,6 +57,8 @@ int main(int, const char**) {
   WaywardRT::Camera cam(VIEW_HEIGHT, VIEW_WIDTH, FOCAL_LENGTH);
 
   // RENDER
+  spdlog::info("Starting render");
+  WaywardRT::Timer timer;
   for (int i = 0; i < IMAGE_WIDTH; ++i) {
     for (int j = 0; j < IMAGE_HEIGHT; ++j) {
       WaywardRT::Color c(0, 0, 0);
@@ -68,12 +71,12 @@ int main(int, const char**) {
       image.setPixel(i, j, c);
     }
   }
+  spdlog::info("Render complete in {:.1f}s", timer.elapsed());
 
   if (!image.write("test.bmp")) {
     spdlog::error("An error occurred");
     return -1;
   }
 
-  spdlog::info("OK");
   return 0;
 }

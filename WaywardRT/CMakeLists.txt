@@ -31,12 +31,12 @@ set_target_properties(WaywardRT PROPERTIES
 if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
   set_target_properties(WaywardRT
     PROPERTIES
-      CXX_CPPLINT "${WaywardRT_CPPLINT_FILEPATH};--filter=-build/include-what-you-use"
+      CXX_CPPLINT "${WaywardRT_CPPLINT_FILEPATH};--filter=-build/include-what-you-use;--filter=-build/c++11"
   )
   if(WaywardRT_APPLY_CPPLINT_HEADERS)
     add_custom_command(TARGET WaywardRT PRE_LINK
       COMMAND ${WaywardRT_CPPLINT_FILEPATH}
-        --filter=-build/include_what_you_use
+        --filter=-build/include_what_you_use,-build/c++11
         --root=${PROJECT_SOURCE_DIR}
         ${WaywardRT_HEADER_FILES})
   endif()
