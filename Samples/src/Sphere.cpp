@@ -2,6 +2,8 @@
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
+#include <cmath>
+
 #include "spdlog/spdlog.h"
 
 #include "WaywardRT/BMPImage.h"
@@ -9,22 +11,31 @@
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Vec3.h"
 
-static bool hit_sphere(
+static double hit_sphere(
     const WaywardRT::Vec3& center,
     double radius,
     const WaywardRT::Ray& r) {
   WaywardRT::Vec3 oc = r.origin() - center;
   double a = r.direction().len_sq();
-  double b = 2.0 * oc*r.direction();
+  double bh = oc*r.direction();
   double c = oc.len_sq() - radius*radius;
-  return b*b - 4*a*c > 0;
+  double d = bh*bh - a*c;
+  if (d < 0.0) return -1.0;
+
+  return (-bh - sqrt(d))/a;
 }
 
 static WaywardRT::Color ray_color(const WaywardRT::Ray& r) {
-  if (hit_sphere(WaywardRT::Vec3(0, 0, -1), 0.5, r))
-    return WaywardRT::Color(1, 0, 0);
+  const WaywardRT::Vec3 CENTER = WaywardRT::Vec3(0, 0, -1);
+  constexpr double RADIUS = 0.5;
+
+  double t = hit_sphere(CENTER, RADIUS, r);
+  if (t > 0.0) {
+    WaywardRT::Vec3 n = (r.at(t) - CENTER).e();
+    return WaywardRT::Color((n.x+1)/2.0, (n.y+1)/2.0, (n.z+1)/2.0);
+  }
   WaywardRT::Vec3 unit_direction = r.direction().e();
-  double t = 0.5 * (unit_direction.y + 1.0);
+  t = 0.5 * (unit_direction.y + 1.0);
   WaywardRT::Color c1(1.0, 1.0, 1.0);
   WaywardRT::Color c2(0.5, 0.7, 1.0);
   return c1.lerp(c2, t);
