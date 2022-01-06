@@ -7,6 +7,7 @@ file(GLOB_RECURSE WaywardRT_HEADER_FILES include/*.h)
 
 set(WaywardRT_SOURCE_FILES
   src/BMPImage.cpp
+  src/Camera.cpp
   src/Color.cpp
   src/Ray.cpp
   src/Vec3.cpp

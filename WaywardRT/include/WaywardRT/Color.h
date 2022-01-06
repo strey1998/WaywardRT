@@ -32,6 +32,17 @@ struct WAYWARDRT_EXPORT Color {
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Color lerp(const Color& other, double t) const;
 
+  [[nodiscard]] Color operator+(const Color& other) const;
+  [[nodiscard]] Color operator-(const Color& other) const;
+  [[nodiscard]] Color operator*(double other) const;
+  [[nodiscard]] friend Color operator*(double factor, const Color& color);
+  [[nodiscard]] Color operator/(double other) const;
+
+  Color& operator+=(const Color& other);
+  Color& operator-=(const Color& other);
+  Color& operator*=(double other);
+  Color& operator/=(double other);
+
   friend WAYWARDRT_EXPORT std::ostream& operator<<(
     std::ostream& os, const Color& v);
 };

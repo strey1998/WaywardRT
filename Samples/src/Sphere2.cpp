@@ -8,6 +8,7 @@
 #include "spdlog/spdlog.h"
 
 #include "WaywardRT/BMPImage.h"
+#include "WaywardRT/Camera.h"
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Objects/HittableList.h"
@@ -36,8 +37,9 @@ static WaywardRT::Color ray_color(
 
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   2560;
-  constexpr int IMAGE_HEIGHT =  1080;
+  constexpr int IMAGE_WIDTH =   1280;
+  constexpr int IMAGE_HEIGHT =  540;
+  constexpr int SAMPLES = 100;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // WORLD
@@ -51,20 +53,19 @@ int main(int, const char**) {
   constexpr double VIEW_HEIGHT = 2.0;
   constexpr double VIEW_WIDTH = VIEW_HEIGHT * IMAGE_WIDTH / IMAGE_HEIGHT;
   constexpr double FOCAL_LENGTH = 1.0;
-
-  const WaywardRT::Vec3 ORIGIN = WaywardRT::Vec3(0.0, 0.0, 0.0);
-  const WaywardRT::Vec3 HORIZONTAL = WaywardRT::Vec3(VIEW_WIDTH, 0.0, 0.0);
-  const WaywardRT::Vec3 VERTICAL = WaywardRT::Vec3(0.0, VIEW_HEIGHT, 0.0);
-  const WaywardRT::Vec3 CORNER = ORIGIN - HORIZONTAL/2 - VERTICAL/2
-    - WaywardRT::Vec3(0.0, 0.0, FOCAL_LENGTH);
+  WaywardRT::Camera cam(VIEW_HEIGHT, VIEW_WIDTH, FOCAL_LENGTH);
 
   // RENDER
   for (int i = 0; i < IMAGE_WIDTH; ++i) {
     for (int j = 0; j < IMAGE_HEIGHT; ++j) {
-      double u = static_cast<double>(i) / (IMAGE_WIDTH - 1);
-      double v = static_cast<double>(j) / (IMAGE_HEIGHT - 1);
-      WaywardRT::Ray r(ORIGIN, CORNER + u*HORIZONTAL + v*VERTICAL - ORIGIN);
-      image.setPixel(i, j, ray_color(r, world));
+      WaywardRT::Color c(0, 0, 0);
+      for (int s = 0; s < SAMPLES; ++s) {
+        double u = (i + WaywardRT::random_double()) / (IMAGE_WIDTH - 1);
+        double v = (j + WaywardRT::random_double()) / (IMAGE_HEIGHT - 1);
+        WaywardRT::Ray r = cam.get_ray(u, v);
+        c += ray_color(r, world) / SAMPLES;
+      }
+      image.setPixel(i, j, c);
     }
   }
 
