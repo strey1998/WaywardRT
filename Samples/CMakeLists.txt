@@ -4,12 +4,18 @@ set(WaywardRT_Sample_SOURCE_FILES
   src/BlueWhite.cpp
   src/HelloWorld.cpp
   src/Sphere.cpp
+  src/Sphere2.cpp
 )
 
 foreach(SAMPLE_FILE IN LISTS WaywardRT_Sample_SOURCE_FILES)
   get_filename_component(SAMPLE_TARGET ${SAMPLE_FILE} NAME_WE)
   add_executable(${SAMPLE_TARGET} ${SAMPLE_FILE})
   target_link_libraries(${SAMPLE_TARGET} WaywardRT)
+
+  set_target_properties(${SAMPLE_TARGET} PROPERTIES
+    CXX_STANDARD               17
+    CXX_STANDARD_REQUIRED      YES
+  )
 
   if(MSVC)
     target_compile_options(${SAMPLE_TARGET} PRIVATE /W4 /WX)
