@@ -11,6 +11,7 @@ set(WaywardRT_SOURCE_FILES
   src/Color.cpp
   src/Ray.cpp
   src/Vec3.cpp
+  src/Materials/Dielectric.cpp
   src/Materials/Lambertian.cpp
   src/Materials/Metal.cpp
   src/Objects/Hittable.cpp
@@ -33,12 +34,12 @@ set_target_properties(WaywardRT PROPERTIES
 if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
   set_target_properties(WaywardRT
     PROPERTIES
-      CXX_CPPLINT "${WaywardRT_CPPLINT_FILEPATH};--filter=-build/include-what-you-use;--filter=-build/c++11"
+      CXX_CPPLINT "${WaywardRT_CPPLINT_FILEPATH};--filter=-build/include-what-you-use,-build/c++11,-runtime/references"
   )
   if(WaywardRT_APPLY_CPPLINT_HEADERS)
     add_custom_command(TARGET WaywardRT PRE_LINK
       COMMAND ${WaywardRT_CPPLINT_FILEPATH}
-        --filter=-build/include_what_you_use,-build/c++11
+        --filter=-build/include_what_you_use,-build/c++11,-runtime/references
         --root=${PROJECT_SOURCE_DIR}
         ${WaywardRT_HEADER_FILES})
   endif()

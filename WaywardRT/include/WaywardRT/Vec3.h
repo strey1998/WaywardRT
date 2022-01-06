@@ -72,7 +72,16 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] n The normal about which to reflect
   /// @return The reflected vector
   //////////////////////////////////////////////////////////////////////////////
-  Vec3 reflect(const Vec3& n);
+  Vec3 reflect(const Vec3& n) const;
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief Creates a new vector which is equal to the refraction of this
+  ///   vector about a normal vector
+  /// @param[in] n              The normal about which to reflect
+  /// @param[in] etai_over_etat The value of etai/etat for the refraction
+  /// @return The refracted vector
+  //////////////////////////////////////////////////////////////////////////////
+  Vec3 refract(const Vec3& n, double etai_over_etat) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Accesses vector component
@@ -106,7 +115,7 @@ class WAYWARDRT_EXPORT Vec3 {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Dot product
-  /// @param[in] other The other vector with which the dot product will be takens
+  /// @param[in] other The other vector with which the dot product will be taken
   /// @return The dot product of this vector and the other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] double operator*(const Vec3& other) const noexcept;
@@ -135,7 +144,8 @@ class WAYWARDRT_EXPORT Vec3 {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Cross product
-  /// @param[in] other The other vector with which the cross product will be taken
+  /// @param[in] other The other vector with which the cross product will be
+  ///   taken
   /// @return The cross product of this vector with the other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Vec3 cross(const Vec3& other) const noexcept;

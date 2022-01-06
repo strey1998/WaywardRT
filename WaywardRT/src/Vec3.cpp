@@ -44,7 +44,14 @@ Vec3& Vec3::operator=(const Vec3& other) {
 
 Vec3 Vec3::e() const { return *this / len(); }
 Vec3& Vec3::normalize() noexcept { return (*this /= len()); }
-Vec3 Vec3::reflect(const Vec3& n) { return (*this) - 2*((*this) * n)*n; }
+Vec3 Vec3::reflect(const Vec3& n) const { return (*this) - 2*((*this) * n)*n; }
+
+Vec3 Vec3::refract(const Vec3& n, double e) const {
+  double cosTheta = fmin(-(*this)*n, 1.0);
+  Vec3 r_out_perp = e * ((*this) + cosTheta*n);
+  Vec3 r_out_par = -sqrt(fabs(1.0 - r_out_perp.len_sq())) * n;
+  return r_out_perp + r_out_par;
+}
 
 double& Vec3::operator[](int index) {
   switch (index) {

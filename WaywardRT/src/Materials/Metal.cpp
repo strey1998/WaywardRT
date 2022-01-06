@@ -17,7 +17,7 @@ std::optional<Ray> Metal::scatter(
   attenuation = m_Albedo;
   if (reflected*rec.normal > 0)
     return Ray(rec.point, reflected + m_Fuzz*Vec3::random_in_unit_sphere());
-    
+
   return std::optional<Ray>();
 }
 

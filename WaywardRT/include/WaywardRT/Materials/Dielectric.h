@@ -1,9 +1,9 @@
-// WaywardRT/WaywardRT/include/WaywardRT/Materials/Labertian.h
+// WaywardRT/WaywardRT/include/WaywardRT/Materials/Dielectric.h
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
-#ifndef WAYWARDRT_INCLUDE_WAYWARDRT_MATERIALS_LAMBERTIAN_H_
-#define WAYWARDRT_INCLUDE_WAYWARDRT_MATERIALS_LAMBERTIAN_H_
+#ifndef WAYWARDRT_INCLUDE_WAYWARDRT_MATERIALS_DIELECTRIC_H_
+#define WAYWARDRT_INCLUDE_WAYWARDRT_MATERIALS_DIELECTRIC_H_
 
 #include "WaywardRT_export.h"
 
@@ -18,23 +18,26 @@ namespace WaywardRT {
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-class WAYWARDRT_EXPORT Lambertian : public Material {
+class WAYWARDRT_EXPORT Dielectric : public Material {
  private:
-  Color m_Albedo;
+  double m_IR;
  public:
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Construct a new Lambertian material with albedo a
-  /// @param[in] a The color of the material
+  /// @brief Contruct a new Dielectric material
+  /// @param[in] ir The index of refraction of the material
   //////////////////////////////////////////////////////////////////////////////
-  explicit Lambertian(const Color& a);
+  explicit Dielectric(double ir);
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
   //////////////////////////////////////////////////////////////////////////////
   std::optional<Ray> scatter(
     const Ray& r, const HitRecord& rec, Color& attenuation) const override;
+
+ private:
+  static double reflectance(double cosTheta, double ri);
 };
 
 }  // namespace WaywardRT
 
-#endif  // WAYWARDRT_INCLUDE_WAYWARDRT_MATERIALS_LAMBERTIAN_H_
+#endif  // WAYWARDRT_INCLUDE_WAYWARDRT_MATERIALS_DIELECTRIC_H_

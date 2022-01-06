@@ -43,7 +43,8 @@ class WAYWARDRT_EXPORT Camera {
   /// @brief Initializer
   /// @param[in] view_height  The height of the camera's view
   /// @param[in] view_width   The width of the camera's view
-  /// @param[in] focal_length The distance behind the camera to initiate the rays
+  /// @param[in] focal_length The distance behind the camera to initiate the
+  ///   rays
   //////////////////////////////////////////////////////////////////////////////
   Camera(double view_height, double view_width, double focal_length);
 

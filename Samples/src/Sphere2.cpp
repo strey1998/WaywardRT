@@ -10,6 +10,7 @@
 #include "WaywardRT/BMPImage.h"
 #include "WaywardRT/Camera.h"
 #include "WaywardRT/Color.h"
+#include "WaywardRT/Materials/Dielectric.h"
 #include "WaywardRT/Materials/Lambertian.h"
 #include "WaywardRT/Materials/Metal.h"
 #include "WaywardRT/Materials/Material.h"
@@ -58,11 +59,11 @@ int main(int, const char**) {
   std::shared_ptr<WaywardRT::Material> mGround
     = std::make_shared<WaywardRT::Lambertian>(WaywardRT::Color(0.8, 0.8, 0.0));
   std::shared_ptr<WaywardRT::Material> mCenter
-    = std::make_shared<WaywardRT::Lambertian>(WaywardRT::Color(0.7, 0.3, 0.3));
+    = std::make_shared<WaywardRT::Lambertian>(WaywardRT::Color(0.1, 0.2, 0.5));
   std::shared_ptr<WaywardRT::Material> mLeft
-    = std::make_shared<WaywardRT::Metal>(WaywardRT::Color(0.8, 0.8, 0.8), 0.3);
+    = std::make_shared<WaywardRT::Dielectric>(1.5);
   std::shared_ptr<WaywardRT::Material> mRight
-    = std::make_shared<WaywardRT::Metal>(WaywardRT::Color(0.8, 0.6, 0.2), 1.0);
+    = std::make_shared<WaywardRT::Metal>(WaywardRT::Color(0.8, 0.6, 0.2), 0.0);
 
   world.add(std::make_shared<WaywardRT::Sphere>(
     WaywardRT::Vec3(0.0, -100.5, -1.0), 100, mGround));
@@ -70,6 +71,8 @@ int main(int, const char**) {
     WaywardRT::Vec3(0.0, 0.0, -1.0), 0.5, mCenter));
   world.add(std::make_shared<WaywardRT::Sphere>(
     WaywardRT::Vec3(-1.0, 0.0, -1.0), 0.5, mLeft));
+  world.add(std::make_shared<WaywardRT::Sphere>(
+    WaywardRT::Vec3(-1.0, 0.0, -1.0), -0.4, mLeft));
   world.add(std::make_shared<WaywardRT::Sphere>(
     WaywardRT::Vec3(1.0, 0.0, -1.0), 0.5, mRight));
 

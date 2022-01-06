@@ -28,7 +28,7 @@ class WAYWARDRT_EXPORT Metal : public Material {
   /// @param[in] a The color of the material
   /// @param[in] f The fuzziness of the reflection
   //////////////////////////////////////////////////////////////////////////////
-  Metal(const Color& a, double f = 0.0);
+  explicit Metal(const Color& a, double f = 0.0);
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
