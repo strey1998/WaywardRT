@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <ostream>
 
+#include "WaywardRT_export.h"
+
 namespace WaywardRT {
 
 //////////////////////////////////////////////////////////////////////////////
@@ -16,12 +18,13 @@ namespace WaywardRT {
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-struct Color {
+struct WAYWARDRT_EXPORT Color {
   uint8_t r, g, b;
 
   Color(uint8_t r, uint8_t g, uint8_t b);
 
-  friend std::ostream& operator<<(std::ostream& os, const Color& v);
+  friend WAYWARDRT_EXPORT std::ostream& operator<<(
+    std::ostream& os, const Color& v);
 };
 
 
@@ -31,7 +34,7 @@ struct Color {
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-class BMPImage {
+class WAYWARDRT_EXPORT BMPImage {
  private:
   uint16_t m_Width;
   uint16_t m_Height;

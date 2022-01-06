@@ -12,7 +12,13 @@ set(WaywardRT_SOURCE_FILES
 
 add_library(WaywardRT ${WaywardRT_SOURCE_FILES})
 target_include_directories(WaywardRT PUBLIC ${WaywardRT_INCLUDE_DIRS})
+target_include_directories(WaywardRT PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(WaywardRT PRIVATE spdlog::spdlog stb_image_write)
+
+set_target_properties(WaywardRT PROPERTIES
+  CXX_VISIBILITY_PRESET      hidden
+  VISIBILITY_INLINES_HIDDEN  YES
+)
 
 if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
   set_target_properties(WaywardRT
@@ -46,3 +52,6 @@ if(MSVC)
 else()
   target_compile_options(WaywardRT PRIVATE -Wall -Wextra -pedantic -Werror -Wno-unused-result)
 endif()
+
+include(GenerateExportHeader)
+generate_export_header(WaywardRT EXPORT_FILE_NAME WaywardRT_export.h)

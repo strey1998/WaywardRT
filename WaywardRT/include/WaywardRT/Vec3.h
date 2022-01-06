@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <ostream>
 
+#include "WaywardRT_export.h"
+
 namespace WaywardRT {
 
 static constexpr uint8_t DOUBLE_PRECISION = 10;
@@ -18,7 +20,7 @@ static constexpr uint8_t DOUBLE_PRECISION = 10;
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-class Vec3 {
+class WAYWARDRT_EXPORT Vec3 {
  public:
   double x, y, z;
 
@@ -103,7 +105,7 @@ class Vec3 {
   /// @param v A vector
   /// @return The product of a with v
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] friend Vec3 operator*(double a, const Vec3& v);
+  [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 operator*(double a, const Vec3& v);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar division
@@ -125,7 +127,8 @@ class Vec3 {
   /// @param v2 The second vector
   /// @return The cross product of the two vectors
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] friend Vec3 cross(const Vec3& v1, const Vec3& v2) noexcept;
+  [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 cross(
+    const Vec3& v1, const Vec3& v2) noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Vector addition assignment
@@ -176,7 +179,8 @@ class Vec3 {
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] double len_sq() const;
 
-  friend std::ostream& operator<<(std::ostream& os, const Vec3& v);
+  friend WAYWARDRT_EXPORT std::ostream& operator<<(
+    std::ostream& os, const Vec3& v);
 };
 
 }  // namespace WaywardRT
