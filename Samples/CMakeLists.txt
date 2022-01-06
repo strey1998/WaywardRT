@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 set(WaywardRT_Sample_SOURCE_FILES
   src/BlueWhite.cpp
   src/HelloWorld.cpp
+  src/Sphere.cpp
 )
 
 foreach(SAMPLE_FILE IN LISTS WaywardRT_Sample_SOURCE_FILES)

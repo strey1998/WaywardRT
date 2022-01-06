@@ -22,10 +22,6 @@ Color Color::lerp(const Color& other, double t) const {
     (1.0-t)*b + t*other.b);
 }
 
-// Color lerp(const Color& c1, const Color& c2, double t) {
-//   return c1.lerp(c2, t);
-// }
-
 std::ostream& operator<<(std::ostream& os, const Color& v) {
   return os << std::setprecision(2)
     << "Color("

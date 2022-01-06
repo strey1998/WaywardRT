@@ -32,17 +32,6 @@ struct WAYWARDRT_EXPORT Color {
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Color lerp(const Color& other, double t) const;
 
-  //////////////////////////////////////////////////////////////////////////////
-  /// @brief Linear interpolation
-  /// @param c1 The first color
-  /// @param c2 The second color
-  /// @param t  The interpolation parameter
-  /// @return A new color between the input colors, according to t. Equal to the
-  ///   first color for t=0.0, or to the second color if t=1.0.
-  /// @throws std::out_of_range if t is not between 0.0 and 1.0
-  //////////////////////////////////////////////////////////////////////////////
-// [[nodiscard]] friend Color lerp(const Color& c1, const Color& c2, double t);
-
   friend WAYWARDRT_EXPORT std::ostream& operator<<(
     std::ostream& os, const Color& v);
 };

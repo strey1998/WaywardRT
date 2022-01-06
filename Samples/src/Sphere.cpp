@@ -1,4 +1,4 @@
-// WaywardRT/Samples/src/BlueWhite.cpp
+// WaywardRT/Samples/src/Sphere.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
@@ -9,7 +9,20 @@
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Vec3.h"
 
+static bool hit_sphere(
+    const WaywardRT::Vec3& center,
+    double radius,
+    const WaywardRT::Ray& r) {
+  WaywardRT::Vec3 oc = r.origin() - center;
+  double a = r.direction().len_sq();
+  double b = 2.0 * oc*r.direction();
+  double c = oc.len_sq() - radius*radius;
+  return b*b - 4*a*c > 0;
+}
+
 static WaywardRT::Color ray_color(const WaywardRT::Ray& r) {
+  if (hit_sphere(WaywardRT::Vec3(0, 0, -1), 0.5, r))
+    return WaywardRT::Color(1, 0, 0);
   WaywardRT::Vec3 unit_direction = r.direction().e();
   double t = 0.5 * (unit_direction.y + 1.0);
   WaywardRT::Color c1(1.0, 1.0, 1.0);
@@ -19,8 +32,8 @@ static WaywardRT::Color ray_color(const WaywardRT::Ray& r) {
 
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   256;
-  constexpr int IMAGE_HEIGHT =  256;
+  constexpr int IMAGE_WIDTH =   2560;
+  constexpr int IMAGE_HEIGHT =  1080;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // CAMERA
