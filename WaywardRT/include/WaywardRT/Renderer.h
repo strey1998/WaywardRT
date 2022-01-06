@@ -71,10 +71,11 @@ class WAYWARDRT_EXPORT Renderer {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Writes the image data to an image object
-  /// @param[in] The image to which to write the data
+  /// @param[in] image The image to which to write the data
+  /// @param[in] gamma Gamma correction factor
   /// @returns True on success, false on failure
   //////////////////////////////////////////////////////////////////////////////
-  void write_image_data(Image& image) const;
+  void write_image_data(Image& image, double gamma = 1.0) const;
 
   ~Renderer();
 

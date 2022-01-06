@@ -74,10 +74,10 @@ void Renderer::render_subimage(
   }
 }
 
-void Renderer::write_image_data(Image& image) const {
+void Renderer::write_image_data(Image& image, double gamma) const {
   for (int j = 0; j < m_Height; ++j) {
     for (int i = 0; i < m_Width; ++i) {
-      image.setPixel(i, j, m_ImageData[i+m_Width*j]);
+      image.setPixel(i, j, m_ImageData[i+m_Width*j].exp(1/gamma));
     }
   }
 }

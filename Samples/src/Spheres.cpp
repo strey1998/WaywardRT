@@ -75,10 +75,13 @@ WaywardRT::HittableList spheres() {
 }
 
 int main(int, const char**) {
-  // IMAGE
-  constexpr int IMAGE_WIDTH =   2560;
+  // SETTINGS
+  constexpr int IMAGE_WIDTH = 1920;
   constexpr int IMAGE_HEIGHT =  1080;
   constexpr int SAMPLES = 100;
+  constexpr int DEPTH = 50;
+
+  // IMAGE
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // WORLD
@@ -92,7 +95,6 @@ int main(int, const char**) {
     20, IMAGE_WIDTH / IMAGE_HEIGHT, 0.1);
 
   // RENDER
-  constexpr int DEPTH = 50;
   WaywardRT::Renderer renderer(
     IMAGE_WIDTH, IMAGE_HEIGHT,
     SAMPLES, DEPTH,
@@ -101,8 +103,8 @@ int main(int, const char**) {
   spdlog::info("Starting render");
   WaywardRT::Timer timer;
 
-  renderer.render(12);
-  renderer.write_image_data(image);
+  renderer.render(14);
+  renderer.write_image_data(image, 2.0);
 
   spdlog::info("Render complete in {:.1f}s", timer.elapsed());
 
