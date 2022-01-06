@@ -8,7 +8,26 @@
 #include <iomanip>
 #include <ostream>
 
+#include "WaywardRT/util.h"
+
 namespace WaywardRT {
+
+Vec3 Vec3::random_unit() {
+  double theta = random_double(0.0, 2*pi);
+  double cosPhi = random_double(-1.0, 1.0);
+  double sinPhi = sin(acos(cosPhi));
+  double sinTheta = sin(theta);
+  double cosTheta = cos(theta);
+
+  return Vec3(
+    sinPhi * cosTheta,
+    sinPhi * sinTheta,
+    cosPhi);
+}
+
+Vec3 Vec3::random_in_unit_sphere() {
+  return random_double()*random_unit();
+}
 
 Vec3::Vec3() : x(0.0), y(0.0), z(0.0) { }
 

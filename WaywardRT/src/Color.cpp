@@ -4,6 +4,7 @@
 
 #include "WaywardRT/Color.h"
 
+#include <cmath>
 #include <iomanip>
 #include <ostream>
 #include <stdexcept>
@@ -19,6 +20,13 @@ Color Color::lerp(const Color& other, double t) const {
     "Linear interpolation parameter must be between 0.0 and 1.0 (inclusive)");
 
   return (1.0-t)*(*this) + other;
+}
+
+Color Color::exp(double e) const {
+  return Color(
+    pow(r, e),
+    pow(g, e),
+    pow(b, e));
 }
 
 Color Color::operator+(const Color& other) const {

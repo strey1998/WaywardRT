@@ -20,14 +20,19 @@
 
 static WaywardRT::Color ray_color(
     const WaywardRT::Ray& r,
-    const WaywardRT::Hittable& world) {
+    const WaywardRT::Hittable& world,
+    int depth = 1) {
+  if (depth <= 0) return WaywardRT::Color(0, 0, 0);
+
   std::optional<WaywardRT::HitRecord> rec
-    = world.hit(r, 0, WaywardRT::infinity);
-  if (rec)
-    return WaywardRT::Color(
-      0.5 + 0.5*rec->n.x,
-      0.5 + 0.5*rec->n.y,
-      0.5 + 0.5*rec->n.z);
+    = world.hit(r, 0.00001, WaywardRT::infinity);
+  if (rec) {
+    WaywardRT::Vec3 target = rec->p + rec->n + WaywardRT::Vec3::random_unit();
+    return 0.5 * ray_color(
+      WaywardRT::Ray(rec->p, target - rec->p),
+      world,
+      depth - 1);
+  }
 
   WaywardRT::Vec3 unit_direction = r.direction().e();
   double t = 0.5 * (unit_direction.y + 1.0);
@@ -38,8 +43,8 @@ static WaywardRT::Color ray_color(
 
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   2560;
-  constexpr int IMAGE_HEIGHT =  1080;
+  constexpr int IMAGE_WIDTH =   960;
+  constexpr int IMAGE_HEIGHT =  540;
   constexpr int SAMPLES = 100;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
@@ -48,7 +53,7 @@ int main(int, const char**) {
   world.add(std::make_shared<WaywardRT::Sphere>(
     WaywardRT::Vec3(0, 0, -1), 0.5));
   world.add(std::make_shared<WaywardRT::Sphere>(
-    WaywardRT::Vec3(0, -1000.5, -1), 1000));
+    WaywardRT::Vec3(0, -100.5, -1), 100));
 
   // CAMERA
   constexpr double VIEW_HEIGHT = 2.0;
@@ -57,8 +62,10 @@ int main(int, const char**) {
   WaywardRT::Camera cam(VIEW_HEIGHT, VIEW_WIDTH, FOCAL_LENGTH);
 
   // RENDER
+  constexpr int DEPTH = 50;
   spdlog::info("Starting render");
   WaywardRT::Timer timer;
+  int k = 0;
   for (int i = 0; i < IMAGE_WIDTH; ++i) {
     for (int j = 0; j < IMAGE_HEIGHT; ++j) {
       WaywardRT::Color c(0, 0, 0);
@@ -66,9 +73,12 @@ int main(int, const char**) {
         double u = (i + WaywardRT::random_double()) / (IMAGE_WIDTH - 1);
         double v = (j + WaywardRT::random_double()) / (IMAGE_HEIGHT - 1);
         WaywardRT::Ray r = cam.get_ray(u, v);
-        c += ray_color(r, world) / SAMPLES;
+        c += ray_color(r, world, DEPTH) / SAMPLES;
       }
-      image.setPixel(i, j, c);
+      image.setPixel(i, j, c.exp(0.5));
+    }
+    if ((i % static_cast<int>(IMAGE_WIDTH/20) == 0) && i > 0) {
+      spdlog::info("Render: {}%", 5*(++k));
     }
   }
   spdlog::info("Render complete in {:.1f}s", timer.elapsed());
