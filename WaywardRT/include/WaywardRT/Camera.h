@@ -27,13 +27,13 @@ class WAYWARDRT_EXPORT Camera {
  public:
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Default camera
-  /// @returns A default camera equal to Camera(2.0, 3.5556, 1.0)
+  /// @returns A default 16:9 camera
   //////////////////////////////////////////////////////////////////////////////
   static Camera DEFAULT();
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Default ultrawide camera
-  /// @returns A default camera equal to Camera(2.0, 4.7407, 1.0)
+  /// @returns A default 21:9 camera
   //////////////////////////////////////////////////////////////////////////////
   static Camera DEFAULT_ULTRAWIDE();
 
@@ -41,12 +41,18 @@ class WAYWARDRT_EXPORT Camera {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
-  /// @param[in] view_height  The height of the camera's view
-  /// @param[in] view_width   The width of the camera's view
-  /// @param[in] focal_length The distance behind the camera to initiate the
-  ///   rays
+  /// @param[in] look_from    The point at which the camera is placed
+  /// @param[in] look_at      The point at which the camera looks
+  /// @param[in] v_up         The upward direction for the camera
+  /// @param[in] vfov         The vertical field of view, in degrees
+  /// @param[in] aspect_ratio The aspect ratio (horizontal/vertical)
   //////////////////////////////////////////////////////////////////////////////
-  Camera(double view_height, double view_width, double focal_length);
+  Camera(
+    Vec3 look_from,
+    Vec3 look_at,
+    Vec3 v_up,
+    double vfov,
+    double aspect_ratio);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Gets a ray corresponding to a particular direction

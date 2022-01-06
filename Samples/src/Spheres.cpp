@@ -48,8 +48,8 @@ static WaywardRT::Color ray_color(
 
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   480;
-  constexpr int IMAGE_HEIGHT =  270;
+  constexpr int IMAGE_WIDTH =   2560;
+  constexpr int IMAGE_HEIGHT =  1080;
   constexpr int SAMPLES = 100;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
@@ -77,18 +77,19 @@ int main(int, const char**) {
     WaywardRT::Vec3(1.0, 0.0, -1.0), 0.5, mRight));
 
   // CAMERA
-  constexpr double VIEW_HEIGHT = 2.0;
-  constexpr double VIEW_WIDTH = VIEW_HEIGHT * IMAGE_WIDTH / IMAGE_HEIGHT;
-  constexpr double FOCAL_LENGTH = 1.0;
-  WaywardRT::Camera cam(VIEW_HEIGHT, VIEW_WIDTH, FOCAL_LENGTH);
+  WaywardRT::Camera cam(
+    WaywardRT::Vec3(-2, 2, 1),
+    WaywardRT::Vec3(0, 0, -1),
+    WaywardRT::Vec3(0, 1, 0),
+    90, 21.0/9.0);
 
   // RENDER
   constexpr int DEPTH = 50;
   spdlog::info("Starting render");
   WaywardRT::Timer timer;
   int k = 0;
-  for (int i = 0; i < IMAGE_WIDTH; ++i) {
-    for (int j = 0; j < IMAGE_HEIGHT; ++j) {
+  for (int j = 0; j < IMAGE_HEIGHT; ++j) {
+    for (int i = 0; i < IMAGE_WIDTH; ++i) {
       WaywardRT::Color c(0, 0, 0);
       for (int s = 0; s < SAMPLES; ++s) {
         double u = (i + WaywardRT::random_double()) / (IMAGE_WIDTH - 1);
@@ -98,7 +99,7 @@ int main(int, const char**) {
       }
       image.setPixel(i, j, c.exp(0.5));
     }
-    if ((i % static_cast<int>(IMAGE_WIDTH/20) == 0) && i > 0) {
+    if ((j % static_cast<int>(IMAGE_HEIGHT/20) == 0) && j > 0) {
       spdlog::info("Render: {}%", 5*(++k));
     }
   }
