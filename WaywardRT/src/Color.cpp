@@ -13,6 +13,8 @@
 
 namespace WaywardRT {
 
+Color::Color() : r(0.0), g(0.0), b(0.0) { }
+
 Color::Color(float r, float g, float b) : r(r), g(g), b(b) { }
 
 Color Color::lerp(const Color& other, double t) const {
@@ -41,6 +43,14 @@ Color Color::operator-(const Color& other) const {
     WaywardRT::clamp(r - other.r, 0.0, 1.0),
     WaywardRT::clamp(g - other.g, 0.0, 1.0),
     WaywardRT::clamp(b - other.b, 0.0, 1.0));
+}
+
+Color Color::operator*(const Color& other) const {
+  return Color(
+    r * other.r,
+    g * other.g,
+    b * other.b
+  );
 }
 
 Color Color::operator*(double other) const {

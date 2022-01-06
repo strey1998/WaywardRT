@@ -11,6 +11,8 @@ set(WaywardRT_SOURCE_FILES
   src/Color.cpp
   src/Ray.cpp
   src/Vec3.cpp
+  src/Materials/Lambertian.cpp
+  src/Materials/Metal.cpp
   src/Objects/Hittable.cpp
   src/Objects/HittableList.cpp
   src/Objects/Sphere.cpp

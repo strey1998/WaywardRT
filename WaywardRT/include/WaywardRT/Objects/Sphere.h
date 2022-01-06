@@ -24,15 +24,16 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
  private:
   Vec3 m_Center;
   double m_Radius;
+  std::shared_ptr<Material> m_Material;
 
  public:
   Sphere() = delete;
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initialize a sphere
-  /// @param center The center
-  /// @param radius The radius
+  /// @param[in] center The center
+  /// @param[in] radius The radius
   //////////////////////////////////////////////////////////////////////////////
-  Sphere(Vec3 center, double radius);
+  Sphere(Vec3 center, double radius, std::shared_ptr<Material> material);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Accessor for center

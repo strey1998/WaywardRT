@@ -58,7 +58,7 @@ class WAYWARDRT_EXPORT Vec3 {
   ///   vector
   /// @return The new unit vector
   //////////////////////////////////////////////////////////////////////////////
-  Vec3 e() const noexcept;
+  Vec3 e() const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Sets this vector to a unit magnitude vector in the same direction
@@ -67,8 +67,16 @@ class WAYWARDRT_EXPORT Vec3 {
   Vec3& normalize() noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
+  /// @brief Creates a new vector which is equal to the reflection of this
+  ///   vector about a normal vector
+  /// @param[in] n The normal about which to reflect
+  /// @return The reflected vector
+  //////////////////////////////////////////////////////////////////////////////
+  Vec3 reflect(const Vec3& n);
+
+  //////////////////////////////////////////////////////////////////////////////
   /// @brief Accesses vector component
-  /// @param index The index at which to retrieve the value (0, 1 or 2)
+  /// @param[in] index The index at which to retrieve the value (0, 1 or 2)
   /// @return A reference to the (index)th vector component
   /// @throws std::out_of_range when index is not 0, 1 or 2
   //////////////////////////////////////////////////////////////////////////////
@@ -83,14 +91,14 @@ class WAYWARDRT_EXPORT Vec3 {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Vector addition
-  /// @param other The other vector with which the vector sum will be taken
+  /// @param[in] other The other vector with which the vector sum will be taken
   /// @return A new vector which is the sum of this vector with the other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Vec3 operator+(const Vec3& other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Vector subtraction
-  /// @param other The other vector with which the vector difference will be
+  /// @param[in] other The other vector with which the vector difference will be
   ///   taken
   /// @return A new vector which is the difference of this vector with the other
   //////////////////////////////////////////////////////////////////////////////
@@ -98,44 +106,44 @@ class WAYWARDRT_EXPORT Vec3 {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Dot product
-  /// @param other The other vector with which the dot product will be takens
+  /// @param[in] other The other vector with which the dot product will be takens
   /// @return The dot product of this vector and the other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] double operator*(const Vec3& other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication
-  /// @param other A number
+  /// @param[in] other A number
   /// @return The product of other with this vector
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Vec3 operator*(double other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication
-  /// @param a A number
-  /// @param v A vector
+  /// @param[in] a A number
+  /// @param[in] v A vector
   /// @return The product of a with v
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 operator*(double a, const Vec3& v);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar division
-  /// @param other A number
+  /// @param[in] other A number
   /// @return The product of (1/other) with this vector
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Vec3 operator/(double other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Cross product
-  /// @param other The other vector with which the cross product will be taken
+  /// @param[in] other The other vector with which the cross product will be taken
   /// @return The cross product of this vector with the other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Vec3 cross(const Vec3& other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Cross product
-  /// @param v1 The first vector
-  /// @param v2 The second vector
+  /// @param[in] v1 The first vector
+  /// @param[in] v2 The second vector
   /// @return The cross product of the two vectors
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 cross(
@@ -144,7 +152,7 @@ class WAYWARDRT_EXPORT Vec3 {
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Vector addition assignment
   /// @details Sets this vector to the sum of itself and another vector
-  /// @param other The other vector
+  /// @param[in] other The other vector
   /// @return A reference to this vector
   //////////////////////////////////////////////////////////////////////////////
   Vec3& operator+=(const Vec3& other) noexcept;
@@ -153,7 +161,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @brief Vector subtraction assignment
   /// @details Sets this vector to the diffrence between itself and another
   ///   vector (this - other)
-  /// @param other The other vector
+  /// @param[in] other The other vector
   /// @return A reference to this vector
   //////////////////////////////////////////////////////////////////////////////
   Vec3& operator-=(const Vec3& other) noexcept;
@@ -161,7 +169,7 @@ class WAYWARDRT_EXPORT Vec3 {
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication assignment
   /// Sets this vector to a scalar multiple of itself
-  /// @param other The number by which to multiply this vector
+  /// @param[in] other The number by which to multiply this vector
   /// @return A reference to this vector
   //////////////////////////////////////////////////////////////////////////////
   Vec3& operator*=(double other) noexcept;
@@ -169,7 +177,7 @@ class WAYWARDRT_EXPORT Vec3 {
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication assignment
   /// Sets this vector to a scalar multiple of itself
-  /// @param other The number by which to divide this vector
+  /// @param[in] other The number by which to divide this vector
   /// @return A reference to this vector
   //////////////////////////////////////////////////////////////////////////////
   Vec3& operator/=(double other) noexcept;

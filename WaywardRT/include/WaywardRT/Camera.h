@@ -41,16 +41,16 @@ class WAYWARDRT_EXPORT Camera {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
-  /// @param view_height  The height of the camera's view
-  /// @param view_width   The width of the camera's view
-  /// @param focal_length The distance behind the camera to initiate the rays
+  /// @param[in] view_height  The height of the camera's view
+  /// @param[in] view_width   The width of the camera's view
+  /// @param[in] focal_length The distance behind the camera to initiate the rays
   //////////////////////////////////////////////////////////////////////////////
   Camera(double view_height, double view_width, double focal_length);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Gets a ray corresponding to a particular direction
-  /// @param u How far across the viewport should the ray point
-  /// @param v How far up the viewport should the ray point
+  /// @param[in] u How far across the viewport should the ray point
+  /// @param[in] v How far up the viewport should the ray point
   /// @returns The ray pointing from the focal point through the point on the
   ///   viewport described by u and v
   //////////////////////////////////////////////////////////////////////////////

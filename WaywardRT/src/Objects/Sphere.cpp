@@ -12,8 +12,8 @@
 
 namespace WaywardRT {
 
-Sphere::Sphere(Vec3 center, double radius)
-  : m_Center(center), m_Radius(radius) { }
+Sphere::Sphere(Vec3 center, double radius, std::shared_ptr<Material> material)
+  : m_Center(center), m_Radius(radius), m_Material(material) { }
 
 const Vec3& Sphere::center() const {
   return m_Center;
@@ -45,6 +45,7 @@ std::optional<HitRecord> Sphere::hit(
   return HitRecord(
     r.at(root),
     (r.at(root) - center()) / radius(),
+    m_Material,
     root);
 }
 

@@ -42,8 +42,9 @@ Vec3& Vec3::operator=(const Vec3& other) {
   return *this;
 }
 
-Vec3 Vec3::e() const noexcept { return *this / len(); }
+Vec3 Vec3::e() const { return *this / len(); }
 Vec3& Vec3::normalize() noexcept { return (*this /= len()); }
+Vec3 Vec3::reflect(const Vec3& n) { return (*this) - 2*((*this) * n)*n; }
 
 double& Vec3::operator[](int index) {
   switch (index) {

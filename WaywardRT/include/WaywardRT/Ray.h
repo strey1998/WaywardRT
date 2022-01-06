@@ -51,7 +51,7 @@ class WAYWARDRT_EXPORT Ray {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Point calculation along ray
-  /// @param t Parametrizer variable
+  /// @param[in] t Parametrizer variable
   /// @return A new Vec3 equal to (this.origin) + t*(this.direction). This is a
   ///   vector representing the point t*magnitude(direction) distance away from
   ///   the origin point along the direction vector.

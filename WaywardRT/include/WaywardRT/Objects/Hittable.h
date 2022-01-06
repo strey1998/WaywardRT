@@ -7,10 +7,11 @@
 
 #include "WaywardRT_export.h"
 
+#include <memory>
 #include <optional>
 
 #include "WaywardRT/Ray.h"
-
+namespace WaywardRT { class Material; }
 
 namespace WaywardRT {
 
@@ -21,12 +22,18 @@ namespace WaywardRT {
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
 struct WAYWARDRT_EXPORT HitRecord {
-  Vec3 p;
-  Vec3 n;
+  Vec3 point;
+  Vec3 normal;
+  std::shared_ptr<Material> material;
   double t;
 
   HitRecord() = delete;
-  HitRecord(Vec3 p, Vec3 n, double t) : p(p), n(n), t(t) { }
+  HitRecord(
+      Vec3 point,
+      Vec3 normal,
+      std::shared_ptr<Material> material,
+      double t)
+    : point(point), normal(normal), material(material), t(t) { }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -39,9 +46,9 @@ class WAYWARDRT_EXPORT Hittable {
  public:
   //////////////////////////////////////////////////////////////////////////////
   /// Check whether a ray hits the object(s)
-  /// @param r     The ray
-  /// @param t_min Minimum value of t at which to register a hit
-  /// @param t_max Maximum value of t at which to register a hit
+  /// @param[in] r     The ray
+  /// @param[in] t_min Minimum value of t at which to register a hit
+  /// @param[in] t_max Maximum value of t at which to register a hit
   /// @return A HitRecord containing information about the hit, if it exists
   //////////////////////////////////////////////////////////////////////////////
   virtual std::optional<HitRecord> hit(

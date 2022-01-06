@@ -29,12 +29,14 @@ struct WAYWARDRT_EXPORT Color {
 
   float r, g, b;
 
+  Color();
+
   Color(float r, float g, float b);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Linear interpolation
-  /// @param other The other color
-  /// @param t     The interpolation parameter
+  /// @param[in] other The other color
+  /// @param[in] t     The interpolation parameter
   /// @return A new color between the this and the other color, according to t.
   ///   Equal to this color for t=0.0, or to the other color if t=1.0.
   /// @throws std::out_of_range if t is not between 0.0 and 1.0
@@ -43,7 +45,7 @@ struct WAYWARDRT_EXPORT Color {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color exponentiation, for gamma correction, etc.
-  /// @param e The exponent
+  /// @param[in] e The exponent
   /// @return A new color with each channel equal to this color's to the power
   ///   other
   //////////////////////////////////////////////////////////////////////////////
@@ -51,7 +53,7 @@ struct WAYWARDRT_EXPORT Color {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color addition
-  /// @param other The other color
+  /// @param[in] other The other color
   /// @return A new color equal to the sum of this color's channels with those
   ///   of the other, capped at 1.0
   //////////////////////////////////////////////////////////////////////////////
@@ -59,15 +61,23 @@ struct WAYWARDRT_EXPORT Color {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color subtraction
-  /// @param other The other color
+  /// @param[in] other The other color
   /// @return A new color equal to the difference of this color's channels with
   ///   those of the other, clipped to [0.0, 1.0]
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Color operator-(const Color& other) const;
 
   //////////////////////////////////////////////////////////////////////////////
+  /// @brief Color multiplication elementwise
+  /// @param[in] other The other color
+  /// @return A new color with each channel equal to this color's times the
+  ///   other color's
+  //////////////////////////////////////////////////////////////////////////////
+  [[nodiscard]] Color operator*(const Color& other) const;
+
+  //////////////////////////////////////////////////////////////////////////////
   /// @brief Color multiplication
-  /// @param other The factor by which to multiply
+  /// @param[in] other The factor by which to multiply
   /// @return A new color with each channel equal to this color times other,
   ///   clipped to [0.0, 1.0]
   //////////////////////////////////////////////////////////////////////////////
@@ -75,8 +85,8 @@ struct WAYWARDRT_EXPORT Color {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color multiplication
-  /// @param factor The factor by which to multiply
-  /// @param color  The color to multiply
+  /// @param[in] factor The factor by which to multiply
+  /// @param[in] color  The color to multiply
   /// @return A new color with each channel equal to color's times other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] friend WAYWARDRT_EXPORT Color operator*(
@@ -84,7 +94,7 @@ struct WAYWARDRT_EXPORT Color {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color division
-  /// @param other The factor by which to divide
+  /// @param[in] other The factor by which to divide
   /// @return A new color with each channel equal to this color divided by other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] Color operator/(double other) const;

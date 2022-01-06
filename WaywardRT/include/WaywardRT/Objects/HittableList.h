@@ -35,7 +35,7 @@ class WAYWARDRT_EXPORT HittableList : public Hittable {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initialize a singleton list of hittable objects
-  /// @param object The single initial object
+  /// @param[in] object The single initial object
   //////////////////////////////////////////////////////////////////////////////
   explicit HittableList(std::shared_ptr<Hittable> object);
 
@@ -46,7 +46,7 @@ class WAYWARDRT_EXPORT HittableList : public Hittable {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Add an object to the list
-  /// @param object The new object
+  /// @param[in] object The new object
   //////////////////////////////////////////////////////////////////////////////
   void add(std::shared_ptr<Hittable> object);
 
