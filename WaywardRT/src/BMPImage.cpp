@@ -71,7 +71,7 @@ void BMPImage::setPixel(
   m_Data[3*(x+yy*m_Width)+2] = b;
 }
 
-bool BMPImage::write(const char* fileName) const noexcept {
+bool BMPImage::write(const char* fileName) const {
   return stbi_write_bmp(fileName, m_Width, m_Height, 3, m_Data);
 }
 

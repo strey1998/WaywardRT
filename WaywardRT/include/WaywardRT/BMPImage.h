@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #include "WaywardRT_export.h"
+#include "WaywardRT/Image.h"
 namespace WaywardRT { struct Color; }
 
 namespace WaywardRT {
@@ -18,7 +19,7 @@ namespace WaywardRT {
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-class WAYWARDRT_EXPORT BMPImage {
+class WAYWARDRT_EXPORT BMPImage : public Image {
  private:
   uint16_t m_Width;
   uint16_t m_Height;
@@ -52,7 +53,7 @@ class WAYWARDRT_EXPORT BMPImage {
   ///   (top-to-bottom)
   /// @param[in] c The new color for the pixel
   //////////////////////////////////////////////////////////////////////////////
-  void setPixel(uint16_t x, uint16_t y, Color c) noexcept;
+  void setPixel(uint16_t x, uint16_t y, Color c) noexcept override;
 
   //////////////////////////////////////////////////////////////////////////////
   /// Sets a pixel of the image to a particular color
@@ -72,7 +73,7 @@ class WAYWARDRT_EXPORT BMPImage {
   /// @param[in] fileName The file name of the output file
   /// @return True if successful, false if an error occurred
   //////////////////////////////////////////////////////////////////////////////
-  bool write(const char* fileName) const noexcept;
+  bool write(const char* fileName) const override;
 };
 
 }  // namespace WaywardRT

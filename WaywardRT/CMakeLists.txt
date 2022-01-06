@@ -10,6 +10,7 @@ set(WaywardRT_SOURCE_FILES
   src/Camera.cpp
   src/Color.cpp
   src/Ray.cpp
+  src/Renderer.cpp
   src/Vec3.cpp
   src/Materials/Dielectric.cpp
   src/Materials/Lambertian.cpp

@@ -18,35 +18,12 @@
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/Renderer.h"
 #include "WaywardRT/Timer.h"
 #include "WaywardRT/util.h"
 #include "WaywardRT/Vec3.h"
 
-static WaywardRT::Color ray_color(
-    const WaywardRT::Ray& r,
-    const WaywardRT::Hittable& world,
-    int depth = 1) {
-  if (depth <= 0) return WaywardRT::Color(0, 0, 0);
-
-  std::optional<WaywardRT::HitRecord> rec
-    = world.hit(r, 0.00001, WaywardRT::infinity);
-  if (rec) {
-    WaywardRT::Color attenuation;
-    std::optional<WaywardRT::Ray> scattered
-      = rec->material->scatter(r, rec.value(), attenuation);
-    if (scattered)
-      return attenuation * ray_color(scattered.value(), world, depth - 1);
-    return WaywardRT::Color(0, 0, 0);
-  }
-
-  WaywardRT::Vec3 unit_direction = r.direction().e();
-  double t = 0.5 * (unit_direction.y + 1.0);
-  WaywardRT::Color c1(1.0, 1.0, 1.0);
-  WaywardRT::Color c2(0.5, 0.7, 1.0);
-  return c1.lerp(c2, t);
-}
-
-WaywardRT::HittableList random_scene() {
+WaywardRT::HittableList spheres() {
   WaywardRT::HittableList world;
 
   auto mGround = std::make_shared<WaywardRT::Lambertian>(
@@ -87,25 +64,28 @@ WaywardRT::HittableList random_scene() {
   auto m3 = std::make_shared<WaywardRT::Metal>(
     WaywardRT::Color(0.7, 0.6, 0.5), 0.0);
 
-  world.add(std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(0, 1, 0), 1.0, m1));
-  world.add(std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(-4, 1, 0), 1.0, m2));
-  world.add(std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(4, 1, 0), 1.0, m3));
+  world.add(
+    std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(0, 1, 0), 1.0, m1));
+  world.add(
+    std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(-4, 1, 0), 1.0, m2));
+  world.add(
+    std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(4, 1, 0), 1.0, m3));
 
   return world;
 }
 
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   225;
-  constexpr int IMAGE_HEIGHT =  150;
-  constexpr int SAMPLES = 10;
+  constexpr int IMAGE_WIDTH =   2560;
+  constexpr int IMAGE_HEIGHT =  1080;
+  constexpr int SAMPLES = 100;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // WORLD
-  auto world = random_scene();
+  auto world = spheres();
 
   // CAMERA
-  WaywardRT::Camera cam(
+  WaywardRT::Camera camera(
     WaywardRT::Vec3(13, 2, 3),
     WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
@@ -113,24 +93,17 @@ int main(int, const char**) {
 
   // RENDER
   constexpr int DEPTH = 50;
+  WaywardRT::Renderer renderer(
+    IMAGE_WIDTH, IMAGE_HEIGHT,
+    SAMPLES, DEPTH,
+    world, camera);
+
   spdlog::info("Starting render");
   WaywardRT::Timer timer;
-  int k = 0;
-  for (int j = 0; j < IMAGE_HEIGHT; ++j) {
-    for (int i = 0; i < IMAGE_WIDTH; ++i) {
-      WaywardRT::Color c(0, 0, 0);
-      for (int s = 0; s < SAMPLES; ++s) {
-        double u = (i + WaywardRT::random_double()) / (IMAGE_WIDTH - 1);
-        double v = (j + WaywardRT::random_double()) / (IMAGE_HEIGHT - 1);
-        WaywardRT::Ray r = cam.get_ray(u, v);
-        c += ray_color(r, world, DEPTH) / SAMPLES;
-      }
-      image.setPixel(i, j, c.exp(0.5));
-    }
-    if ((j % static_cast<int>(IMAGE_HEIGHT/20) == 0) && j > 0) {
-      spdlog::info("Render: {}%", 5*(++k));
-    }
-  }
+
+  renderer.render(12);
+  renderer.write_image_data(image);
+
   spdlog::info("Render complete in {:.1f}s", timer.elapsed());
 
   if (!image.write("test.bmp")) {
