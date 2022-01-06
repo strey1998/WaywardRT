@@ -13,6 +13,10 @@
 
 namespace WaywardRT {
 
+Color Color::Random() {
+  return Color(random_double(), random_double(), random_double());
+}
+
 Color::Color() : r(0.0), g(0.0), b(0.0) { }
 
 Color::Color(float r, float g, float b) : r(r), g(g), b(b) { }

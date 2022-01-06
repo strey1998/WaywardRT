@@ -46,42 +46,70 @@ static WaywardRT::Color ray_color(
   return c1.lerp(c2, t);
 }
 
+WaywardRT::HittableList random_scene() {
+  WaywardRT::HittableList world;
+
+  auto mGround = std::make_shared<WaywardRT::Lambertian>(
+    WaywardRT::Color(0.5, 0.5, 0.5));
+  world.add(
+    std::make_shared<WaywardRT::Sphere>(
+      WaywardRT::Vec3(0, -1000, 0), 1000, mGround));
+
+  for (int a = -11; a < 11; ++a) {
+    for (int b = -11; b < 11; ++b) {
+      double choose_material = WaywardRT::random_double();
+      WaywardRT::Vec3 center(
+        a + 0.9*WaywardRT::random_double(),
+        0.2,
+        b + 0.9*WaywardRT::random_double());
+
+      if ((center - WaywardRT::Vec3(4, 0.2, 0)).len() > 0.9) {
+        std::shared_ptr<WaywardRT::Material> material;
+
+        if (choose_material < 0.8) {
+          auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
+          material = std::make_shared<WaywardRT::Lambertian>(albedo);
+        } else if (choose_material < 0.95) {
+          auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
+          auto fuzz = WaywardRT::random_double(0, 0.5);
+          material = std::make_shared<WaywardRT::Metal>(albedo, fuzz);
+        } else {
+          material = std::make_shared<WaywardRT::Dielectric>(1.5);
+        }
+        world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
+      }
+    }
+  }
+
+  auto m1 = std::make_shared<WaywardRT::Dielectric>(1.5);
+  auto m2 = std::make_shared<WaywardRT::Lambertian>(
+    WaywardRT::Color(0.4, 0.2, 0.1));
+  auto m3 = std::make_shared<WaywardRT::Metal>(
+    WaywardRT::Color(0.7, 0.6, 0.5), 0.0);
+
+  world.add(std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(0, 1, 0), 1.0, m1));
+  world.add(std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(-4, 1, 0), 1.0, m2));
+  world.add(std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(4, 1, 0), 1.0, m3));
+
+  return world;
+}
+
 int main(int, const char**) {
   // IMAGE
-  constexpr int IMAGE_WIDTH =   2560;
-  constexpr int IMAGE_HEIGHT =  1080;
-  constexpr int SAMPLES = 100;
+  constexpr int IMAGE_WIDTH =   225;
+  constexpr int IMAGE_HEIGHT =  150;
+  constexpr int SAMPLES = 10;
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // WORLD
-  WaywardRT::HittableList world;
-
-  std::shared_ptr<WaywardRT::Material> mGround
-    = std::make_shared<WaywardRT::Lambertian>(WaywardRT::Color(0.8, 0.8, 0.0));
-  std::shared_ptr<WaywardRT::Material> mCenter
-    = std::make_shared<WaywardRT::Lambertian>(WaywardRT::Color(0.1, 0.2, 0.5));
-  std::shared_ptr<WaywardRT::Material> mLeft
-    = std::make_shared<WaywardRT::Dielectric>(1.5);
-  std::shared_ptr<WaywardRT::Material> mRight
-    = std::make_shared<WaywardRT::Metal>(WaywardRT::Color(0.8, 0.6, 0.2), 0.0);
-
-  world.add(std::make_shared<WaywardRT::Sphere>(
-    WaywardRT::Vec3(0.0, -100.5, -1.0), 100, mGround));
-  world.add(std::make_shared<WaywardRT::Sphere>(
-    WaywardRT::Vec3(0.0, 0.0, -1.0), 0.5, mCenter));
-  world.add(std::make_shared<WaywardRT::Sphere>(
-    WaywardRT::Vec3(-1.0, 0.0, -1.0), 0.5, mLeft));
-  world.add(std::make_shared<WaywardRT::Sphere>(
-    WaywardRT::Vec3(-1.0, 0.0, -1.0), -0.4, mLeft));
-  world.add(std::make_shared<WaywardRT::Sphere>(
-    WaywardRT::Vec3(1.0, 0.0, -1.0), 0.5, mRight));
+  auto world = random_scene();
 
   // CAMERA
   WaywardRT::Camera cam(
-    WaywardRT::Vec3(-2, 2, 1),
-    WaywardRT::Vec3(0, 0, -1),
+    WaywardRT::Vec3(13, 2, 3),
+    WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
-    90, 21.0/9.0);
+    20, IMAGE_WIDTH / IMAGE_HEIGHT, 0.1);
 
   // RENDER
   constexpr int DEPTH = 50;

@@ -29,6 +29,13 @@ Vec3 Vec3::random_in_unit_sphere() {
   return random_double()*random_unit();
 }
 
+// TODO(TS): This is probably much slower than it needs to be
+Vec3 Vec3::random_in_unit_disk() {
+  Vec3 unit = random_unit();
+  Vec3 unit_in_disk(unit.x, unit.y, 0);
+  return random_double()*unit_in_disk.e();
+}
+
 Vec3::Vec3() : x(0.0), y(0.0), z(0.0) { }
 
 Vec3::Vec3(double x, double y, double z) : x(x), y(y), z(z) { }

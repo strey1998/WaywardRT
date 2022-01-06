@@ -27,6 +27,8 @@ struct WAYWARDRT_EXPORT Color {
   static Color MAGENTA() { return Color(1, 0, 1); }
   static Color CYAN() { return Color(0, 1, 1); }
 
+  static Color Random();
+
   float r, g, b;
 
   Color();
