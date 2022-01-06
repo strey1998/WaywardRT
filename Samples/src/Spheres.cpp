@@ -1,4 +1,4 @@
-// WaywardRT/Samples/src/Sphere.cpp
+// WaywardRT/Samples/src/Spheres.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
