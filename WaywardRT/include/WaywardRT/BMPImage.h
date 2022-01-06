@@ -6,27 +6,11 @@
 #define WAYWARDRT_INCLUDE_WAYWARDRT_BMPIMAGE_H_
 
 #include <cstdint>
-#include <ostream>
 
 #include "WaywardRT_export.h"
+namespace WaywardRT { struct Color; }
 
 namespace WaywardRT {
-
-//////////////////////////////////////////////////////////////////////////////
-/// Represents a color
-/// @author   Trey Stoner
-/// @version  0.1.0
-/// @since    0.1.0
-//////////////////////////////////////////////////////////////////////////////
-struct WAYWARDRT_EXPORT Color {
-  uint8_t r, g, b;
-
-  Color(uint8_t r, uint8_t g, uint8_t b);
-
-  friend WAYWARDRT_EXPORT std::ostream& operator<<(
-    std::ostream& os, const Color& v);
-};
-
 
 //////////////////////////////////////////////////////////////////////////////
 /// Represents a BMP image
@@ -39,6 +23,7 @@ class WAYWARDRT_EXPORT BMPImage {
   uint16_t m_Width;
   uint16_t m_Height;
   uint8_t* m_Data;
+  bool m_InvertY;
 
  public:
   BMPImage() = delete;
@@ -46,10 +31,12 @@ class WAYWARDRT_EXPORT BMPImage {
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
   /// Initializes a blank image
-  /// @param[in] width  The width of the image
-  /// @param[in] height The height of the image
+  /// @param[in] width   The width of the image
+  /// @param[in] height  The height of the image
+  /// @param[in] invertY Whether to invert the y-coordinate so indexeing starts
+  ///   from bottom of image
   //////////////////////////////////////////////////////////////////////////////
-  BMPImage(uint16_t width, uint16_t height);
+  BMPImage(uint16_t width, uint16_t height, bool invertY = false);
 
   BMPImage(const BMPImage& other);
   BMPImage(BMPImage&& other) noexcept;
@@ -87,7 +74,6 @@ class WAYWARDRT_EXPORT BMPImage {
   //////////////////////////////////////////////////////////////////////////////
   bool write(const char* fileName) const noexcept;
 };
-
 
 }  // namespace WaywardRT
 

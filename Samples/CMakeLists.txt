@@ -1,25 +1,27 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(WaywardRT_Sample_INCLUDE_DIRS
-)
-
 set(WaywardRT_Sample_SOURCE_FILES
-  src/main.cpp
+  src/BlueWhite.cpp
+  src/HelloWorld.cpp
 )
 
-add_executable(WaywardRTSample_Main ${WaywardRT_Sample_SOURCE_FILES})
-target_include_directories(WaywardRTSample_Main PRIVATE ${WaywardRT_Sample_INCLUDE_DIRS})
-target_link_libraries(WaywardRTSample_Main PRIVATE WaywardRT)
+foreach(SAMPLE_FILE IN LISTS WaywardRT_Sample_SOURCE_FILES)
+  get_filename_component(SAMPLE_TARGET ${SAMPLE_FILE} NAME_WE)
+  add_executable(${SAMPLE_TARGET} ${SAMPLE_FILE})
+  target_link_libraries(${SAMPLE_TARGET} WaywardRT)
 
-if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
-  set_target_properties(WaywardRTSample_Main
-    PROPERTIES
-      CXX_CPPLINT ${WaywardRT_CPPLINT_FILEPATH}
-  )
-endif()
+  if(MSVC)
+    target_compile_options(${SAMPLE_TARGET} PRIVATE /W4 /WX)
+  else()
+    target_compile_options(${SAMPLE_TARGET} PRIVATE -Wall -Wextra -pedantic -Werror -Wno-unused-result)
+  endif()
 
-if(MSVC)
-  target_compile_options(WaywardRTSample_Main PRIVATE /W4 /WX)
-else()
-  target_compile_options(WaywardRTSample_Main PRIVATE -Wall -Wextra -pedantic -Werror -Wno-unused-result)
-endif()
+  if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
+    set_target_properties(${SAMPLE_TARGET}
+      PROPERTIES
+        CXX_CPPLINT ${WaywardRT_CPPLINT_FILEPATH}
+    )
+  endif()
+
+
+endforeach()

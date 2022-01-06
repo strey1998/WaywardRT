@@ -7,21 +7,16 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstdint>
-#include <ostream>
 #include <utility>
 
 #include "stb/stb_image_write.h"
 
+#include "WaywardRT/Color.h"
+
 namespace WaywardRT {
 
-Color::Color(uint8_t r, uint8_t g, uint8_t b) : r(r), g(g), b(b) { }
-
-std::ostream& operator<<(std::ostream& os, const Color& v) {
-  return os << "Color(" << v.r << ", " << v.g << ", " << v.b << ")";
-}
-
-BMPImage::BMPImage(uint16_t width, uint16_t height)
-    : m_Width(width), m_Height(height) {
+BMPImage::BMPImage(uint16_t width, uint16_t height, bool invertY)
+    : m_Width(width), m_Height(height), m_InvertY(invertY) {
   m_Data = reinterpret_cast<uint8_t*>(malloc(3 * m_Width * m_Height));
 }
 
@@ -62,16 +57,18 @@ void swap(BMPImage& a, BMPImage& b) noexcept {
 }
 
 void BMPImage::setPixel(uint16_t x, uint16_t y, Color c) noexcept {
-  setPixel(x, y, c.r, c.g, c.b);
+  setPixel(x, y, 255.999*c.r, 255.999*c.g, 255.999*c.b);
 }
 
 void BMPImage::setPixel(
     uint16_t x, uint16_t y,
     uint8_t r, uint8_t g, uint8_t b)
     noexcept {
-  m_Data[3*(x+y*m_Width)]   = r;
-  m_Data[3*(x+y*m_Width)+1] = g;
-  m_Data[3*(x+y*m_Width)+2] = b;
+  uint16_t yy = m_InvertY ? m_Height - 1 - y : y;
+
+  m_Data[3*(x+yy*m_Width)]   = r;
+  m_Data[3*(x+yy*m_Width)+1] = g;
+  m_Data[3*(x+yy*m_Width)+2] = b;
 }
 
 bool BMPImage::write(const char* fileName) const noexcept {
