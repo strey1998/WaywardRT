@@ -39,11 +39,6 @@ foreach(BENCHMARK_FILE IN LISTS WaywardRT_BENCHMARK_SOURCE_FILES)
   add_executable(${BENCHMARK_TARGET} ${BENCHMARK_FILE})
   target_link_libraries(${BENCHMARK_TARGET} WaywardRT benchmark::benchmark_main)
 
-  set_target_properties(${BENCHMARK_TARGET} PROPERTIES
-    CXX_STANDARD               17
-    CXX_STANDARD_REQUIRED      YES
-  )
-
   if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
     set_target_properties(${BENCHMARK_TARGET} PROPERTIES
       CXX_CPPLINT "${WaywardRT_CPPLINT_FILEPATH};--filter=-build/include-what-you-use,-build/c++11,-runtime/references"
