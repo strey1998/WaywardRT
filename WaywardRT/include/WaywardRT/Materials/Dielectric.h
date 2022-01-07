@@ -9,6 +9,7 @@
 
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Materials/Material.h"
+#include "WaywardRT/util.h"
 namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
@@ -20,13 +21,13 @@ namespace WaywardRT {
 //////////////////////////////////////////////////////////////////////////////
 class WAYWARDRT_EXPORT Dielectric : public Material {
  private:
-  double m_IR;
+  real m_IR;
  public:
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Contruct a new Dielectric material
   /// @param[in] ir The index of refraction of the material
   //////////////////////////////////////////////////////////////////////////////
-  explicit Dielectric(double ir);
+  explicit Dielectric(real ir);
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
@@ -38,7 +39,7 @@ class WAYWARDRT_EXPORT Dielectric : public Material {
     Color& attenuation) const override;
 
  private:
-  static double reflectance(double cosTheta, double ri);
+  static real reflectance(real cosTheta, real ri);
 };
 
 }  // namespace WaywardRT

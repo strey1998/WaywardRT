@@ -9,6 +9,7 @@
 
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -21,7 +22,7 @@ namespace WaywardRT {
 class WAYWARDRT_EXPORT Sphere : public Hittable {
  private:
   Vec3 m_Center;
-  double m_Radius;
+  real m_Radius;
   std::shared_ptr<Material> m_Material;
 
  public:
@@ -31,7 +32,7 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
   /// @param[in] center The center
   /// @param[in] radius The radius
   //////////////////////////////////////////////////////////////////////////////
-  Sphere(Vec3 center, double radius, std::shared_ptr<Material> material);
+  Sphere(Vec3 center, real radius, std::shared_ptr<Material> material);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Accessor for center
@@ -43,15 +44,15 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
   /// @brief Accessor for radius
   /// @returns The radius of the sphere
   //////////////////////////////////////////////////////////////////////////////
-  double radius() const;
+  real radius() const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
   //////////////////////////////////////////////////////////////////////////////
   bool hit(
     const Ray& r,
-    double t_min,
-    double t_max,
+    real t_min,
+    real t_max,
     HitRecord& rec) const override;
 };
 

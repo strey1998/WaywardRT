@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #include "WaywardRT_export.h"
+#include "WaywardRT/util.h"
 namespace WaywardRT { struct Color; }
 
 namespace WaywardRT {

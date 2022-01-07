@@ -8,6 +8,7 @@
 #include <chrono>
 
 #include "WaywardRT_export.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 

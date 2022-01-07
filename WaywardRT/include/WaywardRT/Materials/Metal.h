@@ -9,6 +9,7 @@
 
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Materials/Material.h"
+#include "WaywardRT/util.h"
 namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
@@ -21,14 +22,14 @@ namespace WaywardRT {
 class WAYWARDRT_EXPORT Metal : public Material {
  private:
   Color m_Albedo;
-  double m_Fuzz;
+  real m_Fuzz;
  public:
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Contruct a new Metal material
   /// @param[in] a The color of the material
   /// @param[in] f The fuzziness of the reflection
   //////////////////////////////////////////////////////////////////////////////
-  explicit Metal(const Color& a, double f = 0.0);
+  explicit Metal(const Color& a, real f = 0.0);
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}

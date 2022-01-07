@@ -40,7 +40,7 @@ void Renderer::render(uint8_t thread_count) const {
 
   for (int i = 0; i < thread_count; ++i) {
     partition.push_back(
-      static_cast<uint16_t>(i*m_Width/static_cast<double>(thread_count)));
+      static_cast<uint16_t>(i*m_Width/static_cast<real>(thread_count)));
   }
   partition.push_back(m_Width);
 
@@ -64,8 +64,8 @@ void Renderer::render_subimage(
     for (int i = xMin; i <= xMax; ++i) {
       WaywardRT::Color c(0, 0, 0);
       for (int s = 0; s < m_Samples; ++s) {
-        double u = (i + WaywardRT::random_double()) / (m_Width - 1);
-        double v = (j + WaywardRT::random_double()) / (m_Height - 1);
+        real u = (i + WaywardRT::random_real()) / (m_Width - 1);
+        real v = (j + WaywardRT::random_real()) / (m_Height - 1);
         WaywardRT::Ray r = m_Camera.get_ray(u, v);
         c += ray_color(r, m_World, m_Depth) / m_Samples;
       }
@@ -74,7 +74,7 @@ void Renderer::render_subimage(
   }
 }
 
-void Renderer::write_image_data(Image& image, double gamma) const {
+void Renderer::write_image_data(Image& image, real gamma) const {
   for (int j = 0; j < m_Height; ++j) {
     for (int i = 0; i < m_Width; ++i) {
       image.setPixel(i, j, m_ImageData[i+m_Width*j].exp(1/gamma));
@@ -95,7 +95,7 @@ Color Renderer::ray_color(const Ray& r, const Hittable& world, int depth) {
   }
 
   WaywardRT::Vec3 unit_direction = r.direction().e();
-  double t = 0.5 * (unit_direction.y + 1.0);
+  real t = 0.5 * (unit_direction.y + 1.0);
   WaywardRT::Color c1(1.0, 1.0, 1.0);
   WaywardRT::Color c2(0.5, 0.7, 1.0);
   return c1.lerp(c2, t);

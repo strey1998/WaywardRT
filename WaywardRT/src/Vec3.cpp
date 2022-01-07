@@ -13,11 +13,11 @@
 namespace WaywardRT {
 
 Vec3 Vec3::random_unit() {
-  double theta = random_double(0.0, 2*pi);
-  double cosPhi = random_double(-1.0, 1.0);
-  double sinPhi = sin(acos(cosPhi));
-  double sinTheta = sin(theta);
-  double cosTheta = cos(theta);
+  real theta = random_real(0.0, 2*pi);
+  real cosPhi = random_real(-1.0, 1.0);
+  real sinPhi = sin(acos(cosPhi));
+  real sinTheta = sin(theta);
+  real cosTheta = cos(theta);
 
   return Vec3(
     sinPhi * cosTheta,
@@ -26,19 +26,18 @@ Vec3 Vec3::random_unit() {
 }
 
 Vec3 Vec3::random_in_unit_sphere() {
-  return random_double()*random_unit();
+  return pow(random_real(), 1/3.0)*random_unit();
 }
 
-// TODO(TS): This is probably much slower than it needs to be
 Vec3 Vec3::random_in_unit_disk() {
-  Vec3 unit = random_unit();
-  Vec3 unit_in_disk(unit.x, unit.y, 0);
-  return random_double()*unit_in_disk.e();
+  real r = sqrt(random_real());
+  real theta = random_real(0, 2*pi);
+  return r*Vec3(cos(theta), sin(theta), 0);
 }
 
 Vec3::Vec3() : x(0.0), y(0.0), z(0.0) { }
 
-Vec3::Vec3(double x, double y, double z) : x(x), y(y), z(z) { }
+Vec3::Vec3(real x, real y, real z) : x(x), y(y), z(z) { }
 
 Vec3::Vec3(const Vec3& other) : x(other.x), y(other.y), z(other.z) { }
 
@@ -53,14 +52,14 @@ Vec3 Vec3::e() const { return *this / len(); }
 Vec3& Vec3::normalize() noexcept { return (*this /= len()); }
 Vec3 Vec3::reflect(const Vec3& n) const { return (*this) - 2*((*this) * n)*n; }
 
-Vec3 Vec3::refract(const Vec3& n, double e) const {
-  double cosTheta = fmin(-(*this)*n, 1.0);
+Vec3 Vec3::refract(const Vec3& n, real e) const {
+  real cosTheta = fmin(-(*this)*n, 1.0);
   Vec3 r_out_perp = e * ((*this) + cosTheta*n);
   Vec3 r_out_par = -sqrt(fabs(1.0 - r_out_perp.len_sq())) * n;
   return r_out_perp + r_out_par;
 }
 
-double& Vec3::operator[](int index) {
+real& Vec3::operator[](int index) {
   switch (index) {
     case 0:
       return x;
@@ -86,17 +85,18 @@ Vec3 Vec3::operator-(const Vec3& other) const noexcept {
   return Vec3(x-other.x, y-other.y, z-other.z);
 }
 
-double Vec3::operator*(const Vec3& other) const noexcept {
+real Vec3::operator*(const Vec3& other) const noexcept {
   return x*other.x + y*other.y + z*other.z;
 }
 
-Vec3 Vec3::operator*(double other) const noexcept {
+
+Vec3 Vec3::operator*(real other) const noexcept {
   return Vec3(x*other, y*other, z*other);
 }
 
-Vec3 operator*(double a, const Vec3& v) { return v*a; }
+Vec3 operator*(real a, const Vec3& v) { return v*a; }
 
-Vec3 Vec3::operator/(double other) const noexcept {
+Vec3 Vec3::operator/(real other) const noexcept {
   return Vec3(x*(1/other), y*(1/other), z*(1/other));
 }
 
@@ -119,24 +119,27 @@ Vec3& Vec3::operator-=(const Vec3& other) noexcept {
   *this = *this - other; return *this;
 }
 
-Vec3& Vec3::operator*=(double other) noexcept {
+Vec3& Vec3::operator*=(real other) noexcept {
   *this = *this * other; return *this;
 }
 
-Vec3& Vec3::operator/=(double other) noexcept {
+Vec3& Vec3::operator/=(real other) noexcept {
   *this = *this / other; return *this;
 }
 
 bool Vec3::operator==(const Vec3& other) const noexcept {
-  return ((*this - other).len() < pow(10, -DOUBLE_PRECISION));
+  const real len_diff = (*this - other).len();
+  const real divisor = sqrt(len_sq() + other.len_sq());
+  if (divisor == 0) return true;
+  return len_diff/divisor < pow(10, -FLOATING_POINT_EQUALITY_PRECISION);
 }
 
 bool Vec3::operator!=(const Vec3& other) const noexcept {
   return !(*this == other);
 }
 
-double Vec3::len() const { return sqrt(len_sq()); }
-double Vec3::len_sq() const { return (*this)*(*this); }
+real Vec3::len() const { return sqrt(len_sq()); }
+real Vec3::len_sq() const { return (*this)*(*this); }
 
 std::ostream& operator<<(std::ostream& os, const Vec3& v) {
   return os << std::setprecision(6)

@@ -14,21 +14,21 @@
 namespace WaywardRT {
 
 Color Color::Random() {
-  return Color(random_double(), random_double(), random_double());
+  return Color(random_real(), random_real(), random_real());
 }
 
 Color::Color() : r(0.0), g(0.0), b(0.0) { }
 
 Color::Color(float r, float g, float b) : r(r), g(g), b(b) { }
 
-Color Color::lerp(const Color& other, double t) const {
+Color Color::lerp(const Color& other, real t) const {
   if (t < 0.0 || t > 1.0) throw std::out_of_range(
     "Linear interpolation parameter must be between 0.0 and 1.0 (inclusive)");
 
   return (1.0-t)*(*this) + other;
 }
 
-Color Color::exp(double e) const {
+Color Color::exp(real e) const {
   return Color(
     pow(r, e),
     pow(g, e),
@@ -56,18 +56,18 @@ Color Color::operator*(const Color& other) const {
     b * other.b);
 }
 
-Color Color::operator*(double other) const {
+Color Color::operator*(real other) const {
   return Color(
     WaywardRT::clamp(r*other, 0.0, 1.0),
     WaywardRT::clamp(g*other, 0.0, 1.0),
     WaywardRT::clamp(b*other, 0.0, 1.0));
 }
 
-Color operator*(double factor, const Color& color) {
+Color operator*(real factor, const Color& color) {
   return color*factor;
 }
 
-Color Color::operator/(double other) const {
+Color Color::operator/(real other) const {
   return Color(r/other, g/other, b/other);
 }
 
@@ -79,11 +79,11 @@ Color& Color::operator-=(const Color& other) {
   return (*this = *this - other);
 }
 
-Color& Color::operator*=(double other) {
+Color& Color::operator*=(real other) {
   return (*this = *this * other);
 }
 
-Color& Color::operator/=(double other) {
+Color& Color::operator/=(real other) {
   return (*this = *this / other);
 }
 

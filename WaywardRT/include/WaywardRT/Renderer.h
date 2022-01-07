@@ -13,6 +13,7 @@
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Image.h"
 #include "WaywardRT/Objects/HittableList.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -75,7 +76,7 @@ class WAYWARDRT_EXPORT Renderer {
   /// @param[in] gamma Gamma correction factor
   /// @returns True on success, false on failure
   //////////////////////////////////////////////////////////////////////////////
-  void write_image_data(Image& image, double gamma = 1.0) const;
+  void write_image_data(Image& image, real gamma = 1.0) const;
 
   ~Renderer();
 

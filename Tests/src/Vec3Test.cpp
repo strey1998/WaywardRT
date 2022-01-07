@@ -7,6 +7,13 @@
 #include <random>
 
 #include "WaywardRT/Vec3.h"
+#include "WaywardRT/util.h"
+
+#ifdef WAYWARDRT_PRECISION_SINGLE
+  #define EXPECT_REAL_EQ EXPECT_FLOAT_EQ
+#else
+  #define EXPECT_REAL_EQ EXPECT_DOUBLE_EQ
+#endif
 
 namespace WaywardRT {
 
@@ -27,9 +34,9 @@ TEST(Vec3, Addition) {
     EXPECT_EQ(zero + v1, v1);
     EXPECT_EQ(v1 + zero, v1);
     for (const auto& v2 : vecs) {
-      EXPECT_DOUBLE_EQ((v1 + v2).x, v1.x + v2.x);
-      EXPECT_DOUBLE_EQ((v1 + v2).y, v1.y + v2.y);
-      EXPECT_DOUBLE_EQ((v1 + v2).z, v1.z + v2.z);
+      EXPECT_REAL_EQ((v1 + v2).x, v1.x + v2.x);
+      EXPECT_REAL_EQ((v1 + v2).y, v1.y + v2.y);
+      EXPECT_REAL_EQ((v1 + v2).z, v1.z + v2.z);
     }
   }
 }
@@ -49,9 +56,9 @@ TEST(Vec3, Subtraction) {
     EXPECT_EQ(zero - v1, -v1);
     EXPECT_EQ(v1 - zero, v1);
     for (const auto& v2 : vecs) {
-      EXPECT_DOUBLE_EQ((v1 - v2).x, v1.x - v2.x);
-      EXPECT_DOUBLE_EQ((v1 - v2).y, v1.y - v2.y);
-      EXPECT_DOUBLE_EQ((v1 - v2).z, v1.z - v2.z);
+      EXPECT_REAL_EQ((v1 - v2).x, v1.x - v2.x);
+      EXPECT_REAL_EQ((v1 - v2).y, v1.y - v2.y);
+      EXPECT_REAL_EQ((v1 - v2).z, v1.z - v2.z);
     }
   }
 }
@@ -68,10 +75,10 @@ TEST(Vec3, DotProduct) {
   }
 
   for (const auto& v1 : vecs) {
-    EXPECT_DOUBLE_EQ(zero * v1, 0);
-    EXPECT_DOUBLE_EQ(v1 * zero, 0);
+    EXPECT_REAL_EQ(zero * v1, 0);
+    EXPECT_REAL_EQ(v1 * zero, 0);
     for (const auto& v2 : vecs) {
-      EXPECT_DOUBLE_EQ(v1 * v2, v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
+      EXPECT_REAL_EQ(v1 * v2, v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
     }
   }
 }
@@ -137,9 +144,9 @@ TEST(Vec3, CrossProduct) {
   for (const auto& v1 : vecs) {
     EXPECT_EQ(cross(v1, v1), Vec3());
     for (const auto& v2 : vecs) {
-      EXPECT_DOUBLE_EQ(cross(v1, v2).x, v1.y*v2.z - v1.z*v2.y);
-      EXPECT_DOUBLE_EQ(cross(v1, v2).y, v1.z*v2.x - v1.x*v2.z);
-      EXPECT_DOUBLE_EQ(cross(v1, v2).z, v1.x*v2.y - v1.y*v2.x);
+      EXPECT_REAL_EQ(cross(v1, v2).x, v1.y*v2.z - v1.z*v2.y);
+      EXPECT_REAL_EQ(cross(v1, v2).y, v1.z*v2.x - v1.x*v2.z);
+      EXPECT_REAL_EQ(cross(v1, v2).z, v1.x*v2.y - v1.y*v2.x);
     }
   }
 }
@@ -156,8 +163,8 @@ TEST(Vec3, Len) {
   }
 
   for (const auto& v : vecs) {
-    EXPECT_DOUBLE_EQ(v.len_sq(), v*v);
-    EXPECT_DOUBLE_EQ(v.len(), sqrt(v*v));
+    EXPECT_REAL_EQ(v.len_sq(), v*v);
+    EXPECT_REAL_EQ(v.len(), sqrt(v*v));
   }
 }
 

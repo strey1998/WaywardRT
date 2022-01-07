@@ -6,10 +6,11 @@
 
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
-Metal::Metal(const Color& a, double f) : m_Albedo(a), m_Fuzz(f < 1 ? f : 1) { }
+Metal::Metal(const Color& a, real f) : m_Albedo(a), m_Fuzz(f < 1 ? f : 1) { }
 
 bool Metal::scatter(
     const Ray& r,
