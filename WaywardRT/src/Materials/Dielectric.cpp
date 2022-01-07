@@ -14,8 +14,11 @@ namespace WaywardRT {
 
 Dielectric::Dielectric(double ir) : m_IR(ir) { }
 
-std::optional<Ray> Dielectric::scatter(
-    const Ray& r, const HitRecord& rec, Color& attenuation) const {
+bool Dielectric::scatter(
+    const Ray& r,
+    const HitRecord& rec,
+    Ray& scattered,
+    Color& attenuation) const {
   attenuation = Color(1.0, 1.0, 1.0);
   bool front_face = r.direction()*rec.normal < 0;
   double refraction_ratio = front_face ? (1.0/m_IR) : m_IR;
@@ -36,7 +39,8 @@ std::optional<Ray> Dielectric::scatter(
     direction = unit_direction.refract(
       front_face ? rec.normal : -rec.normal, refraction_ratio);
 
-  return Ray(rec.point, direction);
+  scattered = std::move(Ray(rec.point, direction));
+  return true;
 }
 
 double Dielectric::reflectance(double cosTheta, double ri) {

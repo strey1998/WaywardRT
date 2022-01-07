@@ -29,22 +29,21 @@ void HittableList::add(std::shared_ptr<Hittable> object) {
   m_Objects.push_back(object);
 }
 
-std::optional<HitRecord> HittableList::hit(
+bool HittableList::hit(
     const Ray& r,
     double t_min,
-    double t_max) const {
-  std::optional<HitRecord> result = std::optional<HitRecord>();
+    double t_max,
+    HitRecord& rec) const {
   auto nearest_hit = t_max;
-
+  HitRecord temp;
   for (const auto& object : this->m_Objects) {
-    std::optional<HitRecord> hit = object->hit(r, t_min, nearest_hit);
-    if (hit) {
-      nearest_hit = hit->t;
-      result = hit;
+    if (object->hit(r, t_min, nearest_hit, temp)) {
+      nearest_hit = temp.t;
+      rec = temp;
     }
   }
 
-  return result;
+  return nearest_hit < t_max;
 }
 
 }  // namespace WaywardRT

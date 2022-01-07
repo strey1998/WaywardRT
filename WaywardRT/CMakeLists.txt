@@ -26,8 +26,6 @@ target_include_directories(WaywardRT PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(WaywardRT PRIVATE spdlog::spdlog stb_image_write)
 
 set_target_properties(WaywardRT PROPERTIES
-  CXX_STANDARD               17
-  CXX_STANDARD_REQUIRED      YES
   CXX_VISIBILITY_PRESET      hidden
   VISIBILITY_INLINES_HIDDEN  YES
 )

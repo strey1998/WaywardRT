@@ -15,11 +15,6 @@ set(WaywardRT_BENCHMARK_SOURCE_FILES
 add_executable(WaywardRTAllBenchmarks ${WaywardRT_BENCHMARK_SOURCE_FILES})
 target_link_libraries(WaywardRTAllBenchmarks PRIVATE WaywardRT benchmark::benchmark_main)
 
-set_target_properties(WaywardRTAllBenchmarks PROPERTIES
-  CXX_STANDARD               17
-  CXX_STANDARD_REQUIRED      YES
-)
-
 if(MSVC)
   target_compile_options(WaywardRTAllBenchmarks
     PRIVATE

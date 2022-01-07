@@ -85,14 +85,12 @@ void Renderer::write_image_data(Image& image, double gamma) const {
 Color Renderer::ray_color(const Ray& r, const Hittable& world, int depth) {
   if (depth <= 0) return WaywardRT::Color(0, 0, 0);
 
-  std::optional<WaywardRT::HitRecord> rec
-    = world.hit(r, 0.00001, WaywardRT::infinity);
-  if (rec) {
+  HitRecord rec;
+  if (world.hit(r, 0.00001, WaywardRT::infinity, rec)) {
     WaywardRT::Color attenuation;
-    std::optional<WaywardRT::Ray> scattered
-      = rec->material->scatter(r, rec.value(), attenuation);
-    if (scattered)
-      return attenuation * ray_color(scattered.value(), world, depth - 1);
+    Ray scattered;
+    if (rec.material->scatter(r, rec, scattered, attenuation))
+      return attenuation * ray_color(scattered, world, depth - 1);
     return WaywardRT::Color(0, 0, 0);
   }
 
