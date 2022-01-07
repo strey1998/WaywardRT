@@ -79,7 +79,6 @@ class WAYWARDRT_EXPORT Renderer {
 
   ~Renderer();
 
- private:
   static Color ray_color(const Ray& r, const Hittable& world, int depth);
 };
 

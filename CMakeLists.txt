@@ -9,6 +9,7 @@ project(${WaywardRT_PROJECT_NAME}
 
 option(WaywardRT_BUILD_TESTS "Build the WaywardRT tests" YES)
 option(WaywardRT_BUILD_SAMPLES "Build the WaywardRT samples" YES)
+option(WaywardRT_BUILD_BENCHMARKS "Build the WaywardRT benchmarks" YES)
 
 set(WaywardRT_CPPLINT_FILEPATH cpplint CACHE FILEPATH "Cpplinter executable")
 set(WaywardRT_APPLY_CPPLINT YES CACHE BOOL "Run Cpplinter on source files (specify with CPPLINT_FILEPATH)")
@@ -41,5 +42,11 @@ endif()
 # Samples ---------------------------------------------------------------------
 if(WaywardRT_BUILD_SAMPLES)
   add_subdirectory(Samples)
+endif()
+# -----------------------------------------------------------------------------
+
+# Benchmarks ------------------------------------------------------------------
+if(WaywardRT_BUILD_BENCHMARKS)
+  add_subdirectory(Benchmarks)
 endif()
 # -----------------------------------------------------------------------------
