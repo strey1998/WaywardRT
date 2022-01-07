@@ -83,7 +83,7 @@ Vec3 Vec3::operator+(const Vec3& other) const noexcept {
 }
 
 Vec3 Vec3::operator-(const Vec3& other) const noexcept {
-  return *this + (-other);
+  return Vec3(x-other.x, y-other.y, z-other.z);
 }
 
 double Vec3::operator*(const Vec3& other) const noexcept {
