@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/util.h"
 namespace WaywardRT { class Material; }
 
 namespace WaywardRT {
@@ -24,7 +25,7 @@ struct WAYWARDRT_EXPORT HitRecord {
   Vec3 point;
   Vec3 normal;
   std::shared_ptr<Material> material;
-  double t;
+  real t;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -45,8 +46,8 @@ class WAYWARDRT_EXPORT Hittable {
   //////////////////////////////////////////////////////////////////////////////
   virtual bool hit(
     const Ray& r,
-    double t_min,
-    double t_max,
+    real t_min,
+    real t_max,
     HitRecord& rec) const = 0;
 };
 

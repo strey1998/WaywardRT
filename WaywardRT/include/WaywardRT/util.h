@@ -10,24 +10,32 @@
 
 namespace WaywardRT {
 
+#ifdef WAYWARDRT_PRECISION_SINGLE
+  using real = float;
+  #define FLOATING_POINT_EQUALITY_PRECISION 6
+#else
+  using real = double;
+  #define FLOATING_POINT_EQUALITY_PRECISION 14
+#endif
+
 // CONSTANTS
-constexpr double infinity = std::numeric_limits<double>::infinity();
-constexpr double pi = 3.14159265358979323846264338327950288;
+constexpr real infinity = std::numeric_limits<real>::infinity();
+constexpr real pi = 3.14159265358979323846264338327950288;
 
 // FUNCTIONS
-inline double degrees_to_radians(double degrees) {
+inline real degrees_to_radians(real degrees) {
   return degrees * pi / 180.0;
 }
 
-inline double random_double() {
+inline real random_real() {
   return rand() / (RAND_MAX + 1.0);
 }
 
-inline double random_double(double min, double max) {
-  return min + (max-min)*random_double();
+inline real random_real(real min, real max) {
+  return min + (max-min)*random_real();
 }
 
-inline double clamp(double x, double min, double max) {
+inline real clamp(real x, real min, real max) {
   if (x < min) return min;
   if (x > max) return max;
   return x;

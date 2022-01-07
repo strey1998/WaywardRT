@@ -7,6 +7,7 @@
 
 #include "WaywardRT_export.h"
 #include "WaywardRT/Vec3.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -56,7 +57,7 @@ class WAYWARDRT_EXPORT Ray {
   ///   vector representing the point t*magnitude(direction) distance away from
   ///   the origin point along the direction vector.
   //////////////////////////////////////////////////////////////////////////////
-  Vec3 at(double t) const;
+  Vec3 at(real t) const;
 
   friend WAYWARDRT_EXPORT std::ostream& operator<<(
     std::ostream& os, const Ray& r);

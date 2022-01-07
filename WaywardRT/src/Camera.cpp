@@ -32,9 +32,9 @@ Camera::Camera(
   Vec3 look_from,
   Vec3 look_at,
   Vec3 v_up,
-  double vfov,
-  double aspect_ratio,
-  double aperture)
+  real vfov,
+  real aspect_ratio,
+  real aperture)
   : Camera(look_from,
            look_at,
            v_up,
@@ -47,14 +47,14 @@ Camera::Camera(
     Vec3 look_from,
     Vec3 look_at,
     Vec3 v_up,
-    double vfov,
-    double aspect_ratio,
-    double aperture,
-    double focus_dist) {
-  double theta = degrees_to_radians(vfov);
-  double h = tan(theta/2);
-  double view_height = 2.0 * h;
-  double view_width = aspect_ratio * view_height;
+    real vfov,
+    real aspect_ratio,
+    real aperture,
+    real focus_dist) {
+  real theta = degrees_to_radians(vfov);
+  real h = tan(theta/2);
+  real view_height = 2.0 * h;
+  real view_width = aspect_ratio * view_height;
 
   m_W = (look_from - look_at).e();
   m_U = cross(v_up, m_W).e();
@@ -68,7 +68,7 @@ Camera::Camera(
   m_LensRadius = aperture / 2;
 }
 
-Ray Camera::get_ray(double u, double v) const {
+Ray Camera::get_ray(real u, real v) const {
   if (m_LensRadius == 0.0)
     return Ray(
       m_Origin,

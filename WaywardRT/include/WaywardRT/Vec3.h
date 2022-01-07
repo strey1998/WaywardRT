@@ -9,10 +9,9 @@
 #include <ostream>
 
 #include "WaywardRT_export.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
-
-static constexpr uint8_t DOUBLE_PRECISION = 10;
 
 //////////////////////////////////////////////////////////////////////////////
 /// Represents a 3D vector
@@ -22,7 +21,7 @@ static constexpr uint8_t DOUBLE_PRECISION = 10;
 //////////////////////////////////////////////////////////////////////////////
 class WAYWARDRT_EXPORT Vec3 {
  public:
-  double x, y, z;
+  real x, y, z;
 
  public:
   //////////////////////////////////////////////////////////////////////////////
@@ -53,7 +52,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] y The second component
   /// @param[in] z The third component
   //////////////////////////////////////////////////////////////////////////////
-  Vec3(double x, double y, double z);
+  Vec3(real x, real y, real z);
 
   Vec3(const Vec3& other);
   Vec3& operator=(const Vec3& other);
@@ -87,7 +86,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] etai_over_etat The value of etai/etat for the refraction
   /// @return The refracted vector
   //////////////////////////////////////////////////////////////////////////////
-  Vec3 refract(const Vec3& n, double etai_over_etat) const;
+  Vec3 refract(const Vec3& n, real etai_over_etat) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Accesses vector component
@@ -95,7 +94,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @return A reference to the (index)th vector component
   /// @throws std::out_of_range when index is not 0, 1 or 2
   //////////////////////////////////////////////////////////////////////////////
-  double& operator[](int index);
+  real& operator[](int index);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Creates a new vector of the same magnitude in the opposite
@@ -124,14 +123,14 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] other The other vector with which the dot product will be taken
   /// @return The dot product of this vector and the other
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] double operator*(const Vec3& other) const noexcept;
+  [[nodiscard]] real operator*(const Vec3& other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication
   /// @param[in] other A number
   /// @return The product of other with this vector
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Vec3 operator*(double other) const noexcept;
+  [[nodiscard]] Vec3 operator*(real other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication
@@ -139,14 +138,14 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] v A vector
   /// @return The product of a with v
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 operator*(double a, const Vec3& v);
+  [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 operator*(real a, const Vec3& v);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar division
   /// @param[in] other A number
   /// @return The product of (1/other) with this vector
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Vec3 operator/(double other) const noexcept;
+  [[nodiscard]] Vec3 operator/(real other) const noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Cross product
@@ -188,7 +187,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] other The number by which to multiply this vector
   /// @return A reference to this vector
   //////////////////////////////////////////////////////////////////////////////
-  Vec3& operator*=(double other) noexcept;
+  Vec3& operator*=(real other) noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar multiplication assignment
@@ -196,7 +195,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] other The number by which to divide this vector
   /// @return A reference to this vector
   //////////////////////////////////////////////////////////////////////////////
-  Vec3& operator/=(double other) noexcept;
+  Vec3& operator/=(real other) noexcept;
 
   [[nodiscard]] bool operator==(const Vec3& other) const noexcept;
   [[nodiscard]] bool operator!=(const Vec3& other) const noexcept;
@@ -205,14 +204,14 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @brief Magnitude
   /// @return The magnitude of this vector
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] double len() const;
+  [[nodiscard]] real len() const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Magnitude squared
   /// @return The magnitude squared of this vector, or the dot product of it
   ///   with itself
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] double len_sq() const;
+  [[nodiscard]] real len_sq() const;
 
   friend WAYWARDRT_EXPORT std::ostream& operator<<(
     std::ostream& os, const Vec3& v);

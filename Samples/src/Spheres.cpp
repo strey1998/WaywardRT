@@ -34,11 +34,11 @@ WaywardRT::HittableList spheres() {
 
   for (int a = -11; a < 11; ++a) {
     for (int b = -11; b < 11; ++b) {
-      double choose_material = WaywardRT::random_double();
+      double choose_material = WaywardRT::random_real();
       WaywardRT::Vec3 center(
-        a + 0.9*WaywardRT::random_double(),
+        a + 0.9*WaywardRT::random_real(),
         0.2,
-        b + 0.9*WaywardRT::random_double());
+        b + 0.9*WaywardRT::random_real());
 
       if ((center - WaywardRT::Vec3(4, 0.2, 0)).len() > 0.9) {
         std::shared_ptr<WaywardRT::Material> material;
@@ -48,7 +48,7 @@ WaywardRT::HittableList spheres() {
           material = std::make_shared<WaywardRT::Lambertian>(albedo);
         } else if (choose_material < 0.95) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
-          auto fuzz = WaywardRT::random_double(0, 0.5);
+          auto fuzz = WaywardRT::random_real(0, 0.5);
           material = std::make_shared<WaywardRT::Metal>(albedo, fuzz);
         } else {
           material = std::make_shared<WaywardRT::Dielectric>(1.5);

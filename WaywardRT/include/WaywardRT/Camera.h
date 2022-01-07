@@ -8,6 +8,7 @@
 #include "WaywardRT_export.h"
 
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -24,7 +25,7 @@ class WAYWARDRT_EXPORT Camera {
   Vec3 m_Horizontal;
   Vec3 m_Vertical;
   Vec3 m_W, m_U, m_V;
-  double m_LensRadius;
+  real m_LensRadius;
 
  public:
   //////////////////////////////////////////////////////////////////////////////
@@ -54,9 +55,9 @@ class WAYWARDRT_EXPORT Camera {
     Vec3 look_from,
     Vec3 look_at,
     Vec3 v_up,
-    double vfov,
-    double aspect_ratio,
-    double aperture = 0.0);
+    real vfov,
+    real aspect_ratio,
+    real aperture = 0.0);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
@@ -72,10 +73,10 @@ class WAYWARDRT_EXPORT Camera {
     Vec3 look_from,
     Vec3 look_at,
     Vec3 v_up,
-    double vfov,
-    double aspect_ratio,
-    double aperture,
-    double focus_dist);
+    real vfov,
+    real aspect_ratio,
+    real aperture,
+    real focus_dist);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Gets a ray corresponding to a particular direction
@@ -84,7 +85,7 @@ class WAYWARDRT_EXPORT Camera {
   /// @returns The ray pointing from the focal point through the point on the
   ///   viewport described by u and v
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Ray get_ray(double u, double v) const;
+  [[nodiscard]] Ray get_ray(real u, real v) const;
 };
 
 }  // namespace WaywardRT

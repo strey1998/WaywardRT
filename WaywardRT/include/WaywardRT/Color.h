@@ -8,6 +8,7 @@
 #include <ostream>
 
 #include "WaywardRT_export.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -43,7 +44,7 @@ struct WAYWARDRT_EXPORT Color {
   ///   Equal to this color for t=0.0, or to the other color if t=1.0.
   /// @throws std::out_of_range if t is not between 0.0 and 1.0
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Color lerp(const Color& other, double t) const;
+  [[nodiscard]] Color lerp(const Color& other, real t) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color exponentiation, for gamma correction, etc.
@@ -51,7 +52,7 @@ struct WAYWARDRT_EXPORT Color {
   /// @return A new color with each channel equal to this color's to the power
   ///   other
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Color exp(double e) const;
+  [[nodiscard]] Color exp(real e) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color addition
@@ -83,7 +84,7 @@ struct WAYWARDRT_EXPORT Color {
   /// @return A new color with each channel equal to this color times other,
   ///   clipped to [0.0, 1.0]
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Color operator*(double other) const;
+  [[nodiscard]] Color operator*(real other) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color multiplication
@@ -92,19 +93,19 @@ struct WAYWARDRT_EXPORT Color {
   /// @return A new color with each channel equal to color's times other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] friend WAYWARDRT_EXPORT Color operator*(
-    double factor, const Color& color);
+    real factor, const Color& color);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color division
   /// @param[in] other The factor by which to divide
   /// @return A new color with each channel equal to this color divided by other
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] Color operator/(double other) const;
+  [[nodiscard]] Color operator/(real other) const;
 
   Color& operator+=(const Color& other);
   Color& operator-=(const Color& other);
-  Color& operator*=(double other);
-  Color& operator/=(double other);
+  Color& operator*=(real other);
+  Color& operator/=(real other);
 
   friend WAYWARDRT_EXPORT std::ostream& operator<<(
     std::ostream& os, const Color& v);

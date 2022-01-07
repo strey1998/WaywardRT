@@ -12,7 +12,7 @@
 
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
-
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -54,8 +54,8 @@ class WAYWARDRT_EXPORT HittableList : public Hittable {
   //////////////////////////////////////////////////////////////////////////////
   bool hit(
     const Ray& r,
-    double t_min,
-    double t_max,
+    real t_min,
+    real t_max,
     HitRecord& rec) const override;
 };
 

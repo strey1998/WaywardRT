@@ -10,6 +10,7 @@
 
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
@@ -31,8 +32,8 @@ void HittableList::add(std::shared_ptr<Hittable> object) {
 
 bool HittableList::hit(
     const Ray& r,
-    double t_min,
-    double t_max,
+    real t_min,
+    real t_max,
     HitRecord& rec) const {
   auto nearest_hit = t_max;
   HitRecord temp;
