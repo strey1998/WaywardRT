@@ -102,12 +102,10 @@ int main(int, const char**) {
 
   spdlog::info("Starting render");
   WaywardRT::Timer timer;
-
-  renderer.render(14);
-  renderer.write_image_data(image, 2.0);
-
+  renderer.render(12);
   spdlog::info("Render complete in {:.1f}s", timer.elapsed());
 
+  renderer.write_image_data(image, 2.0);
   if (!image.write("test.bmp")) {
     spdlog::error("An error occurred");
     return -1;

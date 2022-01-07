@@ -9,6 +9,7 @@ if(NOT TARGET benchmark)
 endif()
 
 set(WaywardRT_BENCHMARK_SOURCE_FILES
+  src/DotProduct.cpp
   src/Render.cpp
 )
 
