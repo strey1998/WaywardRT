@@ -22,7 +22,7 @@ class WAYWARDRT_EXPORT Ray {
   Vec3 m_Direction;
 
  public:
-  Ray() = delete;
+  Ray() = default;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializes a ray with origin at (0, 0, 0)

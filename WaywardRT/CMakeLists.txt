@@ -27,10 +27,15 @@ target_link_libraries(WaywardRT PRIVATE spdlog::spdlog stb_image_write)
 
 set_target_properties(WaywardRT PROPERTIES
   CXX_STANDARD               17
-  CXX_STANDARD_REQUIRED      YES
   CXX_VISIBILITY_PRESET      hidden
   VISIBILITY_INLINES_HIDDEN  YES
 )
+
+if(MSVC)
+  target_compile_options(WaywardRT PRIVATE /W4 /WX)
+else()
+  target_compile_options(WaywardRT PRIVATE -Wall -Wextra -pedantic -Werror -Wno-unused-result)
+endif()
 
 if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
   set_target_properties(WaywardRT
@@ -57,12 +62,6 @@ if(WaywardRT_APPLY_IWYU AND NOT WaywardRT_IWYU_FILEPATH STREQUAL "")
       COMMAND ${WaywardRT_IWYU_FILEPATH} ${HEADER_FILE})
     endforeach()
   endif()
-endif()
-
-if(MSVC)
-  target_compile_options(WaywardRT PRIVATE /W4 /WX)
-else()
-  target_compile_options(WaywardRT PRIVATE -Wall -Wextra -pedantic -Werror -Wno-unused-result)
 endif()
 
 include(GenerateExportHeader)

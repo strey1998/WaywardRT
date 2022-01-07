@@ -8,7 +8,6 @@
 #include "WaywardRT_export.h"
 
 #include <memory>
-#include <optional>
 #include <vector>
 
 #include "WaywardRT/Objects/Hittable.h"
@@ -53,10 +52,11 @@ class WAYWARDRT_EXPORT HittableList : public Hittable {
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
   //////////////////////////////////////////////////////////////////////////////
-  std::optional<HitRecord> hit(
+  bool hit(
     const Ray& r,
     double t_min,
-    double t_max) const override;
+    double t_max,
+    HitRecord& rec) const override;
 };
 
 }  // namespace WaywardRT

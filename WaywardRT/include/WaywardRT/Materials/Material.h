@@ -7,8 +7,6 @@
 
 #include "WaywardRT_export.h"
 
-#include <optional>
-
 #include "WaywardRT/Ray.h"
 
 namespace WaywardRT { struct HitRecord; }
@@ -26,11 +24,15 @@ class WAYWARDRT_EXPORT Material {
   /// @brief Scatter a ray off the material, or absorb it
   /// @param[in]  r           The incoming ray
   /// @param[in]  rec         The HitRecord for the hit
+  /// @param[out] scattered   The scattered ray, if it exists
   /// @param[out] attenuation The attenuated color for the scatter
-  /// @return The scattered ray, if it exists
+  /// @return True of the ray is scattered, false otherwise (e.g. absorbed)
   //////////////////////////////////////////////////////////////////////////////
-  virtual std::optional<Ray> scatter(
-    const Ray& r, const HitRecord& rec, Color& attenuation) const = 0;
+  virtual bool scatter(
+    const Ray& r,
+    const HitRecord& rec,
+    Ray& scattered,
+    Color& attenuation) const = 0;
 };
 
 }  // namespace WaywardRT

@@ -76,8 +76,8 @@ WaywardRT::HittableList spheres() {
 
 int main(int, const char**) {
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 1920;
-  constexpr int IMAGE_HEIGHT =  1080;
+  constexpr int IMAGE_WIDTH = 240;
+  constexpr int IMAGE_HEIGHT =  135;
   constexpr int SAMPLES = 100;
   constexpr int DEPTH = 50;
 
