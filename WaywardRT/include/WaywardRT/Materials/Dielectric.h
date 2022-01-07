@@ -31,8 +31,11 @@ class WAYWARDRT_EXPORT Dielectric : public Material {
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
   //////////////////////////////////////////////////////////////////////////////
-  std::optional<Ray> scatter(
-    const Ray& r, const HitRecord& rec, Color& attenuation) const override;
+  bool scatter(
+    const Ray& r,
+    const HitRecord& rec,
+    Ray& scattered,
+    Color& attenuation) const override;
 
  private:
   static double reflectance(double cosTheta, double ri);
