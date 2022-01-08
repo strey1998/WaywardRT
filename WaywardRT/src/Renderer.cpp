@@ -46,7 +46,6 @@ Renderer::~Renderer() {
   free(m_ImageData);
 }
 
-#ifdef WAYWARDRT_ENABLE_CONSOLE_LOGGING
 void Renderer::render(uint8_t thread_count) const {
   std::vector<std::thread> threads;
   std::vector<uint16_t> partition;
@@ -59,11 +58,37 @@ void Renderer::render(uint8_t thread_count) const {
   }
   partition.push_back(m_Height);
 
-  for (int i = 0; i < thread_count; ++i) {
-    threads.push_back(std::thread([=] {
-      render_subimage(0, m_Width, partition[i], partition[i+1]-1);
-    }));
-  }
+  #ifdef WAYWARDRT_ENABLE_CONSOLE_LOGGING
+    for (int i = 0; i < thread_count; ++i) {
+      if (partition[i] >= partition[i+1]) continue;
+      threads.push_back(std::thread([=] {
+        render_subimage(0, m_Width, partition[i], partition[i+1]-1);
+      }));
+    }
+  #else
+    std::atomic<uint32_t> progress(0);
+
+    for (int i = 0; i < thread_count; ++i) {
+      if (partition[i] >= partition[i+1]) continue;
+      threads.push_back(std::thread([=, &progress] {
+        render_subimage(0, m_Width, partition[i], partition[i+1]-1, progress);
+      }));
+    }
+
+    ProgressBar progressBar(thread_count*1000, "RENDER");
+    progressBar.SetFrequencyUpdate(10000);
+    progressBar.SetStyle("\u2588", " ");
+
+    uint16_t progress_ = 0;
+    while (progress_ < 1000*thread_count) {
+      progress_ = progress.load();
+      std::cout << progress_/thread_count << "%    \r";
+      progressBar.Progressed(progress_);
+      usleep(100000);
+    }
+
+    std::cout << std::endl;
+  #endif
 
   for (auto& th : threads) {
     th.join();
@@ -71,43 +96,6 @@ void Renderer::render(uint8_t thread_count) const {
 
   WLOG_TRACE("Completed render");
 }
-#else
-void Renderer::render(uint8_t thread_count) const {
-  std::vector<std::thread> threads;
-  std::vector<uint16_t> partition;
-  std::atomic<uint32_t> progress(0);
-
-  for (int i = 0; i < thread_count; ++i) {
-    partition.push_back(
-      static_cast<uint16_t>(i*m_Height/static_cast<float>(thread_count)));
-  }
-  partition.push_back(m_Height);
-
-  for (int i = 0; i < thread_count; ++i) {
-    threads.push_back(std::thread([=, &progress] {
-      render_subimage(0, m_Width, partition[i], partition[i+1]-1, progress);
-    }));
-  }
-
-  ProgressBar progressBar(thread_count*1000, "RENDER");
-  progressBar.SetFrequencyUpdate(10000);
-  progressBar.SetStyle("\u2588", " ");
-
-  uint16_t progress_ = 0;
-  while (progress_ < 1000*thread_count) {
-    progress_ = progress.load();
-    std::cout << progress_/thread_count << "%    \r";
-    progressBar.Progressed(progress_);
-    usleep(100000);
-  }
-
-  std::cout << std::endl;
-
-  for (auto& th : threads) {
-    th.join();
-  }
-}
-#endif
 
 void Renderer::render_subimage(
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax) const {
