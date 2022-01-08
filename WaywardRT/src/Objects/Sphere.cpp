@@ -56,4 +56,10 @@ bool Sphere::hit(
   return true;
 }
 
+bool Sphere::bounding_box(real, real, BoundingBox& box) const {
+  box.p0 = m_Center - Vec3(m_Radius, m_Radius, m_Radius);
+  box.p1 = m_Center + Vec3(m_Radius, m_Radius, m_Radius);
+  return true;
+}
+
 }  // namespace WaywardRT

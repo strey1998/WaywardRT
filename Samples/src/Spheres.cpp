@@ -79,6 +79,7 @@ int main(int, const char**) {
   constexpr int IMAGE_HEIGHT =  270;
   constexpr int SAMPLES = 100;
   constexpr int DEPTH = 50;
+  /* BENCHMARK: 81s */
 
   // LOG
   WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
@@ -91,7 +92,8 @@ int main(int, const char**) {
 
   // CAMERA
   WaywardRT::Camera camera(
-    WaywardRT::Vec3(13, 2, 3),
+    // WaywardRT::Vec3(13, 2, 3),
+    WaywardRT::Vec3(13.0445, 2, 2.80728),
     WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
     20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);

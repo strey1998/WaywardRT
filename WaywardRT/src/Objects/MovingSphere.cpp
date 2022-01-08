@@ -58,4 +58,18 @@ bool MovingSphere::hit(
   return true;
 }
 
+bool MovingSphere::bounding_box(
+    real t_min, 
+    real t_max, 
+    BoundingBox& box) const {
+  BoundingBox b1(
+    center(t_min) - Vec3(m_Radius, m_Radius, m_Radius),
+    center(t_min) + Vec3(m_Radius, m_Radius, m_Radius));
+  BoundingBox b2(
+    center(t_max) - Vec3(m_Radius, m_Radius, m_Radius),
+    center(t_max) + Vec3(m_Radius, m_Radius, m_Radius));
+  box = bb_union(b1, b2);
+  return true;
+}
+
 }  // namespace WaywardRT

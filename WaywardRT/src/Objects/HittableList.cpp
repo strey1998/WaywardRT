@@ -21,6 +21,9 @@ HittableList::HittableList(std::shared_ptr<Hittable> object) : HittableList() {
   add(object);
 }
 
+const std::vector<std::shared_ptr<Hittable>>& HittableList::objects()
+    const noexcept { return m_Objects; }
+
 void HittableList::clear() {
   m_Objects.clear();
 }
@@ -44,6 +47,25 @@ bool HittableList::hit(
   }
 
   return nearest_hit < t_max;
+}
+
+
+bool HittableList::bounding_box(
+    real t_min,
+    real t_max,
+    BoundingBox& box) const {
+  if (m_Objects.empty()) return false;
+
+  BoundingBox temp;
+  bool first = true;
+
+  for (const auto& obj : m_Objects) {
+    if (!obj->bounding_box(t_min, t_max, temp)) return false;
+    box = first ? temp : bb_union(box, temp);
+    first = false;
+  }
+
+  return true;
 }
 
 }  // namespace WaywardRT

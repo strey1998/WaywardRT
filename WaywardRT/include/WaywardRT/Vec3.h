@@ -95,6 +95,7 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @throws std::out_of_range when index is not 0, 1 or 2
   //////////////////////////////////////////////////////////////////////////////
   real& operator[](int index);
+  const real& operator[](int index) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Creates a new vector of the same magnitude in the opposite

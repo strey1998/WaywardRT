@@ -9,6 +9,7 @@
 
 #include <memory>
 
+#include "WaywardRT/BVHNode.h"
 #include "WaywardRT/Camera.h"
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Image.h"
@@ -30,6 +31,7 @@ class WAYWARDRT_EXPORT Renderer {
   HittableList m_World;
   Camera m_Camera;
   Color* m_ImageData;
+  BVHNode m_BVH;
 
  public:
   Renderer() = delete;

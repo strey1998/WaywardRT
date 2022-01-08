@@ -76,6 +76,22 @@ real& Vec3::operator[](int index) {
   }
 }
 
+const real& Vec3::operator[](int index) const {
+  switch (index) {
+    case 0:
+      return x;
+      break;
+    case 1:
+      return y;
+      break;
+    case 2:
+      return z;
+      break;
+    default:
+      throw std::out_of_range("Vector index must be 0 (x); 1 (y); or 2 (z)");
+  }
+}
+
 Vec3 Vec3::operator-() const { return Vec3(-x, -y, -z); }
 
 Vec3 Vec3::operator+(const Vec3& other) const noexcept {

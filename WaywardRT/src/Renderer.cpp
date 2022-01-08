@@ -12,6 +12,7 @@
 
 #include "progress_bar/progress_bar.h"
 
+#include "WaywardRT/BVHNode.h"
 #include "WaywardRT/Image.h"
 #include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Material.h"
@@ -40,6 +41,8 @@ Renderer::Renderer(
 
   m_ImageData = reinterpret_cast<Color*>(
     malloc(sizeof(Color) * m_Width * m_Height));
+
+  m_BVH = BVHNode(m_World, 0.0, 0.1);
 }
 
 Renderer::~Renderer() {
@@ -112,7 +115,7 @@ void Renderer::render_subimage(
         real u = (i + WaywardRT::random_real()) / (m_Width - 1);
         real v = (j + WaywardRT::random_real()) / (m_Height - 1);
         WaywardRT::Ray r = m_Camera.get_ray(u, v);
-        c += ray_color(r, m_World, m_Depth) / m_Samples;
+        c += ray_color(r, m_BVH, m_Depth) / m_Samples;
       }
       m_ImageData[i+m_Width*j] = c;
     }
@@ -147,7 +150,7 @@ void Renderer::render_subimage(
         real u = (i + WaywardRT::random_real()) / (m_Width - 1);
         real v = (j + WaywardRT::random_real()) / (m_Height - 1);
         WaywardRT::Ray r = m_Camera.get_ray(u, v);
-        c += ray_color(r, m_World, m_Depth) / m_Samples;
+        c += ray_color(r, m_BVH, m_Depth) / m_Samples;
       }
       m_ImageData[i+m_Width*j] = c;
       if (ij++ % pixels_per_update == 0 && progress_ < 1000) {

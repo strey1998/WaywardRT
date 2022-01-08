@@ -9,6 +9,8 @@ option(WaywardRT_PRECISION_SINGLE NO "Use single precision floats")
 
 set(WaywardRT_SOURCE_FILES
   src/BMPImage.cpp
+  src/BoundingBox.cpp
+  src/BVHNode.cpp
   src/Camera.cpp
   src/Color.cpp
   src/log.cpp

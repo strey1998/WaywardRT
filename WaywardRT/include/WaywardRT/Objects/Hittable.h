@@ -9,6 +9,7 @@
 
 #include <memory>
 
+#include "WaywardRT/BoundingBox.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
 namespace WaywardRT { class Material; }
@@ -37,7 +38,7 @@ struct WAYWARDRT_EXPORT HitRecord {
 class WAYWARDRT_EXPORT Hittable {
  public:
   //////////////////////////////////////////////////////////////////////////////
-  /// Check whether a ray hits the object(s)
+  /// @brief whether a ray hits the object(s)
   /// @param[in]  r     The ray
   /// @param[in]  t_min Minimum value of t at which to register a hit
   /// @param[in]  t_max Maximum value of t at which to register a hit
@@ -49,6 +50,16 @@ class WAYWARDRT_EXPORT Hittable {
     real t_min,
     real t_max,
     HitRecord& rec) const = 0;
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief Gets a BoundingBox over the hittable
+  /// @param[in]  t_min Minimum time at which the BoundingBox applies
+  /// @param[in]  t_max Maximum time at which the BoundingBox applies
+  /// @param[out] box   BoundingBox enclosing the hittable(s)
+  /// @return True if a box is generated, false otherwise (i.e. no such box
+  ///   exists)
+  //////////////////////////////////////////////////////////////////////////////
+  virtual bool bounding_box(real t_min, real t_max, BoundingBox& box) const = 0;
 };
 
 }  // namespace WaywardRT

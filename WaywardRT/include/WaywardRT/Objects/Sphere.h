@@ -60,6 +60,11 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
     real t_min,
     real t_max,
     HitRecord& rec) const override;
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// {@inheritDoc}
+  //////////////////////////////////////////////////////////////////////////////
+  bool bounding_box(real t_min, real t_max, BoundingBox& box) const override;
 };
 
 }  // namespace WaywardRT

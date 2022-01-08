@@ -36,6 +36,11 @@ inline real random_real(real min, real max) {
   return min + (max-min)*random_real();
 }
 
+template <typename T>
+inline T random_int(T min, T max) {
+  return static_cast<T>(random_real(min, max+1));
+}
+
 inline real clamp(real x, real min, real max) {
   if (x < min) return min;
   if (x > max) return max;
