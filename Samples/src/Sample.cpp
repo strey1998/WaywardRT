@@ -17,8 +17,8 @@
 
 int main(int, const char**) {
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 480;
-  constexpr int IMAGE_HEIGHT =  270;
+  constexpr int IMAGE_WIDTH = 960;
+  constexpr int IMAGE_HEIGHT =  540;
   constexpr int SAMPLES = 100;
   constexpr int DEPTH = 50;
 
@@ -29,7 +29,7 @@ int main(int, const char**) {
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // Scene
-  auto scene = WaywardRT::SCENES::TWO_SPHERES(
+  auto scene = WaywardRT::SCENES::TWO_PERLIN_SPHERES(
     static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT);
 
   // RENDER

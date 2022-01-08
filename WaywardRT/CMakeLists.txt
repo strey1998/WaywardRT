@@ -14,6 +14,7 @@ set(WaywardRT_SOURCE_FILES
   src/Camera.cpp
   src/Color.cpp
   src/log.cpp
+  src/Perlin.cpp
   src/Ray.cpp
   src/Vec3.cpp
   src/scenes.cpp
@@ -28,7 +29,9 @@ set(WaywardRT_SOURCE_FILES
   src/Renderers/Renderer.cpp
   src/Renderers/Renderer3D.cpp
   src/Renderers/RendererBasic.cpp
+  src/Textures/Camo.cpp
   src/Textures/Checkered.cpp
+  src/Textures/Marble.cpp
   src/Textures/SolidColor.cpp
   src/Textures/Texture.cpp
 )

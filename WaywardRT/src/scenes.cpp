@@ -14,7 +14,9 @@
 #include "WaywardRT/Materials/Metal.h"
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
+#include "WaywardRT/Textures/Camo.h"
 #include "WaywardRT/Textures/Checkered.h"
+#include "WaywardRT/Textures/Marble.h"
 
 namespace WaywardRT {
 namespace SCENES {
@@ -93,6 +95,33 @@ std::pair<HittableList, Camera> TWO_SPHERES(float aspect_ratio) {
     std::make_shared<Lambertian>(t1)));
   world.add(std::make_shared<Sphere>(
     Vec3(0, 10, 0), 10,
+    std::make_shared<Lambertian>(t1)));
+
+  // CAMERA
+  WaywardRT::Camera camera(
+    WaywardRT::Vec3(13, 2, 3),
+    WaywardRT::Vec3(0, 0, 0),
+    WaywardRT::Vec3(0, 1, 0),
+    20, aspect_ratio);
+
+
+  return std::make_pair(world, camera);
+}
+
+std::pair<HittableList, Camera> TWO_PERLIN_SPHERES(float aspect_ratio) {
+  // WORLD
+  WaywardRT::HittableList world;
+
+  auto t1 = std::make_shared<Marble>(
+    0.05*WaywardRT::Color::BLUE() + 0.75*WaywardRT::Color::WHITE(),
+    0.75*WaywardRT::Color::BLUE() + 0.05*WaywardRT::Color::WHITE(),
+    4);
+
+  world.add(std::make_shared<Sphere>(
+    Vec3(0, -1000, 0), 1000,
+    std::make_shared<Lambertian>(t1)));
+  world.add(std::make_shared<Sphere>(
+    Vec3(0, 2, 0), 2,
     std::make_shared<Lambertian>(t1)));
 
   // CAMERA

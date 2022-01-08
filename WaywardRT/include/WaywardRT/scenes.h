@@ -15,6 +15,7 @@ namespace SCENES {
 
 std::pair<HittableList, Camera> RANDOM_SPHERES(float aspect_ratio);
 std::pair<HittableList, Camera> TWO_SPHERES(float aspect_ratio);
+std::pair<HittableList, Camera> TWO_PERLIN_SPHERES(float aspect_ratio);
 
 }  // namespace SCENES
 }  // namespace WaywardRT
