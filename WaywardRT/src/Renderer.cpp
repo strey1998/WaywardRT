@@ -13,6 +13,7 @@
 #include "progress_bar/progress_bar.h"
 
 #include "WaywardRT/Image.h"
+#include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Material.h"
 #include "WaywardRT/util.h"
 
@@ -31,6 +32,12 @@ Renderer::Renderer(
         m_Depth(depth),
         m_World(world),
         m_Camera(camera) {
+  WLOG_TRACE("Initializing Renderer");
+  WLOG_TRACE("Image width={}",    width);
+  WLOG_TRACE("Image height={}",   height);
+  WLOG_TRACE("Image samples={}",  samples);
+  WLOG_TRACE("Image depth={}",    depth);
+
   m_ImageData = reinterpret_cast<Color*>(
     malloc(sizeof(Color) * m_Width * m_Height));
 }
@@ -39,6 +46,32 @@ Renderer::~Renderer() {
   free(m_ImageData);
 }
 
+#ifdef WAYWARDRT_ENABLE_CONSOLE_LOGGING
+void Renderer::render(uint8_t thread_count) const {
+  std::vector<std::thread> threads;
+  std::vector<uint16_t> partition;
+
+  WLOG_TRACE("Starting full render on {} threads", thread_count);
+
+  for (int i = 0; i < thread_count; ++i) {
+    partition.push_back(
+      static_cast<uint16_t>(i*m_Height/static_cast<float>(thread_count)));
+  }
+  partition.push_back(m_Height);
+
+  for (int i = 0; i < thread_count; ++i) {
+    threads.push_back(std::thread([=] {
+      render_subimage(0, m_Width, partition[i], partition[i+1]-1);
+    }));
+  }
+
+  for (auto& th : threads) {
+    th.join();
+  }
+
+  WLOG_TRACE("Completed render");
+}
+#else
 void Renderer::render(uint8_t thread_count) const {
   std::vector<std::thread> threads;
   std::vector<uint16_t> partition;
@@ -74,11 +107,15 @@ void Renderer::render(uint8_t thread_count) const {
     th.join();
   }
 }
+#endif
 
 void Renderer::render_subimage(
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax) const {
   if (xMax > m_Width - 1) xMax = m_Width - 1;
   if (yMax > m_Height - 1) yMax = m_Height - 1;
+
+  WLOG_TRACE(
+    "Starting render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 
   for (int j = yMin; j <= yMax; ++j) {
     for (int i = xMin; i <= xMax; ++i) {
@@ -92,6 +129,9 @@ void Renderer::render_subimage(
       m_ImageData[i+m_Width*j] = c;
     }
   }
+
+  WLOG_TRACE(
+    "Completed render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 }
 
 void Renderer::render_subimage(
@@ -99,6 +139,9 @@ void Renderer::render_subimage(
     std::atomic<uint32_t>& progress) const {
   if (xMax > m_Width - 1) xMax = m_Width - 1;
   if (yMax > m_Height - 1) yMax = m_Height - 1;
+
+  WLOG_TRACE(
+    "Starting render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 
   int pixels_to_render = (xMax-xMin) * (yMax - yMin);
   if (pixels_to_render <= 0) {
@@ -129,6 +172,9 @@ void Renderer::render_subimage(
     progress_++;
     progress++;
   }
+
+  WLOG_TRACE(
+    "Completed render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 }
 
 void Renderer::write_image_data(Image& image, real gamma) const {

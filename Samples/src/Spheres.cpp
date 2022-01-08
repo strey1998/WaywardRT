@@ -5,11 +5,10 @@
 #include <cmath>
 #include <optional>
 
-#include "spdlog/spdlog.h"
-
 #include "WaywardRT/BMPImage.h"
 #include "WaywardRT/Camera.h"
 #include "WaywardRT/Color.h"
+#include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Dielectric.h"
 #include "WaywardRT/Materials/Lambertian.h"
 #include "WaywardRT/Materials/Metal.h"
@@ -81,6 +80,9 @@ int main(int, const char**) {
   constexpr int SAMPLES = 100;
   constexpr int DEPTH = 50;
 
+  // LOG
+  WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
+
   // IMAGE
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
@@ -100,14 +102,14 @@ int main(int, const char**) {
     SAMPLES, DEPTH,
     world, camera);
 
-  spdlog::info("Starting render");
+  WLOG_INFO("Starting render");
   WaywardRT::Timer timer;
   renderer.render(12);
-  spdlog::info("Render complete in {:.1f}s", timer.elapsed());
+  WLOG_INFO("Render complete in {:.1f}s", timer.elapsed());
 
   renderer.write_image_data(image, 2.0);
-  if (!image.write("test.bmp")) {
-    spdlog::error("An error occurred");
+  if (!image.write("out.bmp")) {
+    WLOG_ERROR("An error occurred");
     return -1;
   }
 

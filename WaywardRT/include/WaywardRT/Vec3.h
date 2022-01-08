@@ -197,6 +197,12 @@ class WAYWARDRT_EXPORT Vec3 {
   //////////////////////////////////////////////////////////////////////////////
   Vec3& operator/=(real other) noexcept;
 
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief String representation
+  /// @return A string representation of this vector (e.g. "(1.0, -5.3, 2.7)")
+  //////////////////////////////////////////////////////////////////////////////
+  std::string to_string() const noexcept;
+
   [[nodiscard]] bool operator==(const Vec3& other) const noexcept;
   [[nodiscard]] bool operator!=(const Vec3& other) const noexcept;
 

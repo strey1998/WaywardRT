@@ -5,7 +5,6 @@
 #include "WaywardRT/Objects/HittableList.h"
 
 #include <memory>
-#include <optional>
 #include <vector>
 
 #include "WaywardRT/Objects/Hittable.h"

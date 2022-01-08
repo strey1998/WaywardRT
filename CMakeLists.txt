@@ -7,21 +7,24 @@ project(${WaywardRT_PROJECT_NAME}
   LANGUAGES ${WaywardRT_LANGUAGES}
 )
 
-option(WaywardRT_BUILD_TESTS "Build the WaywardRT tests" YES)
+option(WaywardRT_BUILD_TESTS "Build the WaywardRT tests" NO)
+option(WaywardRT_BUILD_BENCHMARKS "Build the WaywardRT benchmarks" NO)
 option(WaywardRT_BUILD_SAMPLES "Build the WaywardRT samples" YES)
-option(WaywardRT_BUILD_BENCHMARKS "Build the WaywardRT benchmarks" YES)
+
+option(WaywardRT_ENABLE_CONSOLE_LOGGING "Enable console logging in debug mode (this will disable progress bar)" NO)
 
 set(WaywardRT_CPPLINT_FILEPATH cpplint CACHE FILEPATH "Cpplinter executable")
-set(WaywardRT_APPLY_CPPLINT YES CACHE BOOL "Run Cpplinter on source files (specify with CPPLINT_FILEPATH)")
-set(WaywardRT_APPLY_CPPLINT_HEADERS NO CACHE BOOL "Run Cpplinter on header files (specify with CPPLINT_FILEPATH)")
+set(WaywardRT_APPLY_CPPLINT NO CACHE BOOL "Run Cpplinter on source files")
+set(WaywardRT_APPLY_CPPLINT_HEADERS NO CACHE BOOL "Run Cpplinter on header files")
 
 set(WaywardRT_IWYU_FILEPATH include-what-you-use CACHE FILEPATH "IWYU executable")
-set(WaywardRT_APPLY_IWYU YES CACHE BOOL "Run IWYU on source files (specify with CPPLINT_FILEPATH)")
-set(WaywardRT_APPLY_IWYU_HEADERS YES CACHE BOOL "Run IWYU on header files (specify with CPPLINT_FILEPATH)")
+set(WaywardRT_APPLY_IWYU NO CACHE BOOL "Run IWYU on source files")
+set(WaywardRT_APPLY_IWYU_HEADERS NO CACHE BOOL "Run IWYU on header files")
 
 # spdlog ----------------------------------------------------------------------
-if(NOT TARGET spdlog)
-    find_package(spdlog REQUIRED)
+if(WaywardRT_ENABLE_LOGGING)
+  add_subdirectory(spdlog)
+  target_compile_options(spdlog PRIVATE -Wno-attributes)
 endif()
 # -----------------------------------------------------------------------------
 

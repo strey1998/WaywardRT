@@ -7,6 +7,7 @@
 #include <cmath>
 #include <iomanip>
 #include <ostream>
+#include <sstream>
 
 #include "WaywardRT/util.h"
 
@@ -127,6 +128,13 @@ Vec3& Vec3::operator/=(real other) noexcept {
   *this = *this / other; return *this;
 }
 
+std::string Vec3::to_string() const noexcept {
+  std::stringstream ss;
+  ss << std::setprecision(3) << std::fixed
+     << "(" << x << ", " << y << ", " << z << ")";
+  return ss.str();
+}
+
 bool Vec3::operator==(const Vec3& other) const noexcept {
   const real len_diff = (*this - other).len();
   const real divisor = sqrt(len_sq() + other.len_sq());
@@ -142,11 +150,7 @@ real Vec3::len() const { return sqrt(len_sq()); }
 real Vec3::len_sq() const { return (*this)*(*this); }
 
 std::ostream& operator<<(std::ostream& os, const Vec3& v) {
-  return os << std::setprecision(6)
-            << "Vec3("
-            << v.x << ", "
-            << v.y << ", "
-            << v.z << ")";
+  return os << v.to_string();
 }
 
 }  // namespace WaywardRT

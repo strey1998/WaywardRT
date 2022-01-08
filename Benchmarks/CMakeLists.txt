@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-if(NOT TARGET WaywardRT)
-  find_package(WaywardRT REQUIRED)
-endif()
-
 if(NOT TARGET benchmark)
   find_package(benchmark REQUIRED)
 endif()

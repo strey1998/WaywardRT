@@ -8,7 +8,7 @@ foreach(SAMPLE_FILE IN LISTS WaywardRT_Sample_SOURCE_FILES)
   get_filename_component(SAMPLE_TARGET ${SAMPLE_FILE} NAME_WE)
   add_executable(${SAMPLE_TARGET} ${SAMPLE_FILE})
   target_link_libraries(${SAMPLE_TARGET} WaywardRT)
-  
+
   if(MSVC)
     target_compile_options(${SAMPLE_TARGET} PRIVATE /W4 /WX)
   else()
@@ -21,6 +21,5 @@ foreach(SAMPLE_FILE IN LISTS WaywardRT_Sample_SOURCE_FILES)
         CXX_CPPLINT ${WaywardRT_CPPLINT_FILEPATH}
     )
   endif()
-
 
 endforeach()

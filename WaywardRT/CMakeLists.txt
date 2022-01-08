@@ -11,6 +11,7 @@ set(WaywardRT_SOURCE_FILES
   src/BMPImage.cpp
   src/Camera.cpp
   src/Color.cpp
+  src/log.cpp
   src/Ray.cpp
   src/Renderer.cpp
   src/Vec3.cpp
@@ -25,10 +26,18 @@ set(WaywardRT_SOURCE_FILES
 add_library(WaywardRT ${WaywardRT_SOURCE_FILES})
 target_include_directories(WaywardRT PUBLIC ${WaywardRT_INCLUDE_DIRS})
 target_include_directories(WaywardRT PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(WaywardRT PRIVATE spdlog::spdlog stb_image_write progress_bar)
+target_link_libraries(WaywardRT PRIVATE pthread stb_image_write progress_bar)
 
 if(WaywardRT_PRECISION_SINGLE)
   target_compile_definitions(WaywardRT PUBLIC WAYWARDRT_PRECISION_SINGLE)
+endif()
+
+if(TARGET spdlog::spdlog)
+  target_link_libraries(WaywardRT PRIVATE $<$<CONFIG:Debug>:spdlog::spdlog>)
+  target_compile_definitions(WaywardRT PUBLIC $<$<CONFIG:Debug>:WAYWARDRT_ENABLE_LOGGING>)
+  if(WaywardRT_ENABLE_CONSOLE_LOGGING)
+    target_compile_definitions(WaywardRT PUBLIC $<$<CONFIG:Debug>:WAYWARDRT_ENABLE_CONSOLE_LOGGING>)
+  endif()
 endif()
 
 set_target_properties(WaywardRT PROPERTIES
