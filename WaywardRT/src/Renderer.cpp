@@ -4,8 +4,13 @@
 
 #include "WaywardRT/Renderer.h"
 
+#include <unistd.h>
+
+#include <atomic>
 #include <thread>
 #include <vector>
+
+#include "progress_bar/progress_bar.h"
 
 #include "WaywardRT/Image.h"
 #include "WaywardRT/Materials/Material.h"
@@ -37,18 +42,33 @@ Renderer::~Renderer() {
 void Renderer::render(uint8_t thread_count) const {
   std::vector<std::thread> threads;
   std::vector<uint16_t> partition;
+  std::atomic<uint32_t> progress(0);
 
   for (int i = 0; i < thread_count; ++i) {
     partition.push_back(
-      static_cast<uint16_t>(i*m_Width/static_cast<real>(thread_count)));
+      static_cast<uint16_t>(i*m_Height/static_cast<float>(thread_count)));
   }
-  partition.push_back(m_Width);
+  partition.push_back(m_Height);
 
   for (int i = 0; i < thread_count; ++i) {
-    threads.push_back(std::thread([=] {
-      render_subimage(partition[i], partition[i+1]-1, 0, m_Height);
+    threads.push_back(std::thread([=, &progress] {
+      render_subimage(0, m_Width, partition[i], partition[i+1]-1, progress);
     }));
   }
+
+  ProgressBar progressBar(thread_count*1000, "RENDER");
+  progressBar.SetFrequencyUpdate(10000);
+  progressBar.SetStyle("\u2588", " ");
+
+  uint16_t progress_ = 0;
+  while (progress_ < 1000*thread_count) {
+    progress_ = progress.load();
+    std::cout << progress_/thread_count << "%    \r";
+    progressBar.Progressed(progress_);
+    usleep(100000);
+  }
+
+  std::cout << std::endl;
 
   for (auto& th : threads) {
     th.join();
@@ -71,6 +91,43 @@ void Renderer::render_subimage(
       }
       m_ImageData[i+m_Width*j] = c;
     }
+  }
+}
+
+void Renderer::render_subimage(
+    uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax,
+    std::atomic<uint32_t>& progress) const {
+  if (xMax > m_Width - 1) xMax = m_Width - 1;
+  if (yMax > m_Height - 1) yMax = m_Height - 1;
+
+  int pixels_to_render = (xMax-xMin) * (yMax - yMin);
+  if (pixels_to_render <= 0) {
+    progress += 1000;
+    return;
+  }
+  int pixels_per_update = pixels_to_render / 1000;
+
+  int ij = 1;
+  int progress_ = 0;
+  for (int j = yMin; j <= yMax; ++j) {
+    for (int i = xMin; i <= xMax; ++i) {
+      WaywardRT::Color c(0, 0, 0);
+      for (int s = 0; s < m_Samples; ++s) {
+        real u = (i + WaywardRT::random_real()) / (m_Width - 1);
+        real v = (j + WaywardRT::random_real()) / (m_Height - 1);
+        WaywardRT::Ray r = m_Camera.get_ray(u, v);
+        c += ray_color(r, m_World, m_Depth) / m_Samples;
+      }
+      m_ImageData[i+m_Width*j] = c;
+      if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
+        progress_++;
+        progress++;
+      }
+    }
+  }
+  while (progress_ < 1000) {
+    progress_++;
+    progress++;
   }
 }
 
