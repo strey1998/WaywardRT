@@ -1,56 +1,52 @@
-// WaywardRT/WaywardRT/include/WaywardRT/Objects/Sphere.h
+// WaywardRT/WaywardRT/include/WaywardRT/Objects/MovingSphere.h
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
-#ifndef WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_SPHERE_H_
-#define WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_SPHERE_H_
+#ifndef WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_MOVINGSPHERE_H_
+#define WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_MOVINGSPHERE_H_
 
 #include "WaywardRT_export.h"
 
-#include "WaywardRT/Objects/Hittable.h"
-#include "WaywardRT/Ray.h"
-#include "WaywardRT/util.h"
+#include "WaywardRT/Objects/Sphere.h"
 
 namespace WaywardRT {
 
 //////////////////////////////////////////////////////////////////////////////
-/// Represents a sphere
+/// Represents a moving sphere
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-class WAYWARDRT_EXPORT Sphere : public Hittable {
- protected:
-  Vec3 m_Center;
-  real m_Radius;
-  std::shared_ptr<Material> m_Material;
+class WAYWARDRT_EXPORT MovingSphere : public Sphere {
+ private:
+  Vec3 m_Velocity;
 
  public:
-  Sphere() = delete;
+  MovingSphere() = delete;
+
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initialize a sphere
   /// @param[in] center The center
   /// @param[in] radius The radius
   //////////////////////////////////////////////////////////////////////////////
-  Sphere(Vec3 center, real radius, std::shared_ptr<Material> material);
+  MovingSphere(
+    Vec3 center,
+    Vec3 velocity,
+    real radius,
+    std::shared_ptr<Material> material);
 
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Accessor for center
-  /// @returns The center of the sphere
+  /// @brief Accessor for velocity
+  /// @returns The velocity of the sphere
   //////////////////////////////////////////////////////////////////////////////
-  const Vec3& center() const noexcept;
+  const Vec3& velocity() const;
 
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Accessor for radius
-  /// @returns The radius of the sphere
+  /// @brief Gets the center of the sphere at a particular time
+  /// @param[in] t Time
+  /// @returns The center of the sphere at time t
   //////////////////////////////////////////////////////////////////////////////
-  real radius() const noexcept;
-
-  //////////////////////////////////////////////////////////////////////////////
-  /// @brief Accessor for material
-  /// @returns The material of the sphere
-  //////////////////////////////////////////////////////////////////////////////
-  std::shared_ptr<Material> material() const noexcept;
+  Vec3 center(real t) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}
@@ -64,4 +60,4 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
 
 }  // namespace WaywardRT
 
-#endif  // WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_SPHERE_H_
+#endif  // WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_MOVINGSPHERE_H_

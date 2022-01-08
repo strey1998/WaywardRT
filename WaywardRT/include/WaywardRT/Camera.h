@@ -26,6 +26,7 @@ class WAYWARDRT_EXPORT Camera {
   Vec3 m_Vertical;
   Vec3 m_W, m_U, m_V;
   real m_LensRadius;
+  real m_T0, m_T1;
 
  public:
   Camera() = delete;
@@ -65,6 +66,21 @@ class WAYWARDRT_EXPORT Camera {
     real aspect_ratio,
     real aperture,
     real focus_dist);
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief Sets the ray timing from this camera
+  /// @param[in] t The time at which rays are sent
+  /// @returns A reference to self
+  //////////////////////////////////////////////////////////////////////////////
+  Camera& set_ray_timing(real t) noexcept;
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief Sets the ray timing from this camera, for motion blur
+  /// @param[in] t0 The open time of the lens (i.e. the earliest time for rays)
+  /// @param[in] t0 The close time of the lens (i.e. the latest time for rays)
+  /// @returns A reference to self
+  //////////////////////////////////////////////////////////////////////////////
+  Camera& set_ray_timing(real t0, real t1) noexcept;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Gets a ray corresponding to a particular direction

@@ -11,6 +11,7 @@ option(WaywardRT_BUILD_TESTS "Build the WaywardRT tests" NO)
 option(WaywardRT_BUILD_BENCHMARKS "Build the WaywardRT benchmarks" NO)
 option(WaywardRT_BUILD_SAMPLES "Build the WaywardRT samples" YES)
 
+option(WaywardRT_ENABLE_LOGGING "Enable console logging in debug mode" YES)
 option(WaywardRT_ENABLE_CONSOLE_LOGGING "Enable console logging in debug mode (this will disable progress bar)" NO)
 
 set(WaywardRT_CPPLINT_FILEPATH cpplint CACHE FILEPATH "Cpplinter executable")
@@ -32,7 +33,7 @@ endif()
 add_subdirectory(stb_image_write)
 # -----------------------------------------------------------------------------
 
-# progress_bar -------------------------------------------------------------
+# progress_bar ----------------------------------------------------------------
 add_subdirectory(progress_bar)
 # -----------------------------------------------------------------------------
 

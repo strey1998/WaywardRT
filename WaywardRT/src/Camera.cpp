@@ -33,7 +33,7 @@ Camera::Camera(
     real vfov,
     real aspect_ratio,
     real aperture,
-    real focus_dist) {
+    real focus_dist) : m_T0(0), m_T1(0) {
 
   WLOG_TRACE("Initializing camera");
   WLOG_TRACE("Camera look_from={}",         look_from.to_string());
@@ -75,6 +75,16 @@ Camera::Camera(
   WLOG_TRACE("Camera m_LensRadius={:.1f}", m_LensRadius);
 }
 
+Camera& Camera::set_ray_timing(real t) noexcept {
+  return set_ray_timing(t, t);
+}
+
+Camera& Camera::set_ray_timing(real t0, real t1) noexcept {
+  m_T0 = t0;
+  m_T1 = t1;
+  return *this;
+}
+
 Ray Camera::get_ray(real u, real v) const {
   if (m_LensRadius == 0.0)
     return Ray(
@@ -85,7 +95,8 @@ Ray Camera::get_ray(real u, real v) const {
   Vec3 offset = m_U * rd.x + m_V * rd.y;
   return Ray(
     m_Origin + offset,
-    m_LowerLeftCorner + u*m_Horizontal + v*m_Vertical - m_Origin - offset);
+    m_LowerLeftCorner + u*m_Horizontal + v*m_Vertical - m_Origin - offset,
+    random_real(m_T0, m_T1));
 }
 
 }  // namespace WaywardRT

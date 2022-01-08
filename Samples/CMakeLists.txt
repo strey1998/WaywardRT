@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(WaywardRT_Sample_SOURCE_FILES
+  src/MovingSpheres.cpp
   src/Spheres.cpp
 )
 

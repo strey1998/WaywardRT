@@ -39,7 +39,7 @@ bool Dielectric::scatter(
     direction = unit_direction.refract(
       front_face ? rec.normal : -rec.normal, refraction_ratio);
 
-  scattered = std::move(Ray(rec.point, direction));
+  scattered = std::move(Ray(rec.point, direction, r.time()));
   return true;
 }
 

@@ -20,6 +20,7 @@ set(WaywardRT_SOURCE_FILES
   src/Materials/Metal.cpp
   src/Objects/Hittable.cpp
   src/Objects/HittableList.cpp
+  src/Objects/MovingSphere.cpp
   src/Objects/Sphere.cpp
 )
 

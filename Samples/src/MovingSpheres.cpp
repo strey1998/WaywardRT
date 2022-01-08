@@ -1,4 +1,4 @@
-// WaywardRT/Samples/src/Spheres.cpp
+// WaywardRT/Samples/src/MovingSpheres.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
@@ -16,6 +16,7 @@
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
+#include "WaywardRT/Objects/MovingSphere.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Renderer.h"
 #include "WaywardRT/Timer.h"
@@ -45,14 +46,20 @@ WaywardRT::HittableList spheres() {
         if (choose_material < 0.8) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
           material = std::make_shared<WaywardRT::Lambertian>(albedo);
+          world.add(std::make_shared<WaywardRT::MovingSphere>(
+            center,
+            WaywardRT::Vec3(0, WaywardRT::random_real(0, 0.5), 0),
+            0.2,
+            material));
         } else if (choose_material < 0.95) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
           auto fuzz = WaywardRT::random_real(0, 0.5);
           material = std::make_shared<WaywardRT::Metal>(albedo, fuzz);
+          world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
         } else {
           material = std::make_shared<WaywardRT::Dielectric>(1.5);
+          world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
         }
-        world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
       }
     }
   }
@@ -75,9 +82,9 @@ WaywardRT::HittableList spheres() {
 
 int main(int, const char**) {
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 480;
-  constexpr int IMAGE_HEIGHT =  270;
-  constexpr int SAMPLES = 100;
+  constexpr int IMAGE_WIDTH = 960;
+  constexpr int IMAGE_HEIGHT =  540;
+  constexpr int SAMPLES = 25;
   constexpr int DEPTH = 50;
 
   // LOG
@@ -95,6 +102,7 @@ int main(int, const char**) {
     WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
     20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);
+  camera.set_ray_timing(0.0, 0.5);
 
   // RENDER
   WaywardRT::Renderer renderer(

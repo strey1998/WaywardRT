@@ -32,6 +32,7 @@ inline real random_real() {
 }
 
 inline real random_real(real min, real max) {
+  if (min == max) return min;
   return min + (max-min)*random_real();
 }
 

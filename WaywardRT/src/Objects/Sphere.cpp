@@ -15,12 +15,16 @@ namespace WaywardRT {
 Sphere::Sphere(Vec3 center, real radius, std::shared_ptr<Material> material)
   : m_Center(center), m_Radius(radius), m_Material(material) { }
 
-const Vec3& Sphere::center() const {
+const Vec3& Sphere::center() const noexcept {
   return m_Center;
 }
 
-real Sphere::radius() const {
+real Sphere::radius() const noexcept {
   return m_Radius;
+}
+
+std::shared_ptr<Material> Sphere::material() const noexcept {
+  return m_Material;
 }
 
 bool Sphere::hit(

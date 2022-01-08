@@ -12,13 +12,13 @@ namespace WaywardRT {
 Lambertian::Lambertian(const Color& a) : m_Albedo(a) { }
 
 bool Lambertian::scatter(
-    const Ray&,
+    const Ray& r,
     const HitRecord& rec,
     Ray& scattered,
     Color& attenuation)  const {
   Vec3 scatter_direction = rec.normal + Vec3::random_unit();
   if (scatter_direction == Vec3()) scatter_direction = rec.normal;
-  scattered = std::move(Ray(rec.point, scatter_direction));
+  scattered = std::move(Ray(rec.point, scatter_direction, r.time()));
   attenuation = m_Albedo;
   return true;
 }
