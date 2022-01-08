@@ -6,6 +6,7 @@ endif()
 
 set(WaywardRT_BENCHMARK_SOURCE_FILES
   src/DotProduct.cpp
+  src/Normalize.cpp
   src/Render.cpp
 )
 
