@@ -94,7 +94,7 @@ int main(int, const char**) {
     WaywardRT::Vec3(13, 2, 3),
     WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
-    20, IMAGE_WIDTH / IMAGE_HEIGHT, 0.1);
+    20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);
 
   // RENDER
   WaywardRT::Renderer renderer(
