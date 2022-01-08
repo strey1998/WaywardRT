@@ -25,7 +25,7 @@ set(WaywardRT_SOURCE_FILES
 add_library(WaywardRT ${WaywardRT_SOURCE_FILES})
 target_include_directories(WaywardRT PUBLIC ${WaywardRT_INCLUDE_DIRS})
 target_include_directories(WaywardRT PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(WaywardRT PRIVATE spdlog::spdlog stb_image_write)
+target_link_libraries(WaywardRT PRIVATE spdlog::spdlog stb_image_write progress_bar)
 
 if(WaywardRT_PRECISION_SINGLE)
   target_compile_definitions(WaywardRT PUBLIC WAYWARDRT_PRECISION_SINGLE)

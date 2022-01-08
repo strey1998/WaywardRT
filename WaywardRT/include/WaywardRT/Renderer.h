@@ -71,6 +71,18 @@ class WAYWARDRT_EXPORT Renderer {
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax) const;
 
   //////////////////////////////////////////////////////////////////////////////
+  /// @brief Renders a part of the image
+  /// @param[in] xMin The leftmost pixel column to render
+  /// @param[in] xMax The rightmost pixel column to render
+  /// @param[in] yMin The bottommost pixel row to render
+  /// @param[in] yMax The topmost pixel row to render
+  /// @param[out] progress The percent progress to completion, updated regularly
+  //////////////////////////////////////////////////////////////////////////////
+  void render_subimage(
+    uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax,
+    std::atomic<uint32_t>& progress) const;
+
+  //////////////////////////////////////////////////////////////////////////////
   /// @brief Writes the image data to an image object
   /// @param[in] image The image to which to write the data
   /// @param[in] gamma Gamma correction factor
