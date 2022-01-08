@@ -12,10 +12,10 @@ namespace WaywardRT {
 
 #ifdef WAYWARDRT_PRECISION_SINGLE
   using real = float;
-  #define FLOATING_POINT_EQUALITY_PRECISION 6
+  #define FLOATING_POINT_EQUALITY_PRECISION 5
 #else
   using real = double;
-  #define FLOATING_POINT_EQUALITY_PRECISION 14
+  #define FLOATING_POINT_EQUALITY_PRECISION 10
 #endif
 
 // CONSTANTS
