@@ -7,6 +7,7 @@
 
 #include "WaywardRT_export.h"
 
+#include "WaywardRT/Color.h"
 #include "WaywardRT/Ray.h"
 
 namespace WaywardRT { struct HitRecord; }

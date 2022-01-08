@@ -17,7 +17,7 @@
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
 #include "WaywardRT/Ray.h"
-#include "WaywardRT/Renderer.h"
+#include "WaywardRT/Renderers/RendererBasic.h"
 #include "WaywardRT/Timer.h"
 #include "WaywardRT/util.h"
 #include "WaywardRT/Vec3.h"
@@ -99,7 +99,7 @@ int main(int, const char**) {
     20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);
 
   // RENDER
-  WaywardRT::Renderer renderer(
+  WaywardRT::RendererBasic renderer(
     IMAGE_WIDTH, IMAGE_HEIGHT,
     SAMPLES, DEPTH,
     world, camera);

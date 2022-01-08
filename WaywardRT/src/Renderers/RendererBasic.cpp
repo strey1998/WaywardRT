@@ -1,8 +1,8 @@
-// WaywardRT/WaywardRT/src/Renderer.cpp
+// WaywardRT/WaywardRT/src/Renderers/RendererBasic.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
-#include "WaywardRT/Renderer.h"
+#include "WaywardRT/Renderers/RendererBasic.h"
 
 #include <unistd.h>
 
@@ -20,7 +20,7 @@
 
 namespace WaywardRT {
 
-Renderer::Renderer(
+RendererBasic::RendererBasic(
     uint16_t width,
     uint16_t height,
     uint16_t samples,
@@ -33,7 +33,7 @@ Renderer::Renderer(
         m_Depth(depth),
         m_World(world),
         m_Camera(camera) {
-  WLOG_TRACE("Initializing Renderer");
+  WLOG_TRACE("Initializing RendererBasic");
   WLOG_TRACE("Image width={}",    width);
   WLOG_TRACE("Image height={}",   height);
   WLOG_TRACE("Image samples={}",  samples);
@@ -45,11 +45,11 @@ Renderer::Renderer(
   m_BVH = BVHNode(m_World, 0.0, 0.1);
 }
 
-Renderer::~Renderer() {
+RendererBasic::~RendererBasic() {
   free(m_ImageData);
 }
 
-void Renderer::render(uint8_t thread_count) const {
+void RendererBasic::render(uint8_t thread_count) const {
   std::vector<std::thread> threads;
   std::vector<uint16_t> partition;
 
@@ -100,7 +100,7 @@ void Renderer::render(uint8_t thread_count) const {
   WLOG_TRACE("Completed render");
 }
 
-void Renderer::render_subimage(
+void RendererBasic::render_subimage(
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax) const {
   if (xMax > m_Width - 1) xMax = m_Width - 1;
   if (yMax > m_Height - 1) yMax = m_Height - 1;
@@ -125,7 +125,7 @@ void Renderer::render_subimage(
     "Completed render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 }
 
-void Renderer::render_subimage(
+void RendererBasic::render_subimage(
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax,
     std::atomic<uint32_t>& progress) const {
   if (xMax > m_Width - 1) xMax = m_Width - 1;
@@ -168,7 +168,9 @@ void Renderer::render_subimage(
     "Completed render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 }
 
-void Renderer::write_image_data(Image& image, real gamma) const {
+const Color* RendererBasic::image_data() const noexcept { return m_ImageData; }
+
+void RendererBasic::write_image_data(Image& image, real gamma) const {
   for (int j = 0; j < m_Height; ++j) {
     for (int i = 0; i < m_Width; ++i) {
       image.setPixel(i, j, m_ImageData[i+m_Width*j].exp(1/gamma));
@@ -176,7 +178,7 @@ void Renderer::write_image_data(Image& image, real gamma) const {
   }
 }
 
-Color Renderer::ray_color(const Ray& r, const Hittable& world, int depth) {
+Color RendererBasic::ray_color(const Ray& r, const Hittable& world, int depth) {
   if (depth <= 0) return WaywardRT::Color(0, 0, 0);
 
   HitRecord rec;

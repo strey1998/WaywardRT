@@ -1,9 +1,9 @@
-// WaywardRT/WaywardRT/include/WaywardRT/Renderer.h
+// WaywardRT/WaywardRT/include/WaywardRT/Renderers/RendererBasic.h
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
-#ifndef WAYWARDRT_INCLUDE_WAYWARDRT_RENDERER_H_
-#define WAYWARDRT_INCLUDE_WAYWARDRT_RENDERER_H_
+#ifndef WAYWARDRT_INCLUDE_WAYWARDRT_RENDERERS_RENDERERBASIC_H_
+#define WAYWARDRT_INCLUDE_WAYWARDRT_RENDERERS_RENDERERBASIC_H_
 
 #include "WaywardRT_export.h"
 
@@ -14,17 +14,18 @@
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Image.h"
 #include "WaywardRT/Objects/HittableList.h"
+#include "WaywardRT/Renderers/Renderer.h"
 #include "WaywardRT/util.h"
 
 namespace WaywardRT {
 
 //////////////////////////////////////////////////////////////////////////////
-/// A renderer
+/// A basic renderer
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0
 //////////////////////////////////////////////////////////////////////////////
-class WAYWARDRT_EXPORT Renderer {
+class WAYWARDRT_EXPORT RendererBasic : public Renderer {
  private:
   uint16_t m_Width, m_Height;
   uint16_t m_Samples, m_Depth;
@@ -34,21 +35,23 @@ class WAYWARDRT_EXPORT Renderer {
   BVHNode m_BVH;
 
  public:
-  Renderer() = delete;
-  Renderer(const Renderer&) = delete;
-  Renderer(Renderer&&) = delete;
-  Renderer& operator=(const Renderer&) = delete;
-  Renderer& operator=(Renderer&&) = delete;
+  RendererBasic() = delete;
+  RendererBasic(const Renderer&) = delete;
+  RendererBasic(Renderer&&) = delete;
+  RendererBasic& operator=(const Renderer&) = delete;
+  RendererBasic& operator=(Renderer&&) = delete;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
-  /// @param[in] width  The width of the image to render
-  /// @param[in] height The height of the image to render
-  /// @param[in] world  The HittableList of objects of which to generate an
+  /// @param[in] width   The width of the image to render
+  /// @param[in] height  The height of the image to render
+  /// @param[in] samples The imaging samples per pixel
+  /// @param[in] depth   The maximum ray scattering depth
+  /// @param[in] world   The HittableList of objects of which to generate an
   ///   image
-  /// @param[in] camera The camera from which to render the image
+  /// @param[in] camera  The camera from which to render the image
   //////////////////////////////////////////////////////////////////////////////
-  Renderer(
+  RendererBasic(
     uint16_t width,
     uint16_t height,
     uint16_t samples,
@@ -57,10 +60,9 @@ class WAYWARDRT_EXPORT Renderer {
     Camera camera);
 
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Renders the image
-  /// @param[in] threads The number of threads to use (default = 1)
+  /// {@inheritDocs}
   //////////////////////////////////////////////////////////////////////////////
-  void render(uint8_t  = 1) const;
+  void render(uint8_t thread_count = 1) const override;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Renders a part of the image
@@ -85,18 +87,21 @@ class WAYWARDRT_EXPORT Renderer {
     std::atomic<uint32_t>& progress) const;
 
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Writes the image data to an image object
-  /// @param[in] image The image to which to write the data
-  /// @param[in] gamma Gamma correction factor
-  /// @returns True on success, false on failure
+  /// @brief Gets a pointer to this renderer's image data
+  /// @return A pointer to this RendererBasic's image data
   //////////////////////////////////////////////////////////////////////////////
-  void write_image_data(Image& image, real gamma = 1.0) const;
+  const Color* image_data() const noexcept;
 
-  ~Renderer();
+  //////////////////////////////////////////////////////////////////////////////
+  /// {@inheritDocs}
+  //////////////////////////////////////////////////////////////////////////////
+  void write_image_data(Image& image, real gamma = 1.0) const override;
+
+  ~RendererBasic();
 
   static Color ray_color(const Ray& r, const Hittable& world, int depth);
 };
 
 }  // namespace WaywardRT
 
-#endif  // WAYWARDRT_INCLUDE_WAYWARDRT_RENDERER_H_
+#endif  // WAYWARDRT_INCLUDE_WAYWARDRT_RENDERERS_RENDERERBASIC_H_

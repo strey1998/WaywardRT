@@ -1,9 +1,10 @@
-// WaywardRT/Samples/src/MovingSpheres.cpp
+// WaywardRT/Samples/src/Spheres.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
 #include <cmath>
 #include <optional>
+#include <utility>
 
 #include "WaywardRT/BMPImage.h"
 #include "WaywardRT/Camera.h"
@@ -16,9 +17,9 @@
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
-#include "WaywardRT/Objects/MovingSphere.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Renderers/RendererBasic.h"
+#include "WaywardRT/Renderers/Renderer3D.h"
 #include "WaywardRT/Timer.h"
 #include "WaywardRT/util.h"
 #include "WaywardRT/Vec3.h"
@@ -46,20 +47,14 @@ WaywardRT::HittableList spheres() {
         if (choose_material < 0.8) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
           material = std::make_shared<WaywardRT::Lambertian>(albedo);
-          world.add(std::make_shared<WaywardRT::MovingSphere>(
-            center,
-            WaywardRT::Vec3(0, WaywardRT::random_real(0, 0.5), 0),
-            0.2,
-            material));
         } else if (choose_material < 0.95) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
           auto fuzz = WaywardRT::random_real(0, 0.5);
           material = std::make_shared<WaywardRT::Metal>(albedo, fuzz);
-          world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
         } else {
           material = std::make_shared<WaywardRT::Dielectric>(1.5);
-          world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
         }
+        world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
       }
     }
   }
@@ -83,32 +78,42 @@ WaywardRT::HittableList spheres() {
 int main(int, const char**) {
   // SETTINGS
   constexpr int IMAGE_WIDTH = 960;
-  constexpr int IMAGE_HEIGHT =  540;
-  constexpr int SAMPLES = 150;
+  constexpr int IMAGE_HEIGHT =  960;
+  constexpr int SAMPLES = 250;
   constexpr int DEPTH = 50;
+  /* BENCHMARK: 81s */
 
   // LOG
   WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
 
   // IMAGE
-  WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
+  WaywardRT::BMPImage image(2*IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // WORLD
   auto world = spheres();
 
   // CAMERA
-  WaywardRT::Camera camera(
+  auto cameras = WaywardRT::Renderer3D::make_stereoscopic_pair(
     WaywardRT::Vec3(13, 2, 3),
     WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
-    20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);
-  camera.set_ray_timing(0.0, 0.5);
+    20.0, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1, 10.0, 0.2);
+  // WaywardRT::Camera camera(
+  //   WaywardRT::Vec3(13, 2, 3),
+  //   WaywardRT::Vec3(0, 0, 0),
+  //   WaywardRT::Vec3(0, 1, 0),
+  //   20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);
+
 
   // RENDER
-  WaywardRT::RendererBasic renderer(
+  WaywardRT::Renderer3D renderer(
     IMAGE_WIDTH, IMAGE_HEIGHT,
     SAMPLES, DEPTH,
-    world, camera);
+    world, cameras.first, cameras.second);
+  // WaywardRT::RendererBasic renderer(
+  //   IMAGE_WIDTH, IMAGE_HEIGHT,
+  //   SAMPLES, DEPTH,
+  //   world, camera);
 
   WLOG_INFO("Starting render");
   WaywardRT::Timer timer;

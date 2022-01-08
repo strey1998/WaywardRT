@@ -13,7 +13,7 @@
 #include "WaywardRT/Materials/Dielectric.h"
 #include "WaywardRT/Materials/Lambertian.h"
 #include "WaywardRT/Materials/Metal.h"
-#include "WaywardRT/Renderer.h"
+#include "WaywardRT/Renderers/RendererBasic.h"
 #include "WaywardRT/util.h"
 
 static WaywardRT::HittableList spheres();
@@ -35,7 +35,7 @@ static void BM_ray_color(benchmark::State& s) {
   srand(1123581321);  // For more consistent results (hopefully)
 
   while (s.KeepRunning()) {
-    WaywardRT::Renderer::ray_color(
+    WaywardRT::RendererBasic::ray_color(
       camera.get_ray(
         WaywardRT::random_real(U_MIN, U_MAX),
         WaywardRT::random_real(V_MIN, V_MAX)),

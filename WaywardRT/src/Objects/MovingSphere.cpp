@@ -59,8 +59,8 @@ bool MovingSphere::hit(
 }
 
 bool MovingSphere::bounding_box(
-    real t_min, 
-    real t_max, 
+    real t_min,
+    real t_max,
     BoundingBox& box) const {
   BoundingBox b1(
     center(t_min) - Vec3(m_Radius, m_Radius, m_Radius),
