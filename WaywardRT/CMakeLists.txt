@@ -16,6 +16,7 @@ set(WaywardRT_SOURCE_FILES
   src/log.cpp
   src/Ray.cpp
   src/Vec3.cpp
+  src/scenes.cpp
   src/Materials/Dielectric.cpp
   src/Materials/Lambertian.cpp
   src/Materials/Material.cpp
@@ -27,6 +28,9 @@ set(WaywardRT_SOURCE_FILES
   src/Renderers/Renderer.cpp
   src/Renderers/Renderer3D.cpp
   src/Renderers/RendererBasic.cpp
+  src/Textures/Checkered.cpp
+  src/Textures/SolidColor.cpp
+  src/Textures/Texture.cpp
 )
 
 add_library(WaywardRT ${WaywardRT_SOURCE_FILES})

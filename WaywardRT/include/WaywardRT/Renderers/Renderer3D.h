@@ -53,6 +53,29 @@ class WAYWARDRT_EXPORT Renderer3D : public Renderer {
     Camera rcamera);
 
   //////////////////////////////////////////////////////////////////////////////
+  /// @brief Initializer
+  /// @param[in] width   The width of the image to render (NOTE: This is
+  ///   doubled!)
+  /// @param[in] height  The height of the image to render
+  /// @param[in] samples The imaging samples per pixel
+  /// @param[in] depth   The maximum ray scattering depth
+  /// @param[in] world   The HittableList of objects of which to generate an
+  ///   image
+  /// @param[in] lcamera The camera from which to render the left image
+  /// @param[in] rcamera The camera from which to render the right image
+  //////////////////////////////////////////////////////////////////////////////
+  Renderer3D(
+    uint16_t width,
+    uint16_t height,
+    uint16_t samples,
+    uint16_t depth,
+    HittableList world,
+    Camera lcamera,
+    Camera rcamera,
+    real t0,
+    real t1);
+
+  //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDocs}
   //////////////////////////////////////////////////////////////////////////////
   void render(uint8_t thread_count = 1) const override;

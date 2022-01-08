@@ -27,6 +27,8 @@ struct WAYWARDRT_EXPORT HitRecord {
   Vec3 normal;
   std::shared_ptr<Material> material;
   real t;
+  real u;
+  real v;
 };
 
 //////////////////////////////////////////////////////////////////////////////

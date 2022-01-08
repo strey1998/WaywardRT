@@ -65,6 +65,9 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
   /// {@inheritDoc}
   //////////////////////////////////////////////////////////////////////////////
   bool bounding_box(real t_min, real t_max, BoundingBox& box) const override;
+
+ private:
+  static void get_texture_coordinates_of_point(const Vec3& p, real& u, real& v);
 };
 
 }  // namespace WaywardRT

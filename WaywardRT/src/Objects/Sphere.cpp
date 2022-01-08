@@ -52,6 +52,7 @@ bool Sphere::hit(
   rec.normal = (rec.point - center()) / radius();
   rec.material = m_Material;
   rec.t = root;
+  get_texture_coordinates_of_point(rec.normal, rec.u, rec.v);
 
   return true;
 }
@@ -60,6 +61,11 @@ bool Sphere::bounding_box(real, real, BoundingBox& box) const {
   box.p0 = m_Center - Vec3(m_Radius, m_Radius, m_Radius);
   box.p1 = m_Center + Vec3(m_Radius, m_Radius, m_Radius);
   return true;
+}
+
+void Sphere::get_texture_coordinates_of_point(const Vec3& p, real& u, real& v) {
+  u = (atan2(-p.z, p.x) + pi) / (2*pi);
+  v = acos(-p.y) / pi;
 }
 
 }  // namespace WaywardRT

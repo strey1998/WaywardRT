@@ -7,8 +7,12 @@
 
 #include "WaywardRT_export.h"
 
+#include <memory>
+
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Materials/Material.h"
+#include "WaywardRT/Textures/SolidColor.h"
+#include "WaywardRT/Textures/Texture.h"
 namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
@@ -20,13 +24,19 @@ namespace WaywardRT {
 //////////////////////////////////////////////////////////////////////////////
 class WAYWARDRT_EXPORT Lambertian : public Material {
  private:
-  Color m_Albedo;
+  std::shared_ptr<Texture> m_Albedo;
  public:
   //////////////////////////////////////////////////////////////////////////////
-  /// @brief Construct a new Lambertian material with albedo a
+  /// @brief Construct a new Lambertian material with solid albedo a
   /// @param[in] a The color of the material
   //////////////////////////////////////////////////////////////////////////////
   explicit Lambertian(const Color& a);
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief Construct a new Lambertian material with texture albedo a
+  /// @param[in] a The color of the material
+  //////////////////////////////////////////////////////////////////////////////
+  explicit Lambertian(std::shared_ptr<Texture> a);
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}

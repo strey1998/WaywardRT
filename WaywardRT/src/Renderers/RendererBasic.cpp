@@ -21,12 +21,23 @@
 namespace WaywardRT {
 
 RendererBasic::RendererBasic(
+  uint16_t width,
+  uint16_t height,
+  uint16_t samples,
+  uint16_t depth,
+  HittableList world,
+  Camera camera)
+    : RendererBasic(width, height, samples, depth, world, camera, 0.0, 0.0) { }
+
+RendererBasic::RendererBasic(
     uint16_t width,
     uint16_t height,
     uint16_t samples,
     uint16_t depth,
     HittableList world,
-    Camera camera)
+    Camera camera,
+    real t0,
+    real t1)
       : m_Width(width),
         m_Height(height),
         m_Samples(samples),
@@ -42,7 +53,7 @@ RendererBasic::RendererBasic(
   m_ImageData = reinterpret_cast<Color*>(
     malloc(sizeof(Color) * m_Width * m_Height));
 
-  m_BVH = BVHNode(m_World, 0.0, 0.1);
+  m_BVH = BVHNode(m_World, t0, t1);
 }
 
 RendererBasic::~RendererBasic() {

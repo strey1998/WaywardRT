@@ -1,33 +1,32 @@
-// WaywardRT/Samples/src/MovingSpheres.cpp
+// WaywardRT/WaywardRT/src/scenes.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
-#include <cmath>
-#include <optional>
+#include "WaywardRT/scenes.h"
 
-#include "WaywardRT/BMPImage.h"
+#include <utility>
+
+
 #include "WaywardRT/Camera.h"
 #include "WaywardRT/Color.h"
-#include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Dielectric.h"
 #include "WaywardRT/Materials/Lambertian.h"
 #include "WaywardRT/Materials/Metal.h"
-#include "WaywardRT/Materials/Material.h"
-#include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Sphere.h"
-#include "WaywardRT/Objects/MovingSphere.h"
-#include "WaywardRT/Ray.h"
-#include "WaywardRT/Renderers/RendererBasic.h"
-#include "WaywardRT/Timer.h"
-#include "WaywardRT/util.h"
-#include "WaywardRT/Vec3.h"
+#include "WaywardRT/Textures/Checkered.h"
 
-WaywardRT::HittableList spheres() {
+namespace WaywardRT {
+namespace SCENES {
+
+std::pair<HittableList, Camera> RANDOM_SPHERES(float aspect_ratio) {
+  // WORLD
   WaywardRT::HittableList world;
+  auto tGround = std::make_shared<WaywardRT::Checkered>(
+    WaywardRT::Color(0.2, 0.3, 0.1),
+    WaywardRT::Color(0.9, 0.9, 0.9));
 
-  auto mGround = std::make_shared<WaywardRT::Lambertian>(
-    WaywardRT::Color(0.5, 0.5, 0.5));
+  auto mGround = std::make_shared<WaywardRT::Lambertian>(tGround);
   world.add(
     std::make_shared<WaywardRT::Sphere>(
       WaywardRT::Vec3(0, -1000, 0), 1000, mGround));
@@ -46,20 +45,14 @@ WaywardRT::HittableList spheres() {
         if (choose_material < 0.8) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
           material = std::make_shared<WaywardRT::Lambertian>(albedo);
-          world.add(std::make_shared<WaywardRT::MovingSphere>(
-            center,
-            WaywardRT::Vec3(0, WaywardRT::random_real(0, 0.5), 0),
-            0.2,
-            material));
         } else if (choose_material < 0.95) {
           auto albedo = WaywardRT::Color::Random() * WaywardRT::Color::Random();
           auto fuzz = WaywardRT::random_real(0, 0.5);
           material = std::make_shared<WaywardRT::Metal>(albedo, fuzz);
-          world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
         } else {
           material = std::make_shared<WaywardRT::Dielectric>(1.5);
-          world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
         }
+        world.add(std::make_shared<WaywardRT::Sphere>(center, 0.2, material));
       }
     }
   }
@@ -77,49 +70,41 @@ WaywardRT::HittableList spheres() {
   world.add(
     std::make_shared<WaywardRT::Sphere>(WaywardRT::Vec3(4, 1, 0), 1.0, m3));
 
-  return world;
+  // CAMERA
+  Camera camera(
+    WaywardRT::Vec3(13, 2, 3),
+    WaywardRT::Vec3(0, 0, 0),
+    WaywardRT::Vec3(0, 1, 0),
+    20, aspect_ratio, 0.1);
+
+  return std::make_pair(world, camera);
 }
 
-int main(int, const char**) {
-  // SETTINGS
-  constexpr int IMAGE_WIDTH = 960;
-  constexpr int IMAGE_HEIGHT =  540;
-  constexpr int SAMPLES = 150;
-  constexpr int DEPTH = 50;
-
-  // LOG
-  WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
-
-  // IMAGE
-  WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
-
+std::pair<HittableList, Camera> TWO_SPHERES(float aspect_ratio) {
   // WORLD
-  auto world = spheres();
+  WaywardRT::HittableList world;
+
+  auto t1 = std::make_shared<Checkered>(
+    Color(0.2, 0.3, 0.1),
+    Color(0.9, 0.9, 0.9));
+
+  world.add(std::make_shared<Sphere>(
+    Vec3(0, -10, 0), 10,
+    std::make_shared<Lambertian>(t1)));
+  world.add(std::make_shared<Sphere>(
+    Vec3(0, 10, 0), 10,
+    std::make_shared<Lambertian>(t1)));
 
   // CAMERA
   WaywardRT::Camera camera(
     WaywardRT::Vec3(13, 2, 3),
     WaywardRT::Vec3(0, 0, 0),
     WaywardRT::Vec3(0, 1, 0),
-    20, static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT, 0.1);
-  camera.set_ray_timing(0.0, 0.5);
+    20, aspect_ratio);
 
-  // RENDER
-  WaywardRT::RendererBasic renderer(
-    IMAGE_WIDTH, IMAGE_HEIGHT,
-    SAMPLES, DEPTH,
-    world, camera);
 
-  WLOG_INFO("Starting render");
-  WaywardRT::Timer timer;
-  renderer.render(12);
-  WLOG_INFO("Render complete in {:.1f}s", timer.elapsed());
-
-  renderer.write_image_data(image, 2.0);
-  if (!image.write("out.bmp")) {
-    WLOG_ERROR("An error occurred");
-    return -1;
-  }
-
-  return 0;
+  return std::make_pair(world, camera);
 }
+
+}  // namespace SCENES
+}  // namespace WaywardRT
