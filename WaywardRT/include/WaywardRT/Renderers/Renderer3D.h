@@ -38,6 +38,7 @@ class WAYWARDRT_EXPORT Renderer3D : public Renderer {
   /// @param[in] height  The height of the image to render
   /// @param[in] samples The imaging samples per pixel
   /// @param[in] depth   The maximum ray scattering depth
+  /// @param[in] background The background color
   /// @param[in] world   The HittableList of objects of which to generate an
   ///   image
   /// @param[in] lcamera The camera from which to render the left image
@@ -48,6 +49,7 @@ class WAYWARDRT_EXPORT Renderer3D : public Renderer {
     uint16_t height,
     uint16_t samples,
     uint16_t depth,
+    Color background,
     HittableList world,
     Camera lcamera,
     Camera rcamera);
@@ -59,6 +61,7 @@ class WAYWARDRT_EXPORT Renderer3D : public Renderer {
   /// @param[in] height  The height of the image to render
   /// @param[in] samples The imaging samples per pixel
   /// @param[in] depth   The maximum ray scattering depth
+  /// @param[in] background The background color
   /// @param[in] world   The HittableList of objects of which to generate an
   ///   image
   /// @param[in] lcamera The camera from which to render the left image
@@ -69,6 +72,7 @@ class WAYWARDRT_EXPORT Renderer3D : public Renderer {
     uint16_t height,
     uint16_t samples,
     uint16_t depth,
+    Color background,
     HittableList world,
     Camera lcamera,
     Camera rcamera,

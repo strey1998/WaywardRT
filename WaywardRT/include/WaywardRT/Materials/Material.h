@@ -9,6 +9,7 @@
 
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/Vec3.h"
 
 namespace WaywardRT { struct HitRecord; }
 
@@ -34,6 +35,14 @@ class WAYWARDRT_EXPORT Material {
     const HitRecord& rec,
     Ray& scattered,
     Color& attenuation) const = 0;
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// @brief Emit
+  /// @param[in] u
+  /// @param[in] v
+  /// @param[in] p
+  //////////////////////////////////////////////////////////////////////////////
+  virtual Color emit(real u, real v, const Vec3& p) const;
 };
 
 }  // namespace WaywardRT

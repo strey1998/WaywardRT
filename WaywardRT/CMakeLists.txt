@@ -17,8 +17,9 @@ set(WaywardRT_SOURCE_FILES
   src/Perlin.cpp
   src/Ray.cpp
   src/Vec3.cpp
-  src/scenes.cpp
+  src/Scene.cpp
   src/Materials/Dielectric.cpp
+  src/Materials/DiffuseLight.cpp
   src/Materials/Lambertian.cpp
   src/Materials/Material.cpp
   src/Materials/Metal.cpp

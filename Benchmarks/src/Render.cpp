@@ -39,7 +39,7 @@ static void BM_ray_color(benchmark::State& s) {
       camera.get_ray(
         WaywardRT::random_real(U_MIN, U_MAX),
         WaywardRT::random_real(V_MIN, V_MAX)),
-      world, s.range(0));
+      WaywardRT::Color::BLACK(), world, s.range(0));
   }
 }
 BENCHMARK(BM_ray_color)

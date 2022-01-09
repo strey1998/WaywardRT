@@ -11,6 +11,9 @@
 
 namespace WaywardRT {
 
+Camera::Camera()
+  : Camera(Vec3(0, 0, 0), Vec3(0, 0, 1), Vec3(0, 1, 0), 20, 16.0/9.0, 0.0) { }
+
 Camera::Camera(
   Vec3 look_from,
   Vec3 look_at,

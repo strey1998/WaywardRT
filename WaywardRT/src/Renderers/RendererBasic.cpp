@@ -13,6 +13,7 @@
 #include "progress_bar/progress_bar.h"
 
 #include "WaywardRT/BVHNode.h"
+#include "WaywardRT/Color.h"
 #include "WaywardRT/Image.h"
 #include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Material.h"
@@ -25,15 +26,24 @@ RendererBasic::RendererBasic(
   uint16_t height,
   uint16_t samples,
   uint16_t depth,
+  Color background,
   HittableList world,
   Camera camera)
-    : RendererBasic(width, height, samples, depth, world, camera, 0.0, 0.0) { }
+    : RendererBasic(width,
+                    height,
+                    samples,
+                    depth,
+                    background,
+                    world,
+                    camera,
+                    0.0, 0.0) { }
 
 RendererBasic::RendererBasic(
     uint16_t width,
     uint16_t height,
     uint16_t samples,
     uint16_t depth,
+    Color background,
     HittableList world,
     Camera camera,
     real t0,
@@ -42,6 +52,7 @@ RendererBasic::RendererBasic(
         m_Height(height),
         m_Samples(samples),
         m_Depth(depth),
+        m_Background(background),
         m_World(world),
         m_Camera(camera) {
   WLOG_TRACE("Initializing RendererBasic");
@@ -126,7 +137,7 @@ void RendererBasic::render_subimage(
         real u = (i + WaywardRT::random_real()) / (m_Width - 1);
         real v = (j + WaywardRT::random_real()) / (m_Height - 1);
         WaywardRT::Ray r = m_Camera.get_ray(u, v);
-        c += ray_color(r, m_BVH, m_Depth) / m_Samples;
+        c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
       }
       m_ImageData[i+m_Width*j] = c;
     }
@@ -161,7 +172,7 @@ void RendererBasic::render_subimage(
         real u = (i + WaywardRT::random_real()) / (m_Width - 1);
         real v = (j + WaywardRT::random_real()) / (m_Height - 1);
         WaywardRT::Ray r = m_Camera.get_ray(u, v);
-        c += ray_color(r, m_BVH, m_Depth) / m_Samples;
+        c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
       }
       m_ImageData[i+m_Width*j] = c;
       if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
@@ -189,19 +200,25 @@ void RendererBasic::write_image_data(Image& image, real gamma) const {
   }
 }
 
-Color RendererBasic::ray_color(const Ray& r, const Hittable& world, int depth) {
+Color RendererBasic::ray_color(
+    const Ray& r,
+    const Color& background,
+    const Hittable& world,
+    int depth) {
   if (depth <= 0) return WaywardRT::Color(0, 0, 0);
 
   HitRecord rec;
-  if (world.hit(r, 0.00001, WaywardRT::infinity, rec)) {
-    Color attenuation;
-    Ray scattered;
-    if (rec.material->scatter(r, rec, scattered, attenuation))
-      return attenuation * ray_color(scattered, world, depth - 1);
-    return Color(0, 0, 0);
-  }
+  if (!world.hit(r, 0.00001, WaywardRT::infinity, rec))
+    return background;
 
-  return Color(1.0, 1.0, 1.0);
+  Color attenuation;
+  Ray scattered;
+  Color emitted = rec.material->emit(rec.u, rec.v, rec.point);
+  if (!rec.material->scatter(r, rec, scattered, attenuation))
+    return emitted;
+
+  return emitted +
+            attenuation * ray_color(scattered, background, world, depth-1);
 }
 
 }  // namespace WaywardRT

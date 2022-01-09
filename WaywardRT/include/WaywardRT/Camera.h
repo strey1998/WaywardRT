@@ -29,7 +29,7 @@ class WAYWARDRT_EXPORT Camera {
   real m_T0, m_T1;
 
  public:
-  Camera() = delete;
+  Camera();
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer

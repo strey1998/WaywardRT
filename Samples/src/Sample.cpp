@@ -11,23 +11,16 @@
 #include "WaywardRT/log.h"
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Renderers/RendererBasic.h"
-#include "WaywardRT/scenes.h"
+#include "WaywardRT/Scene.h"
 #include "WaywardRT/Timer.h"
 #include "WaywardRT/Vec3.h"
 
-#include <unistd.h> // TODO: Remove
-
 int main(int, const char**) {
-  // pwd
-  char tmp[256];
-  getcwd(tmp, 256);
-  WLOG_INFO("Current working directory: {}", tmp);
-
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 480;
-  constexpr int IMAGE_HEIGHT =  270;
-  constexpr int SAMPLES = 100;
-  constexpr int DEPTH = 50;
+  constexpr int IMAGE_WIDTH = 1920;
+  constexpr int IMAGE_HEIGHT =  1080;
+  constexpr int SAMPLES = 250;
+  constexpr int DEPTH = 100;
 
   // LOG
   WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
@@ -36,14 +29,14 @@ int main(int, const char**) {
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // Scene
-  auto scene = WaywardRT::SCENES::EARTH(
+  auto scene = WaywardRT::Scene::LIT_SPHERES(
     static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT);
 
   // RENDER
   WaywardRT::RendererBasic renderer(
     IMAGE_WIDTH, IMAGE_HEIGHT,
     SAMPLES, DEPTH,
-    scene.first, scene.second);
+    scene.background, scene.world, scene.camera);
 
   WLOG_INFO("Starting render");
   WaywardRT::Timer timer;

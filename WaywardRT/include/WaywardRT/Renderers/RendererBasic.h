@@ -29,6 +29,7 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
  private:
   uint16_t m_Width, m_Height;
   uint16_t m_Samples, m_Depth;
+  Color m_Background;
   HittableList m_World;
   Camera m_Camera;
   Color* m_ImageData;
@@ -43,39 +44,43 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
-  /// @param[in] width   The width of the image to render
-  /// @param[in] height  The height of the image to render
-  /// @param[in] samples The imaging samples per pixel
-  /// @param[in] depth   The maximum ray scattering depth
-  /// @param[in] world   The HittableList of objects of which to generate an
+  /// @param[in] width      The width of the image to render
+  /// @param[in] height     The height of the image to render
+  /// @param[in] samples    The imaging samples per pixel
+  /// @param[in] depth      The maximum ray scattering depth
+  /// @param[in] background The background color
+  /// @param[in] world      The HittableList of objects of which to generate an
   ///   image
-  /// @param[in] camera  The camera from which to render the image
+  /// @param[in] camera     The camera from which to render the image
   //////////////////////////////////////////////////////////////////////////////
   RendererBasic(
     uint16_t width,
     uint16_t height,
     uint16_t samples,
     uint16_t depth,
+    Color background,
     HittableList world,
     Camera camera);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
-  /// @param[in] width   The width of the image to render
-  /// @param[in] height  The height of the image to render
-  /// @param[in] samples The imaging samples per pixel
-  /// @param[in] depth   The maximum ray scattering depth
-  /// @param[in] world   The HittableList of objects of which to generate an
+  /// @param[in] width      The width of the image to render
+  /// @param[in] height     The height of the image to render
+  /// @param[in] samples    The imaging samples per pixel
+  /// @param[in] depth      The maximum ray scattering depth
+  /// @param[in] background The background color
+  /// @param[in] world      The HittableList of objects of which to generate an
   ///   image
-  /// @param[in] camera  The camera from which to render the image
-  /// @param[in] t0      The minimum time for the BVH
-  /// @param[in] t1      The maximum time for the BVH
+  /// @param[in] camera     The camera from which to render the image
+  /// @param[in] t0         The minimum time for the BVH
+  /// @param[in] t1         The maximum time for the BVH
   //////////////////////////////////////////////////////////////////////////////
   RendererBasic(
     uint16_t width,
     uint16_t height,
     uint16_t samples,
     uint16_t depth,
+    Color background,
     HittableList world,
     Camera camera,
     real t0,
@@ -121,7 +126,11 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
 
   ~RendererBasic();
 
-  static Color ray_color(const Ray& r, const Hittable& world, int depth);
+  static Color ray_color(
+    const Ray& r,
+    const Color& background,
+    const Hittable& world,
+    int depth);
 };
 
 }  // namespace WaywardRT
