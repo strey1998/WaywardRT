@@ -15,10 +15,17 @@
 #include "WaywardRT/Timer.h"
 #include "WaywardRT/Vec3.h"
 
+#include <unistd.h> // TODO: Remove
+
 int main(int, const char**) {
+  // pwd
+  char tmp[256];
+  getcwd(tmp, 256);
+  WLOG_INFO("Current working directory: {}", tmp);
+
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 960;
-  constexpr int IMAGE_HEIGHT =  540;
+  constexpr int IMAGE_WIDTH = 480;
+  constexpr int IMAGE_HEIGHT =  270;
   constexpr int SAMPLES = 100;
   constexpr int DEPTH = 50;
 
@@ -29,7 +36,7 @@ int main(int, const char**) {
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // Scene
-  auto scene = WaywardRT::SCENES::TWO_PERLIN_SPHERES(
+  auto scene = WaywardRT::SCENES::EARTH(
     static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT);
 
   // RENDER

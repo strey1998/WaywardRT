@@ -14,7 +14,7 @@ namespace WaywardRT { struct Color; }
 namespace WaywardRT {
 
 //////////////////////////////////////////////////////////////////////////////
-/// Represents a BMP image
+/// Represents an image
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0

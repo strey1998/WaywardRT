@@ -16,6 +16,7 @@
 #include "WaywardRT/Objects/Sphere.h"
 #include "WaywardRT/Textures/Camo.h"
 #include "WaywardRT/Textures/Checkered.h"
+#include "WaywardRT/Textures/ImageTexture.h"
 #include "WaywardRT/Textures/Marble.h"
 
 namespace WaywardRT {
@@ -122,6 +123,27 @@ std::pair<HittableList, Camera> TWO_PERLIN_SPHERES(float aspect_ratio) {
     std::make_shared<Lambertian>(t1)));
   world.add(std::make_shared<Sphere>(
     Vec3(0, 2, 0), 2,
+    std::make_shared<Lambertian>(t1)));
+
+  // CAMERA
+  WaywardRT::Camera camera(
+    WaywardRT::Vec3(13, 2, 3),
+    WaywardRT::Vec3(0, 0, 0),
+    WaywardRT::Vec3(0, 1, 0),
+    20, aspect_ratio);
+
+
+  return std::make_pair(world, camera);
+}
+
+std::pair<HittableList, Camera> EARTH(float aspect_ratio) {
+  // WORLD
+  WaywardRT::HittableList world;
+
+  auto t1 = std::make_shared<ImageTexture>("earth.jpg");
+
+  world.add(std::make_shared<Sphere>(
+    Vec3(0, 0, 0), 2,
     std::make_shared<Lambertian>(t1)));
 
   // CAMERA

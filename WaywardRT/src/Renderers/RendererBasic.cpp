@@ -194,18 +194,14 @@ Color RendererBasic::ray_color(const Ray& r, const Hittable& world, int depth) {
 
   HitRecord rec;
   if (world.hit(r, 0.00001, WaywardRT::infinity, rec)) {
-    WaywardRT::Color attenuation;
+    Color attenuation;
     Ray scattered;
     if (rec.material->scatter(r, rec, scattered, attenuation))
       return attenuation * ray_color(scattered, world, depth - 1);
-    return WaywardRT::Color(0, 0, 0);
+    return Color(0, 0, 0);
   }
 
-  WaywardRT::Vec3 unit_direction = r.direction().e();
-  real t = 0.5 * (unit_direction.y + 1.0);
-  WaywardRT::Color c1(1.0, 1.0, 1.0);
-  WaywardRT::Color c2(0.5, 0.7, 1.0);
-  return c1.lerp(c2, t);
+  return Color(1.0, 1.0, 1.0);
 }
 
 }  // namespace WaywardRT
