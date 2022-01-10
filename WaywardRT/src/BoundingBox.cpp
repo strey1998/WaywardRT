@@ -14,24 +14,6 @@ BoundingBox::BoundingBox() { }
 
 BoundingBox::BoundingBox(const Vec3& p0, const Vec3& p1) : p0(p0), p1(p1) { }
 
-#if 0
-bool BoundingBox::hit(const Ray& r, real t_min, real t_max) const {
-  for (int i = 0; i < 3; ++i) {
-    real t0 = fmin(
-      (p0[i] - r.origin()[i]) / r.direction()[i],
-      (p1[i] - r.origin()[i]) / r.direction()[i]);
-    real t1 = fmax(
-      (p0[i] - r.origin()[i]) / r.direction()[i],
-      (p1[i] - r.origin()[i]) / r.direction()[i]);
-
-    t_min = fmax(t0, t_min);
-    t_max = fmin(t1, t_max);
-
-    if (t_max <= t_min) return false;
-  }
-  return true;
-}
-#else
 bool BoundingBox::hit(const Ray& r, real t_min, real t_max) const {
   for (int i = 0; i < 3; ++i) {
     real inv_d = 1.0 / r.direction()[i];
@@ -47,7 +29,6 @@ bool BoundingBox::hit(const Ray& r, real t_min, real t_max) const {
   }
   return true;
 }
-#endif
 
 BoundingBox bb_union(const BoundingBox& b1, const BoundingBox& b2) {
   return BoundingBox(
