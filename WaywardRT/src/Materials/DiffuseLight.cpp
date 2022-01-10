@@ -18,6 +18,7 @@ namespace WaywardRT {
 
 DiffuseLight::DiffuseLight(const Color& c)
   : m_Emit(std::make_shared<SolidColor>(c)) { }
+
 DiffuseLight::DiffuseLight(std::shared_ptr<Texture> t) : m_Emit(t) { }
 
 bool DiffuseLight::scatter(const Ray&, const HitRecord&, Ray&, Color&) const {

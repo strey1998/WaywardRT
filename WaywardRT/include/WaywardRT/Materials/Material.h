@@ -15,7 +15,7 @@ namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
 //////////////////////////////////////////////////////////////////////////////
-/// Represents an hittable object
+/// Abstract class for materials
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0

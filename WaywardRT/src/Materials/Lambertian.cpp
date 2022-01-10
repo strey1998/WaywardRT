@@ -1,4 +1,4 @@
-// WaywardRT/WaywardRT/src/Materials/Labertian.cpp
+// WaywardRT/WaywardRT/src/Materials/Lambertian.cpp
 // Copyright 2022 Trey Stoner
 // All rights reserved
 

@@ -98,7 +98,8 @@ Ray Camera::get_ray(real u, real v) const {
   if (m_LensRadius == 0.0)
     return Ray(
       m_Origin,
-      m_LowerLeftCorner + u*m_Horizontal + v*m_Vertical - m_Origin);
+      m_LowerLeftCorner + u*m_Horizontal + v*m_Vertical - m_Origin,
+      random_real(m_T0, m_T1));
 
   Vec3 rd = m_LensRadius * Vec3::random_in_unit_disk();
   Vec3 offset = m_U * rd.x + m_V * rd.y;

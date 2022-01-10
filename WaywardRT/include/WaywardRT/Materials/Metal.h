@@ -14,7 +14,7 @@ namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
 //////////////////////////////////////////////////////////////////////////////
-/// Represents an hittable object
+/// Represents a metal material
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0
@@ -26,10 +26,10 @@ class WAYWARDRT_EXPORT Metal : public Material {
  public:
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Contruct a new Metal material
-  /// @param[in] a The color of the material
+  /// @param[in] c The color of the material
   /// @param[in] f The fuzziness of the reflection
   //////////////////////////////////////////////////////////////////////////////
-  explicit Metal(const Color& a, real f = 0.0);
+  explicit Metal(const Color& c, real f = 0.0);
 
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDoc}

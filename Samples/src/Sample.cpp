@@ -17,10 +17,10 @@
 
 int main(int, const char**) {
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 1080;
-  constexpr int IMAGE_HEIGHT =  1080;
-  constexpr int SAMPLES = 300;
-  constexpr int DEPTH = 80;
+  constexpr int IMAGE_WIDTH = 360;
+  constexpr int IMAGE_HEIGHT =  360;
+  constexpr int SAMPLES = 200;
+  constexpr int DEPTH = 50;
 
   // LOG
   WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
@@ -29,7 +29,7 @@ int main(int, const char**) {
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
   // SCENE
-  auto scene = WaywardRT::Scene::CORNELL_BOX(
+  auto scene = WaywardRT::Scene::FINAL_SCENE_2(
     static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT);
 
   // RENDER
@@ -40,7 +40,7 @@ int main(int, const char**) {
 
   WLOG_INFO("Starting render");
   WaywardRT::Timer timer;
-  renderer.render(12);
+  renderer.render(12, false);
   WLOG_INFO("Render complete in {:.1f}s", timer.elapsed());
 
   renderer.write_image_data(image, 2.0);

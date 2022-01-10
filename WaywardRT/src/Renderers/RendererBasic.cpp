@@ -143,7 +143,7 @@ void RendererBasic::render_subimage(
           WaywardRT::Ray r = m_Camera.get_ray(u, v);
           c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
         }
-        m_ImageData[i+m_Width*j] = c;
+        m_ImageData[i+m_Width*j] = c.clamped();
       }
     }
   } else {
@@ -156,7 +156,7 @@ void RendererBasic::render_subimage(
           WaywardRT::Ray r = m_Camera.get_ray(u, v);
           c += ray_color(r, m_Background, m_World, m_Depth) / m_Samples;
         }
-        m_ImageData[i+m_Width*j] = c;
+        m_ImageData[i+m_Width*j] = c.clamped();
       }
     }
   }
@@ -194,7 +194,7 @@ void RendererBasic::render_subimage(
           WaywardRT::Ray r = m_Camera.get_ray(u, v);
           c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
         }
-        m_ImageData[i+m_Width*j] = c;
+        m_ImageData[i+m_Width*j] = c.clamped();
         if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
           progress_++;
           progress++;
@@ -211,7 +211,7 @@ void RendererBasic::render_subimage(
           WaywardRT::Ray r = m_Camera.get_ray(u, v);
           c += ray_color(r, m_Background, m_World, m_Depth) / m_Samples;
         }
-        m_ImageData[i+m_Width*j] = c;
+        m_ImageData[i+m_Width*j] = c.clamped();
         if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
           progress_++;
           progress++;
@@ -256,7 +256,7 @@ Color RendererBasic::ray_color(
     return emitted;
 
   return emitted +
-            attenuation * ray_color(scattered, background, world, depth-1);
+            (attenuation * ray_color(scattered, background, world, depth-1));
 }
 
 }  // namespace WaywardRT

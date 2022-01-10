@@ -6,6 +6,7 @@
 
 #include <cmath>
 
+#include "WaywardRT/log.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Vec3.h"
 #include "WaywardRT/util.h"
@@ -42,13 +43,26 @@ bool MovingSphere::hit(
 
   if (d < 0) return false;
 
+    #if WAYWARDRT_ENABLE_LOGGING
+  bool do_log = random_real() < 0.0001;
+    #else
+  bool do_log = false;
+    #endif
+
   real sqrtd = sqrt(d);
 
   real root = (-bh - sqrtd) / a;
   if (root < t_min || t_max < root) {
     root = (-bh + sqrtd) / a;
     if (root < t_min || t_max < root) return false;
-  }  // TODO(TS): Wtf ^^^^^^^^
+  }
+
+  if (do_log) {
+    WLOG_TRACE("MovingSphere hit by ray: Ray({}, {}, {:.1f})",
+      r.origin().to_string(), r.direction().to_string(), r.time());
+    WLOG_TRACE("MovingSphere center at t={:.1f} is {}",
+      r.time(), center(r.time()).to_string());
+  }
 
   rec.point = r.at(root);
   rec.normal = (rec.point - center(r.time())) / radius();

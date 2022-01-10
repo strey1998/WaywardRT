@@ -33,6 +33,13 @@ Color Color::exp(real e) const {
     pow(b, e));
 }
 
+Color Color::clamped() const {
+  return Color(
+    clamp(r, 0.0, 1.0),
+    clamp(g, 0.0, 1.0),
+    clamp(b, 0.0, 1.0));
+}
+
 Color Color::operator+(const Color& other) const {
   return Color(
     r + other.r,

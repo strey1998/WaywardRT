@@ -32,7 +32,7 @@ struct WAYWARDRT_EXPORT HitRecord {
 };
 
 //////////////////////////////////////////////////////////////////////////////
-/// Represents an hittable object
+/// Abstract class for hittable objects
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0

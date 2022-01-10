@@ -55,6 +55,12 @@ struct WAYWARDRT_EXPORT Color {
   [[nodiscard]] Color exp(real e) const;
 
   //////////////////////////////////////////////////////////////////////////////
+  /// @brief Color clamping
+  /// @return A new Color equal to this color with values clamped to [0.0, 1.0]
+  //////////////////////////////////////////////////////////////////////////////
+  [[nodiscard]] Color clamped() const;
+
+  //////////////////////////////////////////////////////////////////////////////
   /// @brief Color addition
   /// @param[in] other The other color
   /// @return A new color equal to the sum of this color's channels with those

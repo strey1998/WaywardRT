@@ -21,10 +21,12 @@ set(WaywardRT_SOURCE_FILES
   src/Vec3.cpp
   src/Materials/Dielectric.cpp
   src/Materials/DiffuseLight.cpp
+  src/Materials/Isotropic.cpp
   src/Materials/Lambertian.cpp
   src/Materials/Material.cpp
   src/Materials/Metal.cpp
   src/Objects/Box.cpp
+  src/Objects/ConstantMedium.cpp
   src/Objects/Hittable.cpp
   src/Objects/HittableList.cpp
   src/Objects/MovingSphere.cpp

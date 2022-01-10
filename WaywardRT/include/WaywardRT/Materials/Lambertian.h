@@ -1,4 +1,4 @@
-// WaywardRT/WaywardRT/include/WaywardRT/Materials/Labertian.h
+// WaywardRT/WaywardRT/include/WaywardRT/Materials/Lambertian.h
 // Copyright 2022 Trey Stoner
 // All rights reserved
 
@@ -17,7 +17,7 @@ namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
 //////////////////////////////////////////////////////////////////////////////
-/// Represents an hittable object
+/// Represents a Lambertian material
 /// @author   Trey Stoner
 /// @version  0.1.0
 /// @since    0.1.0
@@ -25,12 +25,13 @@ namespace WaywardRT {
 class WAYWARDRT_EXPORT Lambertian : public Material {
  private:
   std::shared_ptr<Texture> m_Albedo;
+
  public:
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Construct a new Lambertian material with solid albedo a
-  /// @param[in] a The color of the material
+  /// @param[in] c The color of the material
   //////////////////////////////////////////////////////////////////////////////
-  explicit Lambertian(const Color& a);
+  explicit Lambertian(const Color& c);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Construct a new Lambertian material with texture albedo a
