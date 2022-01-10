@@ -9,8 +9,6 @@
 #include <ostream>
 #include <stdexcept>
 
-#include "WaywardRT/util.h"
-
 namespace WaywardRT {
 
 Color Color::Random() {
@@ -37,16 +35,16 @@ Color Color::exp(real e) const {
 
 Color Color::operator+(const Color& other) const {
   return Color(
-    WaywardRT::clamp(r + other.r, 0.0, 1.0),
-    WaywardRT::clamp(g + other.g, 0.0, 1.0),
-    WaywardRT::clamp(b + other.b, 0.0, 1.0));
+    r + other.r,
+    g + other.g,
+    b + other.b);
 }
 
 Color Color::operator-(const Color& other) const {
   return Color(
-    WaywardRT::clamp(r - other.r, 0.0, 1.0),
-    WaywardRT::clamp(g - other.g, 0.0, 1.0),
-    WaywardRT::clamp(b - other.b, 0.0, 1.0));
+    r - other.r,
+    g - other.g,
+    b - other.b);
 }
 
 Color Color::operator*(const Color& other) const {
@@ -58,9 +56,9 @@ Color Color::operator*(const Color& other) const {
 
 Color Color::operator*(real other) const {
   return Color(
-    WaywardRT::clamp(r*other, 0.0, 1.0),
-    WaywardRT::clamp(g*other, 0.0, 1.0),
-    WaywardRT::clamp(b*other, 0.0, 1.0));
+    r * other,
+    g * other,
+    b * other);
 }
 
 Color operator*(real factor, const Color& color) {

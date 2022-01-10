@@ -39,9 +39,9 @@ Renderer3D::Renderer3D(
       m_RightRenderer(width, height, samples, depth,
                       background, world, rcamera, t0, t1) { }
 
-void Renderer3D::render(uint8_t thread_count) const {
-  m_LeftRenderer.render(thread_count);
-  m_RightRenderer.render(thread_count);
+void Renderer3D::render(uint8_t thread_count, bool use_BVH) const {
+  m_LeftRenderer.render(thread_count, use_BVH);
+  m_RightRenderer.render(thread_count, use_BVH);
 }
 
 void Renderer3D::write_image_data(Image& image, real gamma) const {

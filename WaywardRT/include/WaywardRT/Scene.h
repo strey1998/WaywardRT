@@ -22,10 +22,13 @@ struct WAYWARDRT_EXPORT Scene {
   Color background;
 
   static Scene RANDOM_SPHERES(float aspect_ratio);
+  static Scene MIRRORED_SPHERES(float aspect_ratio);
   static Scene LIT_SPHERES(float aspect_ratio);
   static Scene TWO_SPHERES(float aspect_ratio);
   static Scene TWO_PERLIN_SPHERES(float aspect_ratio);
   static Scene EARTH(float aspect_ratio);
+  static Scene SIMPLE_LIGHT(float aspect_ratio);
+  static Scene CORNELL_BOX(float aspect_ratio);
 };
 
 }  // namespace WaywardRT

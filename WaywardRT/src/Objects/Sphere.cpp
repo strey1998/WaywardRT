@@ -49,7 +49,8 @@ bool Sphere::hit(
   }
 
   rec.point = r.at(root);
-  rec.normal = (rec.point - center()) / radius();
+  rec.normal = c > 0 ? (rec.point - center()) / radius()
+                     : (center() - rec.point) / radius();
   rec.material = m_Material;
   rec.t = root;
   get_texture_coordinates_of_point(rec.normal, rec.u, rec.v);

@@ -27,6 +27,7 @@ class WAYWARDRT_EXPORT Sphere : public Hittable {
 
  public:
   Sphere() = delete;
+
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initialize a sphere
   /// @param[in] center The center

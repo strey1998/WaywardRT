@@ -26,6 +26,7 @@ set(WaywardRT_SOURCE_FILES
   src/Objects/Hittable.cpp
   src/Objects/HittableList.cpp
   src/Objects/MovingSphere.cpp
+  src/Objects/Rectangle.cpp
   src/Objects/Sphere.cpp
   src/Renderers/Renderer.cpp
   src/Renderers/Renderer3D.cpp

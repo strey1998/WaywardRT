@@ -89,7 +89,7 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
   //////////////////////////////////////////////////////////////////////////////
   /// {@inheritDocs}
   //////////////////////////////////////////////////////////////////////////////
-  void render(uint8_t thread_count = 1) const override;
+  void render(uint8_t thread_count = 1, bool use_BVH = true) const override;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Renders a part of the image
@@ -99,7 +99,9 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
   /// @param[in] yMax The topmost pixel row to render
   //////////////////////////////////////////////////////////////////////////////
   void render_subimage(
-    uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax) const;
+    uint16_t xMin, uint16_t xMax,
+    uint16_t yMin, uint16_t yMax,
+    bool use_BVH) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Renders a part of the image
@@ -111,7 +113,8 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
   //////////////////////////////////////////////////////////////////////////////
   void render_subimage(
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax,
-    std::atomic<uint32_t>& progress) const;
+    std::atomic<uint32_t>& progress,
+    bool use_BVH) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Gets a pointer to this renderer's image data

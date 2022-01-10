@@ -17,10 +17,10 @@
 
 int main(int, const char**) {
   // SETTINGS
-  constexpr int IMAGE_WIDTH = 1920;
+  constexpr int IMAGE_WIDTH = 1080;
   constexpr int IMAGE_HEIGHT =  1080;
-  constexpr int SAMPLES = 250;
-  constexpr int DEPTH = 100;
+  constexpr int SAMPLES = 200;
+  constexpr int DEPTH = 50;
 
   // LOG
   WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);
@@ -28,8 +28,8 @@ int main(int, const char**) {
   // IMAGE
   WaywardRT::BMPImage image(IMAGE_WIDTH, IMAGE_HEIGHT, true);
 
-  // Scene
-  auto scene = WaywardRT::Scene::LIT_SPHERES(
+  // SCENE
+  auto scene = WaywardRT::Scene::CORNELL_BOX(
     static_cast<float>(IMAGE_WIDTH) / IMAGE_HEIGHT);
 
   // RENDER

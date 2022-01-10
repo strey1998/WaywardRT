@@ -14,7 +14,7 @@ BoundingBox::BoundingBox() { }
 
 BoundingBox::BoundingBox(const Vec3& p0, const Vec3& p1) : p0(p0), p1(p1) { }
 
-#if 1
+#if 0
 bool BoundingBox::hit(const Ray& r, real t_min, real t_max) const {
   for (int i = 0; i < 3; ++i) {
     real t0 = fmin(

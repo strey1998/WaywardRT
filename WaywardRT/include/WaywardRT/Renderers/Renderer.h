@@ -30,7 +30,7 @@ class WAYWARDRT_EXPORT Renderer {
   /// @brief Renders the image
   /// @param[in] thread_count The number of threads to use (default = 1)
   //////////////////////////////////////////////////////////////////////////////
-  virtual void render(uint8_t thread_count = 1) const = 0;
+  virtual void render(uint8_t thread_count = 1, bool use_BVH = true) const = 0;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Writes the image data to an image object

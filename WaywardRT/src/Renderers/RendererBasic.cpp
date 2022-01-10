@@ -71,7 +71,7 @@ RendererBasic::~RendererBasic() {
   free(m_ImageData);
 }
 
-void RendererBasic::render(uint8_t thread_count) const {
+void RendererBasic::render(uint8_t thread_count, bool use_BVH) const {
   std::vector<std::thread> threads;
   std::vector<uint16_t> partition;
 
@@ -87,7 +87,7 @@ void RendererBasic::render(uint8_t thread_count) const {
     for (int i = 0; i < thread_count; ++i) {
       if (partition[i] >= partition[i+1]) continue;
       threads.push_back(std::thread([=] {
-        render_subimage(0, m_Width, partition[i], partition[i+1]-1);
+        render_subimage(0, m_Width, partition[i], partition[i+1]-1, use_BVH);
       }));
     }
   #else
@@ -96,7 +96,8 @@ void RendererBasic::render(uint8_t thread_count) const {
     for (int i = 0; i < thread_count; ++i) {
       if (partition[i] >= partition[i+1]) continue;
       threads.push_back(std::thread([=, &progress] {
-        render_subimage(0, m_Width, partition[i], partition[i+1]-1, progress);
+        render_subimage(
+          0, m_Width, partition[i], partition[i+1]-1, progress, use_BVH);
       }));
     }
 
@@ -123,23 +124,40 @@ void RendererBasic::render(uint8_t thread_count) const {
 }
 
 void RendererBasic::render_subimage(
-    uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax) const {
+    uint16_t xMin, uint16_t xMax,
+    uint16_t yMin, uint16_t yMax,
+    bool use_BVH) const {
   if (xMax > m_Width - 1) xMax = m_Width - 1;
   if (yMax > m_Height - 1) yMax = m_Height - 1;
 
   WLOG_TRACE(
     "Starting render of region ({}, {})x({}, {})", xMin, xMax, yMin, yMax);
 
-  for (int j = yMin; j <= yMax; ++j) {
-    for (int i = xMin; i <= xMax; ++i) {
-      WaywardRT::Color c(0, 0, 0);
-      for (int s = 0; s < m_Samples; ++s) {
-        real u = (i + WaywardRT::random_real()) / (m_Width - 1);
-        real v = (j + WaywardRT::random_real()) / (m_Height - 1);
-        WaywardRT::Ray r = m_Camera.get_ray(u, v);
-        c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
+  if (use_BVH) {
+    for (int j = yMin; j <= yMax; ++j) {
+      for (int i = xMin; i <= xMax; ++i) {
+        WaywardRT::Color c(0, 0, 0);
+        for (int s = 0; s < m_Samples; ++s) {
+          real u = (i + WaywardRT::random_real()) / (m_Width - 1);
+          real v = (j + WaywardRT::random_real()) / (m_Height - 1);
+          WaywardRT::Ray r = m_Camera.get_ray(u, v);
+          c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
+        }
+        m_ImageData[i+m_Width*j] = c;
       }
-      m_ImageData[i+m_Width*j] = c;
+    }
+  } else {
+    for (int j = yMin; j <= yMax; ++j) {
+      for (int i = xMin; i <= xMax; ++i) {
+        WaywardRT::Color c(0, 0, 0);
+        for (int s = 0; s < m_Samples; ++s) {
+          real u = (i + WaywardRT::random_real()) / (m_Width - 1);
+          real v = (j + WaywardRT::random_real()) / (m_Height - 1);
+          WaywardRT::Ray r = m_Camera.get_ray(u, v);
+          c += ray_color(r, m_Background, m_World, m_Depth) / m_Samples;
+        }
+        m_ImageData[i+m_Width*j] = c;
+      }
     }
   }
 
@@ -149,7 +167,7 @@ void RendererBasic::render_subimage(
 
 void RendererBasic::render_subimage(
     uint16_t xMin, uint16_t xMax, uint16_t yMin, uint16_t yMax,
-    std::atomic<uint32_t>& progress) const {
+    std::atomic<uint32_t>& progress, bool use_BVH) const {
   if (xMax > m_Width - 1) xMax = m_Width - 1;
   if (yMax > m_Height - 1) yMax = m_Height - 1;
 
@@ -165,19 +183,39 @@ void RendererBasic::render_subimage(
 
   int ij = 1;
   int progress_ = 0;
-  for (int j = yMin; j <= yMax; ++j) {
-    for (int i = xMin; i <= xMax; ++i) {
-      WaywardRT::Color c(0, 0, 0);
-      for (int s = 0; s < m_Samples; ++s) {
-        real u = (i + WaywardRT::random_real()) / (m_Width - 1);
-        real v = (j + WaywardRT::random_real()) / (m_Height - 1);
-        WaywardRT::Ray r = m_Camera.get_ray(u, v);
-        c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
+
+  if (use_BVH) {
+    for (int j = yMin; j <= yMax; ++j) {
+      for (int i = xMin; i <= xMax; ++i) {
+        WaywardRT::Color c(0, 0, 0);
+        for (int s = 0; s < m_Samples; ++s) {
+          real u = (i + WaywardRT::random_real()) / (m_Width - 1);
+          real v = (j + WaywardRT::random_real()) / (m_Height - 1);
+          WaywardRT::Ray r = m_Camera.get_ray(u, v);
+          c += ray_color(r, m_Background, m_BVH, m_Depth) / m_Samples;
+        }
+        m_ImageData[i+m_Width*j] = c;
+        if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
+          progress_++;
+          progress++;
+        }
       }
-      m_ImageData[i+m_Width*j] = c;
-      if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
-        progress_++;
-        progress++;
+    }
+  } else {
+    for (int j = yMin; j <= yMax; ++j) {
+      for (int i = xMin; i <= xMax; ++i) {
+        WaywardRT::Color c(0, 0, 0);
+        for (int s = 0; s < m_Samples; ++s) {
+          real u = (i + WaywardRT::random_real()) / (m_Width - 1);
+          real v = (j + WaywardRT::random_real()) / (m_Height - 1);
+          WaywardRT::Ray r = m_Camera.get_ray(u, v);
+          c += ray_color(r, m_Background, m_World, m_Depth) / m_Samples;
+        }
+        m_ImageData[i+m_Width*j] = c;
+        if (ij++ % pixels_per_update == 0 && progress_ < 1000) {
+          progress_++;
+          progress++;
+        }
       }
     }
   }

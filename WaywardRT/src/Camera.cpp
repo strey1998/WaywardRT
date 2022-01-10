@@ -12,7 +12,13 @@
 namespace WaywardRT {
 
 Camera::Camera()
-  : Camera(Vec3(0, 0, 0), Vec3(0, 0, 1), Vec3(0, 1, 0), 20, 16.0/9.0, 0.0) { }
+  : m_Origin(),
+    m_LowerLeftCorner(),
+    m_Horizontal(),
+    m_Vertical(),
+    m_W(), m_U(), m_V(),
+    m_LensRadius(),
+    m_T0(), m_T1() { }
 
 Camera::Camera(
   Vec3 look_from,
