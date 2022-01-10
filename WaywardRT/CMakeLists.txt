@@ -15,19 +15,23 @@ set(WaywardRT_SOURCE_FILES
   src/Color.cpp
   src/log.cpp
   src/Perlin.cpp
+  src/Quaternion.cpp
   src/Ray.cpp
-  src/Vec3.cpp
   src/Scene.cpp
+  src/Vec3.cpp
   src/Materials/Dielectric.cpp
   src/Materials/DiffuseLight.cpp
   src/Materials/Lambertian.cpp
   src/Materials/Material.cpp
   src/Materials/Metal.cpp
+  src/Objects/Box.cpp
   src/Objects/Hittable.cpp
   src/Objects/HittableList.cpp
   src/Objects/MovingSphere.cpp
   src/Objects/Rectangle.cpp
+  src/Objects/Rotate.cpp
   src/Objects/Sphere.cpp
+  src/Objects/Translate.cpp
   src/Renderers/Renderer.cpp
   src/Renderers/Renderer3D.cpp
   src/Renderers/RendererBasic.cpp

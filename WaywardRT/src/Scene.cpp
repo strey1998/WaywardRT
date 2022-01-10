@@ -13,9 +13,12 @@
 #include "WaywardRT/Materials/DiffuseLight.h"
 #include "WaywardRT/Materials/Lambertian.h"
 #include "WaywardRT/Materials/Metal.h"
+#include "WaywardRT/Objects/Box.h"
 #include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/Objects/Rectangle.h"
+#include "WaywardRT/Objects/Rotate.h"
 #include "WaywardRT/Objects/Sphere.h"
+#include "WaywardRT/Objects/Translate.h"
 #include "WaywardRT/Textures/Camo.h"
 #include "WaywardRT/Textures/Checkered.h"
 #include "WaywardRT/Textures/ImageTexture.h"
@@ -394,6 +397,18 @@ Scene Scene::CORNELL_BOX(float aspect_ratio) {
   world.add(std::make_shared<RectangleXZ>(0, 555, 555, 0, 555, tWhite));
   world.add(std::make_shared<RectangleXY>(0, 555, 0, 555, 555, tWhite));
 
+  std::shared_ptr<Hittable> box1
+    = std::make_shared<Box>(Vec3(), Vec3(165, 330, 165), tWhite);
+  box1 = std::make_shared<Rotate>(box1, Vec3(0, 1, 0), 0.2618);
+  box1 = std::make_shared<Translate>(box1, Vec3(265, 0, 295));
+  world.add(box1);
+
+  std::shared_ptr<Hittable> box2
+    = std::make_shared<Box>(Vec3(), Vec3(165, 165, 165), tWhite);
+  box2 = std::make_shared<Rotate>(box2, Vec3(0, 1, 0), -0.3142);
+  box2 = std::make_shared<Translate>(box2, Vec3(130, 0, 65));
+  world.add(box2);
+
   scene.world = world;
 
   // CAMERA
@@ -405,6 +420,72 @@ Scene Scene::CORNELL_BOX(float aspect_ratio) {
 
   // BACKGROUND
   scene.background = Color();
+
+  return scene;
+}
+
+Scene Scene::ROTATION_TEST(float aspect_ratio) {
+  Scene scene;
+
+  HittableList world;
+
+  const Vec3 axis = Vec3(1, 2, 3).e();
+  const real theta = 1.5422;
+
+  auto mRed   = std::make_shared<Lambertian>(Color(0.65, 0.05, 0.05));
+  auto mWhite = std::make_shared<Lambertian>(Color(0.73, 0.73, 0.73));
+  auto mGreen = std::make_shared<Lambertian>(Color(0.12, 0.45, 0.15));
+  auto mBlack = std::make_shared<Lambertian>(Color(0.05, 0.05, 0.05));
+  auto mCyan  = std::make_shared<Lambertian>(Color(0.10, 0.80, 0.80));
+  auto mBlue  = std::make_shared<Lambertian>(Color(0.10, 0.10, 0.90));
+
+  world.add(
+    std::make_shared<Rotate>(
+      std::make_shared<RectangleYZ>(-1, -1, 1, -1, 1, mRed),
+      axis, theta));
+  world.add(
+    std::make_shared<Rotate>(
+      std::make_shared<RectangleYZ>(1, -1, 1, -1, 1, mWhite),
+      axis, theta));
+
+  world.add(
+    std::make_shared<Rotate>(
+      std::make_shared<RectangleXZ>(-1, 1, -1, -1, 1, mGreen),
+      axis, theta));
+  world.add(
+    std::make_shared<Rotate>(
+      std::make_shared<RectangleXZ>(-1, 1, 1, -1, 1, mBlack),
+      axis, theta));
+
+  world.add(
+    std::make_shared<Rotate>(
+      std::make_shared<RectangleXY>(-1, 1, -1, 1, -1, mCyan),
+      axis, theta));
+  world.add(
+    std::make_shared<Rotate>(
+      std::make_shared<RectangleXY>(-1, 1, -1, 1, 1, mBlue),
+      axis, theta));
+
+  world.add(std::make_shared<Sphere>(Vec3(-5, 0, 0), 0.5, mRed));
+  world.add(std::make_shared<Sphere>(Vec3(5, 0, 0), 0.5, mWhite));
+
+  world.add(std::make_shared<Sphere>(Vec3(0, -5, 0), 0.5, mGreen));
+  world.add(std::make_shared<Sphere>(Vec3(0, 5, 0), 0.5, mBlack));
+
+  world.add(std::make_shared<Sphere>(Vec3(0, 0, -5), 0.5, mCyan));
+  world.add(std::make_shared<Sphere>(Vec3(0, 0, 5), 0.5, mBlue));
+
+  scene.world = world;
+
+  // CAMERA
+  scene.camera = Camera(
+    WaywardRT::Vec3(10, 10, 10),
+    WaywardRT::Vec3(0, 0, 0),
+    WaywardRT::Vec3(0, 1, 0),
+    40, aspect_ratio);
+
+  // BACKGROUND
+  scene.background = Color(1, 1, 1);
 
   return scene;
 }

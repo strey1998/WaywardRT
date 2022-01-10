@@ -9,6 +9,7 @@ if(NOT TARGET GTest::gtest)
 endif()
 
 set(WaywardRT_TEST_SOURCE_FILES
+  src/QuaternionTest.cpp
   src/RayTest.cpp
   src/Vec3Test.cpp
 )

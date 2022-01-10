@@ -29,6 +29,7 @@ struct WAYWARDRT_EXPORT Scene {
   static Scene EARTH(float aspect_ratio);
   static Scene SIMPLE_LIGHT(float aspect_ratio);
   static Scene CORNELL_BOX(float aspect_ratio);
+  static Scene ROTATION_TEST(float aspect_ratio);
 };
 
 }  // namespace WaywardRT

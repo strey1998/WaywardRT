@@ -19,8 +19,8 @@ int main(int, const char**) {
   // SETTINGS
   constexpr int IMAGE_WIDTH = 1080;
   constexpr int IMAGE_HEIGHT =  1080;
-  constexpr int SAMPLES = 200;
-  constexpr int DEPTH = 50;
+  constexpr int SAMPLES = 300;
+  constexpr int DEPTH = 80;
 
   // LOG
   WLOG_SET_LEVEL(WLOG_LEVEL_TRACE);

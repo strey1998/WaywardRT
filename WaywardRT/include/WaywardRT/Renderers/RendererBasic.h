@@ -37,10 +37,10 @@ class WAYWARDRT_EXPORT RendererBasic : public Renderer {
 
  public:
   RendererBasic() = delete;
-  RendererBasic(const Renderer&) = delete;
-  RendererBasic(Renderer&&) = delete;
-  RendererBasic& operator=(const Renderer&) = delete;
-  RendererBasic& operator=(Renderer&&) = delete;
+  RendererBasic(const RendererBasic&) = delete;
+  RendererBasic(RendererBasic&&) = delete;
+  RendererBasic& operator=(const RendererBasic&) = delete;
+  RendererBasic& operator=(RendererBasic&&) = delete;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializer
