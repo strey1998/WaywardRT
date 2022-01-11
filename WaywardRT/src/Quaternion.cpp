@@ -97,16 +97,8 @@ Quaternion Quaternion::operator*(const Quaternion& other) const noexcept {
                       + cross(this->m_VectorPart, other.m_VectorPart));
 }
 
-Quaternion operator*(const Vec3& v, const Quaternion& q) {
-  return Quaternion(v) * q;
-}
-
 Quaternion Quaternion::operator*(real other) const noexcept {
   return Quaternion(other*m_RealPart, other*m_VectorPart);
-}
-
-Quaternion operator*(real a, const Quaternion& q) {
-  return q * a;
 }
 
 Quaternion Quaternion::operator/(real other) const noexcept {

@@ -24,8 +24,9 @@ static void BM_dot_product(benchmark::State& s) {
   }
 
   uint16_t i = 0;
+  WaywardRT::real dp;
   while (s.KeepRunning()) {
-    auto s = vecs1[i] * vecs2[i];
+    benchmark::DoNotOptimize(dp = vecs1[i] * vecs2[i]);
     i++;
   }
 }

@@ -17,7 +17,7 @@ Color Color::Random() {
 
 Color::Color() : r(0.0), g(0.0), b(0.0) { }
 
-Color::Color(float r, float g, float b) : r(r), g(g), b(b) { }
+Color::Color(real r, real g, real b) : r(r), g(g), b(b) { }
 
 Color Color::lerp(const Color& other, real t) const {
   if (t < 0.0 || t > 1.0) throw std::out_of_range(
@@ -66,10 +66,6 @@ Color Color::operator*(real other) const {
     r * other,
     g * other,
     b * other);
-}
-
-Color operator*(real factor, const Color& color) {
-  return color*factor;
 }
 
 Color Color::operator/(real other) const {

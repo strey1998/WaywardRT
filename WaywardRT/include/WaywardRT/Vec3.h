@@ -139,7 +139,9 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @param[in] v A vector
   /// @return The product of a with v
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 operator*(real a, const Vec3& v);
+  [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 operator*(real a, const Vec3& v) {
+    return v*a;
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar division
@@ -163,7 +165,9 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @return The cross product of the two vectors
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] WAYWARDRT_EXPORT friend Vec3 cross(
-    const Vec3& v1, const Vec3& v2) noexcept;
+      const Vec3& v1, const Vec3& v2) noexcept {
+    return v1.cross(v2);
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Vector addition assignment

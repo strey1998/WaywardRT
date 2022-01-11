@@ -111,8 +111,6 @@ Vec3 Vec3::operator*(real other) const noexcept {
   return Vec3(x*other, y*other, z*other);
 }
 
-Vec3 operator*(real a, const Vec3& v) { return v*a; }
-
 Vec3 Vec3::operator/(real other) const noexcept {
   return Vec3(x*(1/other), y*(1/other), z*(1/other));
 }
@@ -122,10 +120,6 @@ Vec3 Vec3::cross(const Vec3& other) const noexcept {
     y*other.z - z*other.y,
     z*other.x - x*other.z,
     x*other.y - y*other.x);
-}
-
-Vec3 cross(const Vec3& v1, const Vec3& v2) noexcept {
-  return v1.cross(v2);
 }
 
 Vec3& Vec3::operator+=(const Vec3& other) noexcept {

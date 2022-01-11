@@ -68,8 +68,9 @@ BVHNode::BVHNode(
 
   BoundingBox b1, b2;
 
-  if (!m_C1->bounding_box(t0, t1, b1) || !m_C2->bounding_box(t0, t1, b2))
+  if (!m_C1->bounding_box(t0, t1, b1) || !m_C2->bounding_box(t0, t1, b2)) {
     WLOG_ERROR("No bounding box in BVHNode construction");
+  }
 
   m_Box = bb_union(b1, b2);
 }
@@ -98,8 +99,9 @@ static inline bool box_compare(
     int axis) {
   BoundingBox box_a, box_b;
 
-  if (!a->bounding_box(0, 0, box_a) || !b->bounding_box(0, 0, box_b))
+  if (!a->bounding_box(0, 0, box_a) || !b->bounding_box(0, 0, box_b)) {
     WLOG_ERROR("No bounding box in BVHNode construction");
+  }
 
   return box_a.p0[axis] < box_b.p0[axis];
 }
