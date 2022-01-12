@@ -17,7 +17,7 @@ BoundingBox::BoundingBox() { }
 BoundingBox::BoundingBox(const Vec3& p0, const Vec3& p1) : p0(p0), p1(p1) { }
 
 bool BoundingBox::hit(const Ray& r, real t_min, real t_max) const {
-  for (int i = 0; i < 3; ++i) {
+  for (uint8_t i = 0; i < 3; ++i) {
     real inv_d = 1.0 / r.direction()[i];
     real t0 = (p0[i] - r.origin()[i]) * inv_d;
     real t1 = (p1[i] - r.origin()[i]) * inv_d;

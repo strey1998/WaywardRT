@@ -19,7 +19,7 @@ int main(int, const char**) {
   // SETTINGS
   constexpr int IMAGE_WIDTH = 360;
   constexpr int IMAGE_HEIGHT = 360;
-  constexpr int SAMPLES = 200;
+  constexpr int SAMPLES = 10;
   constexpr int DEPTH = 50;
 
   // LOG

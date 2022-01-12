@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <iomanip>
 #include <ostream>
+#include <sstream>
 #include <stdexcept>
 
 #include "WaywardRT/util.h"

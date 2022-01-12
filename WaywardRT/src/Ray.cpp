@@ -10,6 +10,8 @@
 
 namespace WaywardRT {
 
+Ray::Ray(const Vec3& direction, real time) : Ray(Vec3(), direction, time) { }
+
 Ray::Ray(const Vec3& origin, const Vec3& direction, real time)
   : m_Origin(origin), m_Direction(direction), m_Time(time) { }
 

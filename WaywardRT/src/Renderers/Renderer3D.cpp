@@ -54,14 +54,14 @@ void Renderer3D::write_image_data(Image& image, real gamma) const {
   const Color* left_data = m_LeftRenderer.image_data();
   const Color* right_data = m_RightRenderer.image_data();
 
-  for (int j = 0; j < m_Height; ++j) {
-    for (int i = 0; i < m_Width; ++i) {
+  for (uint16_t j = 0; j < m_Height; ++j) {
+    for (uint16_t i = 0; i < m_Width; ++i) {
       image.setPixel(i, j, left_data[i+m_Width*j].exp(1/gamma));
     }
   }
 
-  for (int j = 0; j < m_Height; ++j) {
-    for (int i = 0; i < m_Width; ++i) {
+  for (uint16_t j = 0; j < m_Height; ++j) {
+    for (uint16_t i = 0; i < m_Width; ++i) {
       image.setPixel(i+m_Width, j, right_data[i+m_Width*j].exp(1/gamma));
     }
   }

@@ -3,13 +3,24 @@ cmake_minimum_required(VERSION 3.10)
 set(WaywardRT_INCLUDE_DIRS
   include
 )
-file(GLOB_RECURSE WaywardRT_HEADER_FILES include/*.h)
+file(GLOB WaywardRT_HEADER_FILES_ROOT       include/WaywardRT/*.h)
+file(GLOB WaywardRT_HEADER_FILES_MATERIALS  include/WaywardRT/Materials/*.h)
+file(GLOB WaywardRT_HEADER_FILES_OBJECTS    include/WaywardRT/Objects/*.h)
+file(GLOB WaywardRT_HEADER_FILES_RENDERERS  include/WaywardRT/Renderers/*.h)
+file(GLOB WaywardRT_HEADER_FILES_TEXTURES   include/WaywardRT/Textures/*.h)
+set(WaywardRT_HEADER_FILES
+  ${WaywardRT_HEADER_FILES_ROOT}
+  ${WaywardRT_HEADER_FILES_MATERIALS}
+  ${WaywardRT_HEADER_FILES_OBJECTS}
+  ${WaywardRT_HEADER_FILES_RENDERERS}
+  ${WaywardRT_HEADER_FILES_TEXTURES}
+)
 
 option(WaywardRT_ENABLE_LOGGING "Enable console logging in debug mode" YES)
 option(WaywardRT_ENABLE_CONSOLE_LOGGING "Enable console logging in debug mode (this will disable progress bar)" NO)
 option(WaywardRT_PRECISION_SINGLE "Use single precision floats" NO)
 
-set(WaywardRT_SOURCE_FILES
+set(WaywardRT_SOURCE_FILES_ROOT
   src/BMPImage.cpp
   src/BoundingBox.cpp
   src/BVHNode.cpp
@@ -21,12 +32,16 @@ set(WaywardRT_SOURCE_FILES
   src/Ray.cpp
   src/Scene.cpp
   src/Vec3.cpp
+ )
+ set(WaywardRT_SOURCE_FILES_MATERIALS
   src/Materials/Dielectric.cpp
   src/Materials/DiffuseLight.cpp
   src/Materials/Isotropic.cpp
   src/Materials/Lambertian.cpp
   src/Materials/Material.cpp
   src/Materials/Metal.cpp
+)
+set(WaywardRT_SOURCE_FILES_OBJECTS
   src/Objects/Box.cpp
   src/Objects/ConstantMedium.cpp
   src/Objects/Hittable.cpp
@@ -36,9 +51,13 @@ set(WaywardRT_SOURCE_FILES
   src/Objects/Rotate.cpp
   src/Objects/Sphere.cpp
   src/Objects/Translate.cpp
+ )
+ set(WaywardRT_SOURCE_FILES_RENDERERS
   src/Renderers/Renderer.cpp
   src/Renderers/Renderer3D.cpp
   src/Renderers/RendererBasic.cpp
+)
+set(WaywardRT_SOURCE_FILES_TEXTURES
   src/Textures/Camo.cpp
   src/Textures/Checkered.cpp
   src/Textures/ImageTexture.cpp
@@ -46,11 +65,34 @@ set(WaywardRT_SOURCE_FILES
   src/Textures/SolidColor.cpp
   src/Textures/Texture.cpp
 )
+set(WaywardRT_SOURCE_FILES
+  ${WaywardRT_SOURCE_FILES_ROOT}
+  ${WaywardRT_SOURCE_FILES_MATERIALS}
+  ${WaywardRT_SOURCE_FILES_OBJECTS}
+  ${WaywardRT_SOURCE_FILES_RENDERERS}
+  ${WaywardRT_SOURCE_FILES_TEXTURES}
+)
 
-add_library(WaywardRT ${WaywardRT_SOURCE_FILES})
+source_group(include             FILES  ${WaywardRT_HEADER_FILES_ROOT})
+source_group(include\\Materials  FILES  ${WaywardRT_HEADER_FILES_MATERIALS})
+source_group(include\\Objects    FILES  ${WaywardRT_HEADER_FILES_OBJECTS})
+source_group(include\\Renderers  FILES  ${WaywardRT_HEADER_FILES_RENDERERS})
+source_group(include\\Textures   FILES  ${WaywardRT_HEADER_FILES_TEXTURES})
+
+source_group(src             FILES  ${WaywardRT_SOURCE_FILES_ROOT})
+source_group(src\\Materials  FILES  ${WaywardRT_SOURCE_FILES_MATERIALS})
+source_group(src\\Objects    FILES  ${WaywardRT_SOURCE_FILES_OBJECTS})
+source_group(src\\Renderers  FILES  ${WaywardRT_SOURCE_FILES_RENDERERS})
+source_group(src\\Textures   FILES  ${WaywardRT_SOURCE_FILES_TEXTURES})
+
+add_library(WaywardRT ${WaywardRT_SOURCE_FILES} ${WaywardRT_HEADER_FILES})
 target_include_directories(WaywardRT PUBLIC ${WaywardRT_INCLUDE_DIRS})
 target_include_directories(WaywardRT PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(WaywardRT PRIVATE pthread stb_image stb_image_write progress_bar)
+target_link_libraries(WaywardRT PRIVATE stb_image stb_image_write progress_bar)
+
+if(NOT MSVC)
+target_link_libraries(WaywardRT PRIVATE pthread)
+endif()
 
 if(WaywardRT_PRECISION_SINGLE)
   target_compile_definitions(WaywardRT PUBLIC WAYWARDRT_PRECISION_SINGLE)

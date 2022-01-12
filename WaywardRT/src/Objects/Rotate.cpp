@@ -58,7 +58,7 @@ bool Rotate::bounding_box(real t0, real t1, BoundingBox& box) const {
         // TODO(TS): WHY INVERSE????
         Vec3 rotated = m_Rotation.apply_inverse_rotation(vertex);
 
-        for (int n = 0; n < 3; ++n) {
+        for (uint8_t n = 0; n < 3; ++n) {
           min[n] = fmin(min[n], rotated[n]);
           max[n] = fmax(max[n], rotated[n]);
         }

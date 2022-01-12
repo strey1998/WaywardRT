@@ -18,7 +18,8 @@ namespace WaywardRT {
 ImageTexture::ImageTexture()
   : m_Data(nullptr), m_Width(0), m_Height(0), m_BytesPerScanline(0) { }
 
-ImageTexture::ImageTexture(const char* filename) {
+ImageTexture::ImageTexture(const char* filename)
+    : m_Data(nullptr), m_Width(0), m_Height(0), m_BytesPerScanline(0) {
   int components_per_pixel = bytes_per_pixel;
 
   m_Data = stbi_load(
@@ -56,8 +57,8 @@ Color ImageTexture::value(real u, real v, const Vec3& p) const {
   u = clamp(u, 0.0, 1.0);
   v = 1.0 - clamp(v, 0.0, 1.0);
 
-  uint16_t i = static_cast<uint16_t>(u * m_Width);
-  uint16_t j = static_cast<uint16_t>(v * m_Height);
+  int i = static_cast<int>(u * m_Width);
+  int j = static_cast<int>(v * m_Height);
 
   if (i >= m_Width)  i = m_Width - 1;
   if (j >= m_Height) j = m_Height - 1;

@@ -21,9 +21,18 @@
 #include "WaywardRT/util.h"
 
 #ifndef WAYWARDRT_ENABLE_CONSOLE_LOGGING
-#include <unistd.h>
 #include <iostream>
 #include "progress_bar/progress_bar.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#define SLEEP(x) Sleep(x);
+#define PROGRESS_BAR_FILLED_CHAR "="
+#else
+#include <unistd.h>
+#define SLEEP(x) usleep(1000*x);
+#define PROGRESS_BAR_FILLED_CHAR "\u2588"
+#endif
 #endif
 
 namespace WaywardRT {
@@ -110,13 +119,14 @@ void RendererBasic::render(uint8_t thread_count, bool use_BVH) const {
 
     ProgressBar progressBar(thread_count*1000, "RENDER");
     progressBar.SetFrequencyUpdate(10000);
-    progressBar.SetStyle("\u2588", " ");
+    progressBar.SetStyle(PROGRESS_BAR_FILLED_CHAR, " ");
 
-    uint16_t progress_ = 0;
-    while (progress_ < 1000*thread_count) {
+    uint32_t progress_ = 0;
+    uint32_t max_progress = 1000 * thread_count;
+    while (progress_ < max_progress) {
       progress_ = progress.load();
       progressBar.Progressed(progress_);
-      usleep(100000);
+      SLEEP(100);
     }
 
     std::cout << std::endl;
@@ -237,8 +247,8 @@ void RendererBasic::render_subimage(
 const Color* RendererBasic::image_data() const noexcept { return m_ImageData; }
 
 void RendererBasic::write_image_data(Image& image, real gamma) const {
-  for (int j = 0; j < m_Height; ++j) {
-    for (int i = 0; i < m_Width; ++i) {
+  for (uint16_t j = 0; j < m_Height; ++j) {
+    for (uint16_t i = 0; i < m_Width; ++i) {
       image.setPixel(i, j, m_ImageData[i+m_Width*j].exp(1/gamma));
     }
   }

@@ -21,7 +21,9 @@ BMPImage::BMPImage(uint16_t width, uint16_t height, bool invertY)
 }
 
 BMPImage::BMPImage(const BMPImage& other)
-    : m_Width(other.m_Width), m_Height(other.m_Height) {
+    : m_Width(other.m_Width),
+      m_Height(other.m_Height),
+      m_InvertY(other.m_InvertY) {
   this->m_Data = reinterpret_cast<uint8_t*>(malloc(3 * m_Width * m_Height));
   std::copy(
     other.m_Data,
@@ -30,7 +32,9 @@ BMPImage::BMPImage(const BMPImage& other)
 }
 
 BMPImage::BMPImage(BMPImage&& other) noexcept
-    : m_Width(other.m_Width), m_Height(other.m_Height) {
+    : m_Width(other.m_Width),
+      m_Height(other.m_Height),
+      m_InvertY(other.m_InvertY) {
   this->m_Data = other.m_Data;
   other.m_Width = 0;
   other.m_Height = 0;
@@ -57,7 +61,7 @@ void swap(BMPImage& a, BMPImage& b) noexcept {
 }
 
 void BMPImage::setPixel(uint16_t x, uint16_t y, Color c) noexcept {
-  setPixel(x, y, 255.999*c.r, 255.999*c.g, 255.999*c.b);
+  setPixel(x, y, static_cast<uint8_t>(255.999*c.r), static_cast<uint8_t>(255.999 * c.g), static_cast<uint8_t>(255.999 * c.b));
 }
 
 void BMPImage::setPixel(

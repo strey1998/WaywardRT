@@ -18,7 +18,7 @@ namespace WaywardRT {
 static inline bool box_compare(
   const std::shared_ptr<Hittable> a,
   const std::shared_ptr<Hittable> b,
-  int axis);
+  uint8_t axis);
 
 static bool box_x_compare(
   const std::shared_ptr<Hittable> a,
@@ -43,7 +43,7 @@ BVHNode::BVHNode(
     size_t start, size_t end, real t0, real t1) {
   auto objects = src_objects;
 
-  uint8_t axis = random_int(0, 2);
+  uint8_t axis = random_int<uint8_t>(0, 2);
   auto comparator = (axis == 0) ? box_x_compare
                   : (axis == 1) ? box_y_compare
                                 : box_z_compare;
@@ -100,7 +100,7 @@ bool BVHNode::bounding_box(real, real, BoundingBox& box) const {
 static inline bool box_compare(
     const std::shared_ptr<Hittable> a,
     const std::shared_ptr<Hittable> b,
-    int axis) {
+    uint8_t axis) {
   BoundingBox box_a, box_b;
 
   if (!a->bounding_box(0, 0, box_a) || !b->bounding_box(0, 0, box_b)) {

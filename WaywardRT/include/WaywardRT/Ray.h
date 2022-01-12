@@ -23,7 +23,7 @@ class WAYWARDRT_EXPORT Ray {
  private:
   Vec3 m_Origin;
   Vec3 m_Direction;
-  real m_Time;
+  real m_Time = 0;
 
  public:
   Ray() = default;
@@ -31,8 +31,9 @@ class WAYWARDRT_EXPORT Ray {
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializes a ray with origin at (0, 0, 0)
   /// @param[in] direction The direction of the ray
+  /// @param[in] time      The time at which the ray exists
   //////////////////////////////////////////////////////////////////////////////
-  explicit Ray(const Vec3& direction);
+  explicit Ray(const Vec3& direction, real time = 0.0);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Initializes a ray

@@ -15,3 +15,7 @@ set(progress_bar_SOURCE_FILES
 
 add_library(progress_bar ${progress_bar_SOURCE_FILES})
 target_include_directories(progress_bar PUBLIC ${progress_bar_INCLUDE_DIRS})
+
+if(MSVC)
+  target_compile_options(progress_bar PRIVATE /W0)
+endif()

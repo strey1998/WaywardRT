@@ -7,6 +7,7 @@
 #include <cmath>
 #include <iomanip>
 #include <ostream>
+#include <sstream>
 
 #include "WaywardRT/util.h"
 
