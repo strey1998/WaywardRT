@@ -30,11 +30,11 @@ struct WAYWARDRT_EXPORT Color {
 
   static Color Random();
 
-  float r, g, b;
+  real r, g, b;
 
   Color();
 
-  Color(float r, float g, float b);
+  Color(real r, real g, real b);
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Linear interpolation
@@ -99,7 +99,9 @@ struct WAYWARDRT_EXPORT Color {
   /// @return A new color with each channel equal to color's times other
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] friend WAYWARDRT_EXPORT Color operator*(
-    real factor, const Color& color);
+      real factor, const Color& color) {
+    return Color(factor*color.r, factor*color.g, factor*color.b);
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Color division

@@ -18,8 +18,9 @@ static void BM_normalize(benchmark::State& s) {
   }
 
   uint16_t i = 0;
+  WaywardRT::Vec3 e;
   while (s.KeepRunning()) {
-    auto s = vecs[i++].e();
+    benchmark::DoNotOptimize(e = vecs[i++].e());
   }
 }
 BENCHMARK(BM_normalize);

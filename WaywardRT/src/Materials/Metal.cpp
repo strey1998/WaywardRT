@@ -20,10 +20,10 @@ bool Metal::scatter(
   Vec3 reflected = r.direction().e().reflect(rec.normal);
   attenuation = m_Albedo;
   if (reflected*rec.normal > 0) {
-    scattered = std::move(Ray(
+    scattered = Ray(
       rec.point,
       reflected + m_Fuzz*Vec3::random_in_unit_sphere(),
-      r.time()));
+      r.time());
     return true;
   }
 

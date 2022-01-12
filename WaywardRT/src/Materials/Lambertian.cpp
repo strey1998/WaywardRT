@@ -25,7 +25,7 @@ bool Lambertian::scatter(
     Color& attenuation)  const {
   Vec3 scatter_direction = rec.normal + Vec3::random_unit();
   if (scatter_direction == Vec3()) scatter_direction = rec.normal;
-  scattered = std::move(Ray(rec.point, scatter_direction, r.time()));
+  scattered = Ray(rec.point, scatter_direction, r.time());
   attenuation = m_Albedo->value(rec.u, rec.v, rec.point);
   return true;
 }

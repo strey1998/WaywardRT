@@ -11,15 +11,12 @@ option(WaywardRT_BUILD_TESTS "Build the WaywardRT tests" NO)
 option(WaywardRT_BUILD_BENCHMARKS "Build the WaywardRT benchmarks" NO)
 option(WaywardRT_BUILD_SAMPLES "Build the WaywardRT samples" YES)
 
-option(WaywardRT_ENABLE_LOGGING "Enable console logging in debug mode" YES)
-option(WaywardRT_ENABLE_CONSOLE_LOGGING "Enable console logging in debug mode (this will disable progress bar)" NO)
-
 set(WaywardRT_CPPLINT_FILEPATH cpplint CACHE FILEPATH "Cpplinter executable")
-set(WaywardRT_APPLY_CPPLINT NO CACHE BOOL "Run Cpplinter on source files")
+set(WaywardRT_APPLY_CPPLINT NO CACHE BOOL "Run Cpplinter")
 set(WaywardRT_APPLY_CPPLINT_HEADERS NO CACHE BOOL "Run Cpplinter on header files")
 
 set(WaywardRT_IWYU_FILEPATH include-what-you-use CACHE FILEPATH "IWYU executable")
-set(WaywardRT_APPLY_IWYU NO CACHE BOOL "Run IWYU on source files")
+set(WaywardRT_APPLY_IWYU NO CACHE BOOL "Run IWYU")
 set(WaywardRT_APPLY_IWYU_HEADERS NO CACHE BOOL "Run IWYU on header files")
 
 # spdlog ----------------------------------------------------------------------

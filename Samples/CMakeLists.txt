@@ -9,6 +9,12 @@ foreach(SAMPLE_FILE IN LISTS WaywardRT_Sample_SOURCE_FILES)
   add_executable(${SAMPLE_TARGET} ${SAMPLE_FILE})
   target_link_libraries(${SAMPLE_TARGET} WaywardRT)
 
+  set_target_properties(${SAMPLE_TARGET} PROPERTIES
+    CXX_STANDARD               17
+    CXX_VISIBILITY_PRESET      hidden
+    VISIBILITY_INLINES_HIDDEN  YES
+  )
+
   if(MSVC)
     target_compile_options(${SAMPLE_TARGET} PRIVATE /W4 /WX)
   else()

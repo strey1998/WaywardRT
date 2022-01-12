@@ -162,7 +162,9 @@ class WAYWARDRT_EXPORT Quaternion {
   /// @return The product of a with q
   //////////////////////////////////////////////////////////////////////////////
   [[nodiscard]] WAYWARDRT_EXPORT friend Quaternion operator*(
-    real a, const Quaternion& q);
+      real a, const Quaternion& q) {
+    return q*a;
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Scalar division
@@ -185,8 +187,10 @@ class WAYWARDRT_EXPORT Quaternion {
   /// @param[in] q A quaternion
   /// @return The product v*q, taking v as a quaternion with zero real part
   //////////////////////////////////////////////////////////////////////////////
-  [[nodiscard]] friend WAYWARDRT_EXPORT Quaternion operator*(
-    const Vec3& v, const Quaternion& q);
+  [[nodiscard]] WAYWARDRT_EXPORT friend Quaternion operator*(
+      const Vec3& v, const Quaternion& q) {
+    return Quaternion(v)*q;
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Quaterniontor addition assignment

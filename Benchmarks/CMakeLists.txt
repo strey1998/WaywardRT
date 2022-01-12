@@ -13,6 +13,12 @@ set(WaywardRT_BENCHMARK_SOURCE_FILES
 add_executable(WaywardRTAllBenchmarks ${WaywardRT_BENCHMARK_SOURCE_FILES})
 target_link_libraries(WaywardRTAllBenchmarks PRIVATE WaywardRT benchmark::benchmark_main)
 
+set_target_properties(WaywardRTAllBenchmarks PROPERTIES
+  CXX_STANDARD               17
+  CXX_VISIBILITY_PRESET      hidden
+  VISIBILITY_INLINES_HIDDEN  YES
+)
+
 if(MSVC)
   target_compile_options(WaywardRTAllBenchmarks
     PRIVATE
@@ -28,7 +34,7 @@ else()
       -Werror
       -Wno-unused-result
       -Wno-unused-variable
-      -Wno-unused-but-set-variable
+      $<$<CXX_COMPILER_ID:GNU>:-Wno-unused-but-set-variable>
   )
 endif()
 
@@ -36,6 +42,12 @@ foreach(BENCHMARK_FILE IN LISTS WaywardRT_BENCHMARK_SOURCE_FILES)
   get_filename_component(BENCHMARK_TARGET ${BENCHMARK_FILE} NAME_WE)
   add_executable(${BENCHMARK_TARGET} ${BENCHMARK_FILE})
   target_link_libraries(${BENCHMARK_TARGET} WaywardRT benchmark::benchmark_main)
+
+  set_target_properties(${BENCHMARK_TARGET} PROPERTIES
+    CXX_STANDARD               17
+    CXX_VISIBILITY_PRESET      hidden
+    VISIBILITY_INLINES_HIDDEN  YES
+  )
 
   if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")
     set_target_properties(${BENCHMARK_TARGET} PROPERTIES
@@ -58,7 +70,7 @@ foreach(BENCHMARK_FILE IN LISTS WaywardRT_BENCHMARK_SOURCE_FILES)
         -Werror
         -Wno-unused-result
         -Wno-unused-variable
-        -Wno-unused-but-set-variable
+        $<$<CXX_COMPILER_ID:GNU>:-Wno-unused-but-set-variable>
     )
   endif()
 
