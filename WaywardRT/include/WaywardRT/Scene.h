@@ -5,9 +5,6 @@
 #ifndef WAYWARDRT_INCLUDE_WAYWARDRT_SCENE_H_
 #define WAYWARDRT_INCLUDE_WAYWARDRT_SCENE_H_
 
-
-#include <utility>
-
 #include "WaywardRT_export.h"
 
 #include "WaywardRT/Camera.h"

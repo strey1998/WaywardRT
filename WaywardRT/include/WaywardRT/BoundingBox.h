@@ -7,8 +7,9 @@
 
 #include "WaywardRT_export.h"
 
-#include "WaywardRT/Ray.h"
 #include "WaywardRT/Vec3.h"
+#include "WaywardRT/util.h"
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

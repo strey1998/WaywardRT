@@ -9,10 +9,10 @@
 
 #include <memory>
 
-#include "WaywardRT/Color.h"
 #include "WaywardRT/Materials/Material.h"
-#include "WaywardRT/Textures/SolidColor.h"
-#include "WaywardRT/Textures/Texture.h"
+namespace WaywardRT { class Ray; }
+namespace WaywardRT { class Texture; }
+namespace WaywardRT { struct Color; }
 namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {

@@ -6,6 +6,12 @@
 
 #include <utility>
 
+#include "WaywardRT/Camera.h"
+#include "WaywardRT/Color.h"
+#include "WaywardRT/Image.h"
+#include "WaywardRT/Objects/HittableList.h"
+#include "WaywardRT/Vec3.h"
+
 namespace WaywardRT {
 
 Renderer3D::Renderer3D(

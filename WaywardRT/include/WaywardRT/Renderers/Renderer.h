@@ -7,14 +7,10 @@
 
 #include "WaywardRT_export.h"
 
-#include <memory>
+#include <cstdint>
 
-#include "WaywardRT/BVHNode.h"
-#include "WaywardRT/Camera.h"
-#include "WaywardRT/Color.h"
-#include "WaywardRT/Image.h"
-#include "WaywardRT/Objects/HittableList.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class Image; }
 
 namespace WaywardRT {
 

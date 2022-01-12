@@ -9,10 +9,11 @@
 
 #include <memory>
 
-#include "WaywardRT/BoundingBox.h"
-#include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
+#include "WaywardRT/Vec3.h"
+namespace WaywardRT { class BoundingBox; }
 namespace WaywardRT { class Material; }
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

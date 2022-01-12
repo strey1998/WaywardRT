@@ -5,6 +5,8 @@
 #ifndef WAYWARDRT_INCLUDE_WAYWARDRT_RAY_H_
 #define WAYWARDRT_INCLUDE_WAYWARDRT_RAY_H_
 
+#include <iosfwd>
+
 #include "WaywardRT_export.h"
 #include "WaywardRT/Vec3.h"
 #include "WaywardRT/util.h"

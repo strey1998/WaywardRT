@@ -40,7 +40,7 @@ int main(int, const char**) {
 
   WLOG_INFO("Starting render");
   WaywardRT::Timer timer;
-  renderer.render(12, false);
+  renderer.render(12);
   WLOG_INFO("Render complete in {:.1f}s", timer.elapsed());
 
   renderer.write_image_data(image, 2.0);

@@ -5,9 +5,13 @@
 #include "WaywardRT/BVHNode.h"
 
 #include <algorithm>
+#include <cstdint>
 
 #include "WaywardRT/log.h"
+#include "WaywardRT/Objects/HittableList.h"
+#include "WaywardRT/Vec3.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

@@ -10,7 +10,7 @@
 #include "WaywardRT_export.h"
 
 #include "WaywardRT/util.h"
-#include "WaywardRT/Vec3.h"
+namespace WaywardRT { class Vec3; }
 
 namespace WaywardRT {
 

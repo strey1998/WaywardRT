@@ -5,7 +5,9 @@
 #include "WaywardRT/BoundingBox.h"
 
 #include <cmath>
+#include <utility>
 
+#include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
 
 namespace WaywardRT {

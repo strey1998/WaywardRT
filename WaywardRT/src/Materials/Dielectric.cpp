@@ -6,9 +6,11 @@
 
 #include <cmath>
 
+#include "WaywardRT/Color.h"
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
+#include "WaywardRT/Vec3.h"
 
 namespace WaywardRT {
 

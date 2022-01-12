@@ -7,9 +7,10 @@
 #include <memory>
 #include <vector>
 
+#include "WaywardRT/BoundingBox.h"
 #include "WaywardRT/Objects/Hittable.h"
-#include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

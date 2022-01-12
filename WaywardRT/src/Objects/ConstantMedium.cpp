@@ -6,13 +6,16 @@
 
 #include <cmath>
 
+#include "WaywardRT/Color.h"
 #include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Isotropic.h"
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
-#include "WaywardRT/Textures/Texture.h"
 #include "WaywardRT/Vec3.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class BoundingBox; }
+namespace WaywardRT { class Material; }
+namespace WaywardRT { class Texture; }
 
 namespace WaywardRT {
 
@@ -54,7 +57,7 @@ bool ConstantMedium::hit(
   if (!m_Boundary->hit(r, rec1.t+0.0001, infinity, rec2)) return false;
 
   if (do_log) {
-    WLOG_TRACE("Medium scatter: t_min={:.1f}, tmax={:.1f}", rec1.t, rec2.t);
+    WLOG_TRACE("Medium scatter: t_min={:.1f}, t_max={:.1f}", rec1.t, rec2.t);
   }
 
   if (rec1.t < t_min) rec1.t = t_min;
@@ -74,7 +77,7 @@ bool ConstantMedium::hit(
   rec.point = r.at(rec.t);
 
   if (do_log) {
-    WLOG_TRACE("Medium scatter: dist={:.1f}, rec.t={:.1f}, rec.p={}",
+    WLOG_TRACE("Medium scatter: d={:.1f}, t={:.1f}, p={}",
       hit_dist, rec.t, rec.point.to_string());
   }
 

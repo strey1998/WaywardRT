@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <ostream>
+#include <string>
 
 #include "WaywardRT_export.h"
 #include "WaywardRT/Vec3.h"
@@ -51,6 +52,9 @@ class WAYWARDRT_EXPORT Quaternion {
 
   Quaternion(const Quaternion& other);
   Quaternion& operator=(const Quaternion& other);
+
+  real& operator[](uint8_t index);
+  const real& operator[](uint8_t index) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Accessor for real part

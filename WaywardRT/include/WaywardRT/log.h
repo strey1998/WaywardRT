@@ -9,7 +9,8 @@
 
 #include <memory>
 
-#include "spdlog/spdlog.h"
+// #include "spdlog/spdlog.h"
+#include "spdlog/logger.h"
 
 #include "WaywardRT_export.h"
 
@@ -26,7 +27,7 @@ WAYWARDRT_EXPORT std::shared_ptr<spdlog::logger> wlogger();
 #define WLOG_INFO(...)       wlogger()->info(__VA_ARGS__)
 #define WLOG_WARN(...)       wlogger()->warn(__VA_ARGS__)
 #define WLOG_ERROR(...)      wlogger()->error(__VA_ARGS__)
-#define WLOG_FATAL(...)      wlogger()->error(__VA_ARGS__); exit(1);
+#define WLOG_FATAL(...)      wlogger()->error(__VA_ARGS__); exit(1)
 
 #else
 

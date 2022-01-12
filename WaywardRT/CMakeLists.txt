@@ -50,7 +50,7 @@ set(WaywardRT_SOURCE_FILES
 add_library(WaywardRT ${WaywardRT_SOURCE_FILES})
 target_include_directories(WaywardRT PUBLIC ${WaywardRT_INCLUDE_DIRS})
 target_include_directories(WaywardRT PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(WaywardRT PRIVATE stdc++ m pthread stb_image stb_image_write progress_bar)
+target_link_libraries(WaywardRT PRIVATE pthread stb_image stb_image_write progress_bar)
 
 if(WaywardRT_PRECISION_SINGLE)
   target_compile_definitions(WaywardRT PUBLIC WAYWARDRT_PRECISION_SINGLE)
@@ -73,7 +73,7 @@ set_target_properties(WaywardRT PROPERTIES
 if(MSVC)
   target_compile_options(WaywardRT PRIVATE /W4 /WX)
 else()
-  target_compile_options(WaywardRT PRIVATE -Wall -Wextra -pedantic -Werror -Wno-unused-result -std=c++17)
+  target_compile_options(WaywardRT PRIVATE -Wall -Wextra -pedantic -Werror)
 endif()
 
 if(WaywardRT_APPLY_CPPLINT AND NOT WaywardRT_CPPLINT_FILEPATH STREQUAL "")

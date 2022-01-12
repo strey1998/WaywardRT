@@ -5,6 +5,9 @@
 #include "WaywardRT/Objects/Box.h"
 
 #include "WaywardRT/Objects/Rectangle.h"
+namespace WaywardRT { class BoundingBox; }
+namespace WaywardRT { class Material; }
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

@@ -6,6 +6,7 @@
 
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
+#include "WaywardRT/Vec3.h"
 #include "WaywardRT/util.h"
 
 namespace WaywardRT {

@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "WaywardRT/util.h"
+#include "WaywardRT/Vec3.h"
 
 namespace WaywardRT {
 

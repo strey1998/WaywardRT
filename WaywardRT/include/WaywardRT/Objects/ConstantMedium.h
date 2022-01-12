@@ -5,12 +5,16 @@
 #ifndef WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_CONSTANTMEDIUM_H_
 #define WAYWARDRT_INCLUDE_WAYWARDRT_OBJECTS_CONSTANTMEDIUM_H_
 
-#include "WaywardRT_export.h"
+#include <memory>
 
+#include "WaywardRT_export.h"
 #include "WaywardRT/Objects/Hittable.h"
-#include "WaywardRT/Ray.h"
-#include "WaywardRT/Textures/Texture.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class BoundingBox; }
+namespace WaywardRT { class Material; }
+namespace WaywardRT { class Ray; }
+namespace WaywardRT { class Texture; }
+namespace WaywardRT { struct Color; }
 
 namespace WaywardRT {
 

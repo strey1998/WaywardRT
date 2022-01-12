@@ -10,7 +10,6 @@
 
 #include "WaywardRT/Color.h"
 #include "WaywardRT/log.h"
-#include "WaywardRT/Textures/Texture.h"
 #include "WaywardRT/util.h"
 #include "WaywardRT/Vec3.h"
 

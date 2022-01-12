@@ -7,6 +7,7 @@
 
 #include "WaywardRT_export.h"
 
+#include "WaywardRT/Vec3.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
 

@@ -4,6 +4,7 @@
 
 #include "WaywardRT/Objects/Translate.h"
 
+#include "WaywardRT/BoundingBox.h"
 #include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"

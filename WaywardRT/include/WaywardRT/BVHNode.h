@@ -7,12 +7,15 @@
 
 #include "WaywardRT_export.h"
 
+#include <cstddef>
+#include <memory>
 #include <vector>
 
+#include "WaywardRT/BoundingBox.h"
 #include "WaywardRT/Objects/Hittable.h"
-#include "WaywardRT/Objects/HittableList.h"
-#include "WaywardRT/Ray.h"
-#include "WaywardRT/Vec3.h"
+#include "WaywardRT/util.h"
+namespace WaywardRT { class HittableList; }
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

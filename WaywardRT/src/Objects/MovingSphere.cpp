@@ -6,10 +6,13 @@
 
 #include <cmath>
 
+#include "WaywardRT/BoundingBox.h"
 #include "WaywardRT/log.h"
+#include "WaywardRT/Objects/Hittable.h"
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Vec3.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class Material; }
 
 namespace WaywardRT {
 

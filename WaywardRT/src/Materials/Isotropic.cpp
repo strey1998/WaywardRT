@@ -11,7 +11,6 @@
 #include "WaywardRT/Ray.h"
 #include "WaywardRT/Textures/SolidColor.h"
 #include "WaywardRT/Textures/Texture.h"
-#include "WaywardRT/util.h"
 #include "WaywardRT/Vec3.h"
 
 namespace WaywardRT {

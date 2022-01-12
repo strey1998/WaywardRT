@@ -7,12 +7,11 @@
 #include <memory>
 
 #include "WaywardRT/Color.h"
-#include "WaywardRT/Objects/Hittable.h"
-#include "WaywardRT/Ray.h"
 #include "WaywardRT/Textures/SolidColor.h"
 #include "WaywardRT/Textures/Texture.h"
 #include "WaywardRT/util.h"
-#include "WaywardRT/Vec3.h"
+namespace WaywardRT { class Ray; }
+namespace WaywardRT { class Vec3; }
 
 namespace WaywardRT {
 

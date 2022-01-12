@@ -11,8 +11,9 @@
 #include <vector>
 
 #include "WaywardRT/Objects/Hittable.h"
-#include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class BoundingBox; }
+namespace WaywardRT { class Ray; }
 
 namespace WaywardRT {
 

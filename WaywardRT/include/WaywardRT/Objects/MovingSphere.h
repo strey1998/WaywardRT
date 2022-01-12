@@ -7,7 +7,15 @@
 
 #include "WaywardRT_export.h"
 
+#include <memory>
+
 #include "WaywardRT/Objects/Sphere.h"
+#include "WaywardRT/util.h"
+#include "WaywardRT/Vec3.h"
+namespace WaywardRT { class BoundingBox; }
+namespace WaywardRT { class Material; }
+namespace WaywardRT { class Ray; }
+namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
 

@@ -7,11 +7,17 @@
 
 #include "WaywardRT_export.h"
 
-#include <memory>
+#include <cstdint>
 #include <utility>
 
 #include "WaywardRT/Renderers/Renderer.h"
 #include "WaywardRT/Renderers/RendererBasic.h"
+#include "WaywardRT/util.h"
+namespace WaywardRT { class Camera; }
+namespace WaywardRT { class HittableList; }
+namespace WaywardRT { class Image; }
+namespace WaywardRT { class Vec3; }
+namespace WaywardRT { struct Color; }
 
 namespace WaywardRT {
 

@@ -5,9 +5,10 @@
 #include "WaywardRT/Vec3.h"
 
 #include <cmath>
+#include <cstdint>
 #include <iomanip>
 #include <ostream>
-#include <sstream>
+#include <stdexcept>
 
 #include "WaywardRT/util.h"
 
@@ -60,7 +61,7 @@ Vec3 Vec3::refract(const Vec3& n, real e) const {
   return r_out_perp + r_out_par;
 }
 
-real& Vec3::operator[](int index) {
+real& Vec3::operator[](uint8_t index) {
   switch (index) {
     case 0:
       return x;
@@ -76,7 +77,7 @@ real& Vec3::operator[](int index) {
   }
 }
 
-const real& Vec3::operator[](int index) const {
+const real& Vec3::operator[](uint8_t index) const {
   switch (index) {
     case 0:
       return x;

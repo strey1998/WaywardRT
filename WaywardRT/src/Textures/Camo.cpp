@@ -4,8 +4,6 @@
 
 #include "WaywardRT/Textures/Camo.h"
 
-#include <cmath>
-
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Perlin.h"
 #include "WaywardRT/util.h"

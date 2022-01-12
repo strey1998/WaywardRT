@@ -4,8 +4,8 @@
 
 #include "WaywardRT/Scene.h"
 
-#include <utility>
-
+#include <cstdint>
+#include <memory>
 
 #include "WaywardRT/BVHNode.h"
 #include "WaywardRT/Camera.h"
@@ -22,10 +22,13 @@
 #include "WaywardRT/Objects/Rotate.h"
 #include "WaywardRT/Objects/Sphere.h"
 #include "WaywardRT/Objects/Translate.h"
-#include "WaywardRT/Textures/Camo.h"
 #include "WaywardRT/Textures/Checkered.h"
 #include "WaywardRT/Textures/ImageTexture.h"
 #include "WaywardRT/Textures/Marble.h"
+#include "WaywardRT/util.h"
+#include "WaywardRT/Vec3.h"
+namespace WaywardRT { class Hittable; }
+namespace WaywardRT { class Material; }
 
 namespace WaywardRT {
 

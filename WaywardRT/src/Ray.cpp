@@ -4,6 +4,8 @@
 
 #include "WaywardRT/Ray.h"
 
+#include <ostream>
+
 #include "WaywardRT/util.h"
 
 namespace WaywardRT {

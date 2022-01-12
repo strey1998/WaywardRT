@@ -5,7 +5,7 @@
 #include "WaywardRT/Textures/SolidColor.h"
 
 #include "WaywardRT/Color.h"
-#include "WaywardRT/Vec3.h"
+namespace WaywardRT { class Vec3; }
 
 namespace WaywardRT {
 

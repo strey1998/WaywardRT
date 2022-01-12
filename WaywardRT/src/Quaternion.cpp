@@ -7,7 +7,6 @@
 #include <cmath>
 #include <iomanip>
 #include <ostream>
-#include <sstream>
 
 #include "WaywardRT/util.h"
 
@@ -30,6 +29,16 @@ Quaternion& Quaternion::operator=(const Quaternion& other) {
   this->m_RealPart = other.m_RealPart;
   this->m_VectorPart = other.m_VectorPart;
   return *this;
+}
+
+real& Quaternion::operator[](uint8_t index) {
+  if (index == 0) return m_RealPart;
+  return m_VectorPart[index-1];
+}
+
+const real& Quaternion::operator[](uint8_t index) const {
+  if (index == 0) return m_RealPart;
+  return m_VectorPart[index-1];
 }
 
 real Quaternion::real_part() const noexcept { return m_RealPart; }

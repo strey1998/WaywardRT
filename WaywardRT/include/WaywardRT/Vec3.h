@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <ostream>
+#include <string>
 
 #include "WaywardRT_export.h"
 #include "WaywardRT/util.h"
@@ -94,8 +95,8 @@ class WAYWARDRT_EXPORT Vec3 {
   /// @return A reference to the (index)th vector component
   /// @throws std::out_of_range when index is not 0, 1 or 2
   //////////////////////////////////////////////////////////////////////////////
-  real& operator[](int index);
-  const real& operator[](int index) const;
+  real& operator[](uint8_t index);
+  const real& operator[](uint8_t index) const;
 
   //////////////////////////////////////////////////////////////////////////////
   /// @brief Creates a new vector of the same magnitude in the opposite

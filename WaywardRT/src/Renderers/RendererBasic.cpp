@@ -4,20 +4,27 @@
 
 #include "WaywardRT/Renderers/RendererBasic.h"
 
-#include <unistd.h>
-
 #include <atomic>
+#include <cstdint>
+#include <cstdlib>
+#include <memory>
 #include <thread>
 #include <vector>
-
-#include "progress_bar/progress_bar.h"
 
 #include "WaywardRT/BVHNode.h"
 #include "WaywardRT/Color.h"
 #include "WaywardRT/Image.h"
 #include "WaywardRT/log.h"
 #include "WaywardRT/Materials/Material.h"
+#include "WaywardRT/Objects/Hittable.h"
+#include "WaywardRT/Ray.h"
 #include "WaywardRT/util.h"
+
+#ifndef WAYWARDRT_ENABLE_CONSOLE_LOGGING
+#include <unistd.h>
+#include <iostream>
+#include "progress_bar/progress_bar.h"
+#endif
 
 namespace WaywardRT {
 
@@ -108,7 +115,6 @@ void RendererBasic::render(uint8_t thread_count, bool use_BVH) const {
     uint16_t progress_ = 0;
     while (progress_ < 1000*thread_count) {
       progress_ = progress.load();
-      std::cout << progress_/thread_count << "%    \r";
       progressBar.Progressed(progress_);
       usleep(100000);
     }

@@ -7,9 +7,10 @@
 
 #include "WaywardRT_export.h"
 
-#include "WaywardRT/Color.h"
 #include "WaywardRT/Materials/Material.h"
 #include "WaywardRT/util.h"
+namespace WaywardRT { class Ray; }
+namespace WaywardRT { struct Color; }
 namespace WaywardRT { struct HitRecord; }
 
 namespace WaywardRT {
